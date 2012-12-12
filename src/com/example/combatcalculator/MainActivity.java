@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -18,7 +20,7 @@ import com.tree.combatcalculator.AttackModel;
 import com.tree.combatcalculator.DefendModel;
 import com.tree.combatcalculator.Weapon;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 	public final static String ATTACKER = "com.example.myfirstapp.ATTACKER";
 	public final static String DEFENDER = "com.example.myfirstapp.DEFENDER";
 	public final static String WEAPONS = "com.example.myfirstapp.WEAPONS";
@@ -54,7 +56,11 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		setContentView(R.layout.activity_main);
 		
+		mWeaponGroup = (ViewGroup) findViewById(R.id.container);
+		
+		System.out.println("children number: " + mWeaponGroup.getChildCount());
 		
 		 // Check whether we're recreating a previously destroyed instance
 	    if (savedInstanceState != null) {
@@ -64,10 +70,17 @@ public class MainActivity extends Activity {
 	    	defenderVars = savedInstanceState.getParcelableArrayList(DEFENDER_VARS);
 	    	weaponsVars = (ArrayList<ArrayList<AtkVar>>) savedInstanceState.getSerializable(WEAPONS_VARS);
 	    	atkCalc = savedInstanceState.getParcelable(ATK_CALC);
+	    	ArrayList<Weapon> weapons = savedInstanceState.getParcelableArrayList(WEAPONS);
+	    	
+	    	if (weapons.size() > mWeaponGroup.getChildCount()){
+	    		mWeaponGroup.removeAllViews();
+	    		initWeapons(weapons);
+	    	}
 	    	
 	    	
 	    } else {
 	        //otherwise create new ones when a new activity is created
+	    	mWeaponGroup.removeAllViews();
 	    	situation = new ArrayList<AtkVar>();
 	    	attackerVars = new ArrayList<AtkVar>();
 	    	defenderVars = new ArrayList<AtkVar>();
@@ -79,9 +92,7 @@ public class MainActivity extends Activity {
 	    	
 	    }
 		
-		setContentView(R.layout.activity_main);
 		
-		mWeaponGroup = (ViewGroup) findViewById(R.id.container);
 
 	}
 	
@@ -92,10 +103,19 @@ public class MainActivity extends Activity {
 	    savedInstanceState.putParcelableArrayList(SITUATION_VARS, situation);
 	    savedInstanceState.putParcelableArrayList(ATTACKER_VARS, attackerVars);
 	    savedInstanceState.putParcelableArrayList(DEFENDER_VARS, defenderVars);
+	    savedInstanceState.putParcelableArrayList(WEAPONS, getWeapons(mWeaponGroup));
 	    savedInstanceState.putSerializable(WEAPONS_VARS, weaponsVars);
+	    
 	    
 	    // Always call the superclass so it can save the view hierarchy state
 	    super.onSaveInstanceState(savedInstanceState);
+	}
+	
+	public void onDestroy() {
+		
+		//mWeaponGroup.removeAllViews();
+		
+        super.onDestroy();
 	}
 
 	@Override
@@ -113,18 +133,49 @@ public class MainActivity extends Activity {
     */
 	public void sendToCalc(View view){
 		
-		Intent intent = new Intent(this, CalcDisplayActivity.class);
+		String errorMessage = checkValidity();
 		
-		int focus = prepAttacker(intent);
-		prepDefender(intent);
-		prepSituation(intent);
-		//prepWeapons(intent);
+		if (errorMessage == null){
 		
-		intent.putExtra(OPTIMIZATION, 0);
-		intent.putExtra(FOCUS, focus);
+			Intent intent = new Intent(this, CalcDisplayActivity.class);
+			
+			int focus = prepAttacker(intent);
+			prepDefender(intent);
+			prepSituation(intent);
+			//prepWeapons(intent);
+			
+			intent.putExtra(OPTIMIZATION, 0);
+			intent.putExtra(FOCUS, focus);
+			
+		    startActivity(intent);
+	    
+		}else{
+			
+			DialogFragment newFragment = new ValidFragment();
+			Bundle args = new Bundle();
+
+			args.putString(ValidFragment.TYPE_ERROR, errorMessage);
+
+			newFragment.setArguments(args);
+			
+			newFragment.show(getSupportFragmentManager(), "validity");
+
+		}
 		
-	    startActivity(intent);
+	}
+	
+	
+	/**
+     * Checks to make sure all the variables needed for the calculator to work are present, returns null if they
+     * are, otherwise returns a string with the correct message to tell the user what is wrong
+    */
+	private String checkValidity(){
 		
+		if (mWeaponGroup.getChildCount() == 0)
+			return "Need at least one weapon";
+		
+		
+		return null;
 	}
 	
 	/**
@@ -246,24 +297,66 @@ public class MainActivity extends Activity {
 	}
 	
 	/**
-     * Sets up the correct variables for the weapons, based on entries of the list view
+     * Gathers all the weapon variables from the various viewgroups and converts it into an arraylist for the attacker
     */
 	private void prepWeapons(AttackModel attacker){
 		
-		ArrayList<AtkVar> weaponVars = new ArrayList<AtkVar>();
+		ArrayList<Weapon> weapons = new ArrayList<Weapon>();
 		
-		CheckBox checkRanged = (CheckBox) findViewById(R.id.ranged_entry);
-		EditText rofText = (EditText) findViewById(R.id.rof_entry);
-	    EditText powText = (EditText) findViewById(R.id.pow_entry);
+		//loop through entire group of weapons and add each one
+		for (int i = 0; i < mWeaponGroup.getChildCount(); i++){
 		
-		Weapon w = new Weapon(Integer.parseInt(powText.getText().toString()),
-							  checkRanged.isChecked(),
-							  weaponVars);
-	    
-	    attacker.addWeapon(w);
+			ViewGroup curView = (ViewGroup) mWeaponGroup.getChildAt(i);
+			
+			ArrayList<AtkVar> weaponVars = new ArrayList<AtkVar>();
+			
+			CheckBox checkRanged = (CheckBox) curView.findViewById(R.id.ranged_entry);
+			EditText rofText = (EditText) curView.findViewById(R.id.rof_entry);
+		    EditText powText = (EditText) curView.findViewById(R.id.pow_entry);
+			
+			Weapon w = new Weapon(Integer.parseInt(powText.getText().toString()),
+								  checkRanged.isChecked(),
+								  weaponVars);
+		    
+		   weapons.add(w);
+		    
+		}
 		
-		//TODO: need to make a list view for weapons, then read off them all
+		attacker.setWeapons(weapons);
+		
+	}
 	
+	
+	/**
+     * Gets all the weapons from the given viewgroup, or null if there aren't any
+    */
+	private ArrayList<Weapon> getWeapons(ViewGroup weaponViews){
+		
+		ArrayList<Weapon> weapons = new ArrayList<Weapon>();
+		
+		//loop through entire group of weapons and add each one
+		for (int i = 0; i < mWeaponGroup.getChildCount(); i++){
+		
+			ViewGroup curView = (ViewGroup) mWeaponGroup.getChildAt(i);
+			
+			ArrayList<AtkVar> weaponVars = new ArrayList<AtkVar>();
+			
+			CheckBox checkRanged = (CheckBox) curView.findViewById(R.id.ranged_entry);
+			EditText rofText = (EditText) curView.findViewById(R.id.rof_entry);
+		    EditText powText = (EditText) curView.findViewById(R.id.pow_entry);
+		    
+		    System.out.println(powText.getText().toString());
+			
+			Weapon w = new Weapon(Integer.parseInt(powText.getText().toString()),
+								  checkRanged.isChecked(),
+								  weaponVars);
+		    
+		   weapons.add(w);
+		    
+		}
+		
+		return weapons;
+		
 		
 	}
 	
@@ -297,6 +390,35 @@ public class MainActivity extends Activity {
         // adding this view is automatically animated.
         mWeaponGroup.addView(newView, 0);
     }
+	
+	/**
+     * Adds the weapons to the viewgroup for the weapons
+    */
+	private void initWeapons(ArrayList<Weapon> weapons){
+		
+		
+		System.out.println("number of weapons groups: " + mWeaponGroup.getChildCount());
+		
+		for (int i = weapons.size()-1; i >= 0; i--){
+			
+			addWeapons(findViewById(R.id.Button20));
+			
+			ViewGroup curView = (ViewGroup) mWeaponGroup.getChildAt(0);
+			
+			
+			CheckBox checkRanged = (CheckBox) curView.findViewById(R.id.ranged_entry);
+			checkRanged.setChecked(weapons.get(i).getRanged());
+			EditText rofText = (EditText) curView.findViewById(R.id.rof_entry);
+			rofText.setText(Integer.toString(weapons.get(i).getROF()));
+			System.out.println("here " + weapons.get(i).getPow());
+		    EditText powText = (EditText) curView.findViewById(R.id.pow_entry);
+			powText.setText(Integer.toString(weapons.get(i).getPow()));
+				
+			
+		}
+		
+		
+	}
 	
 
 }

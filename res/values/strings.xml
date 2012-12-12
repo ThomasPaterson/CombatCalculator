@@ -36,5 +36,6 @@
     <string name="action_weapon">Add Weapon</string>
     <string name="action_remove_item">Remove item</string>
     <string name="action_add_weapon">New</string>
+    <string name="go_back">Close</string>
 
 </resources>

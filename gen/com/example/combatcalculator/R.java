@@ -91,6 +91,7 @@ public final class R {
         public static final int defender=0x7f04000f;
         public static final int focus=0x7f040007;
         public static final int focus_default=0x7f040005;
+        public static final int go_back=0x7f040023;
         public static final int hello_world=0x7f040001;
         public static final int hp=0x7f04000b;
         public static final int hp_default=0x7f04000c;
