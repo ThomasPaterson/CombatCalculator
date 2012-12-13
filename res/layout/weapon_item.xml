@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/pow_str" />
 
-                <EditText
+                <!-- <EditText
                     android:id="@+id/pow_entry"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -47,10 +47,17 @@
                     android:ems="10"
                     android:hint="@string/value_default"
                     android:inputType="number"
-                    android:text="@string/def_default" >
+                    android:text="@string/def_default" > 
+                    
+                    </EditText>-->
+                    
+                <Spinner
+		            android:id="@+id/pow_entry"
+		            android:layout_width="0dp"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="0.11" />
 
-                    <requestFocus />
-                </EditText>
+                
 
                 <TextView
                     android:id="@+id/TextView07"
@@ -58,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/ROF" />
 
-                <EditText
+                <!-- <EditText
                     android:id="@+id/rof_entry"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -66,7 +73,16 @@
                     android:ems="10"
                     android:hint="@string/value_default"
                     android:inputType="number"
-                    android:text="@string/hp_default" />
+                    android:text="@string/hp_default" /> -->
+                
+                
+                <Spinner
+		            android:id="@+id/rof_entry"
+		            android:layout_width="0dp"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="0.11" />
+                
+                
             </LinearLayout>
 
             <LinearLayout

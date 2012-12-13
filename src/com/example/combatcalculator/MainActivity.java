@@ -2,7 +2,6 @@ package com.example.combatcalculator;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -11,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.tree.combatcalculator.AtkVar;
 import com.tree.combatcalculator.AttackCalculator;
@@ -60,7 +61,9 @@ public class MainActivity extends FragmentActivity {
 		
 		mWeaponGroup = (ViewGroup) findViewById(R.id.container);
 		
-		System.out.println("children number: " + mWeaponGroup.getChildCount());
+		
+		
+		boolean saved;
 		
 		 // Check whether we're recreating a previously destroyed instance
 	    if (savedInstanceState != null) {
@@ -72,10 +75,12 @@ public class MainActivity extends FragmentActivity {
 	    	atkCalc = savedInstanceState.getParcelable(ATK_CALC);
 	    	ArrayList<Weapon> weapons = savedInstanceState.getParcelableArrayList(WEAPONS);
 	    	
-	    	if (weapons.size() > mWeaponGroup.getChildCount()){
+	    	if (weapons.size() >= mWeaponGroup.getChildCount()){
 	    		mWeaponGroup.removeAllViews();
 	    		initWeapons(weapons);
 	    	}
+	    	
+	    	saved = true;
 	    	
 	    	
 	    } else {
@@ -85,15 +90,68 @@ public class MainActivity extends FragmentActivity {
 	    	attackerVars = new ArrayList<AtkVar>();
 	    	defenderVars = new ArrayList<AtkVar>();
 	    	weaponsVars = new ArrayList<ArrayList<AtkVar>>();
-	    	
+	    	saved = false;
 	    	
 	    	
 	    	
 	    	
 	    }
+	    
+	    
+	    setupSpinner(R.id.mat_entry, R.array.atk_array, saved, true);
+		setupSpinner(R.id.rat_entry, R.array.atk_array, saved, true);
+		setupSpinner(R.id.focus_entry, R.array.focus_array, saved, false);
+		setupSpinner(R.id.def_entry, R.array.def_array, saved, true);
+		setupSpinner(R.id.arm_entry, R.array.arm_array, saved, true);
+
 		
 		
 
+	}
+	
+	/**
+     *Initializes a spinner with the given array id and spinner id, sets it to default value if it 
+     *isn't coming from a previous screen
+    */
+	private void setupSpinner(int entry, int array, boolean saved, boolean useAve){
+		
+		Spinner spinner = (Spinner) findViewById(entry);
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+		        array, android.R.layout.simple_spinner_item);
+		
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(adapter);
+		
+		if (useAve)
+			spinner.setSelection(spinner.getCount()/2);
+		
+		
+	}
+	
+	/**
+     *Initializes a spinner with the given array id and spinner id, sets it to default value if it 
+     *isn't coming from a previous screen
+    */
+	private void setupSpinner(Spinner spinner, int array, boolean saved, boolean useAve){
+		
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+		        array, android.R.layout.simple_spinner_item);
+		
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(adapter);
+		
+		if (useAve)
+			spinner.setSelection(spinner.getCount()/2);
+		
+		
+	}
+	
+	/**
+     *Defaults all the spinners
+    */
+	private void setDefaultSpinners(){
+		
+		
 	}
 	
 	
@@ -216,20 +274,16 @@ public class MainActivity extends FragmentActivity {
 		
 		AttackModel attacker = new AttackModel(0, 0);
 		
-		EditText matText = (EditText) findViewById(R.id.mat_entry);
-	    EditText ratText = (EditText) findViewById(R.id.rat_entry);
-	    EditText focusText = (EditText) findViewById(R.id.focus_entry);
+	    Spinner matText = (Spinner) findViewById(R.id.mat_entry);
+	    Spinner ratText = (Spinner) findViewById(R.id.rat_entry);
+	    Spinner focusText = (Spinner) findViewById(R.id.focus_entry);
 	    //EditText numAtkText = (EditText) findViewById(R.id.num_atk_entry);
 
-	    
-	    if (matText.getText().toString() != "")
-	    	attacker.setMat(Integer.parseInt(matText.getText().toString()));
-	    
-	    if (ratText.getText().toString() != "")
-	    	attacker.setRat(Integer.parseInt(ratText.getText().toString()));
-	    
-	    if (ratText.getText().toString() != "")
-	    	focus = Integer.parseInt(focusText.getText().toString());
+	    attacker.setMat(Integer.parseInt(matText.getSelectedItem().toString()));
+	
+	    attacker.setRat(Integer.parseInt(ratText.getSelectedItem().toString()));
+
+	    focus = Integer.parseInt(focusText.getSelectedItem().toString());
 	    
 	    //if (numAtkText.getText().toString() != "")
 	    //	attacker.setFocus(Integer.parseInt(numAtkText.getText().toString()));
@@ -253,16 +307,14 @@ public class MainActivity extends FragmentActivity {
 		
 		DefendModel defender = new DefendModel(0,0);
 		
-		EditText defText = (EditText) findViewById(R.id.def_entry);
-	    EditText ArmText = (EditText) findViewById(R.id.arm_entry);
+	    Spinner defText = (Spinner) findViewById(R.id.def_entry);
+	    Spinner ArmText = (Spinner) findViewById(R.id.arm_entry);
 	    EditText healthText = (EditText) findViewById(R.id.health_entry);
 
 	    
-	    if (defText.getText().toString() != "")
-	    	defender.setDef(Integer.parseInt(defText.getText().toString()));
+	    defender.setDef(Integer.parseInt(defText.getSelectedItem().toString()));
 	    
-	    if (ArmText.getText().toString() != "")
-	    	defender.setArm(Integer.parseInt(ArmText.getText().toString()));
+	    defender.setArm(Integer.parseInt(ArmText.getSelectedItem().toString()));
 	    
 	    if (healthText.getText().toString() != "")
 	    	defender.setHealth(Integer.parseInt(healthText.getText().toString()));
@@ -311,11 +363,19 @@ public class MainActivity extends FragmentActivity {
 			ArrayList<AtkVar> weaponVars = new ArrayList<AtkVar>();
 			
 			CheckBox checkRanged = (CheckBox) curView.findViewById(R.id.ranged_entry);
-			EditText rofText = (EditText) curView.findViewById(R.id.rof_entry);
-		    EditText powText = (EditText) curView.findViewById(R.id.pow_entry);
+			Spinner rofText = (Spinner) curView.findViewById(R.id.rof_entry);
+			Spinner powText = (Spinner) curView.findViewById(R.id.pow_entry);
 			
-			Weapon w = new Weapon(Integer.parseInt(powText.getText().toString()),
+			int rof;
+			
+			if (rofText.getSelectedItem().toString().equals("Infinite"))
+				rof = -1;
+			else
+				rof = Integer.parseInt(rofText.getSelectedItem().toString());
+			
+			Weapon w = new Weapon(Integer.parseInt(powText.getSelectedItem().toString()),
 								  checkRanged.isChecked(),
+								  rof,
 								  weaponVars);
 		    
 		   weapons.add(w);
@@ -341,14 +401,23 @@ public class MainActivity extends FragmentActivity {
 			
 			ArrayList<AtkVar> weaponVars = new ArrayList<AtkVar>();
 			
+			//get the correct view for the given weapon
 			CheckBox checkRanged = (CheckBox) curView.findViewById(R.id.ranged_entry);
-			EditText rofText = (EditText) curView.findViewById(R.id.rof_entry);
-		    EditText powText = (EditText) curView.findViewById(R.id.pow_entry);
+			Spinner rofText = (Spinner) curView.findViewById(R.id.rof_entry);
+			Spinner powText = (Spinner) curView.findViewById(R.id.pow_entry);
 		    
-		    System.out.println(powText.getText().toString());
+			//get the values from the spinners and create a new weapon
+			int rof;
 			
-			Weapon w = new Weapon(Integer.parseInt(powText.getText().toString()),
+			if (rofText.getSelectedItem().toString().equals("Infinite"))
+				rof = -1;
+			else
+				rof = Integer.parseInt(rofText.getSelectedItem().toString());
+			
+			
+			Weapon w = new Weapon(Integer.parseInt(powText.getSelectedItem().toString()),
 								  checkRanged.isChecked(),
+								  rof,
 								  weaponVars);
 		    
 		   weapons.add(w);
@@ -367,7 +436,9 @@ public class MainActivity extends FragmentActivity {
         // Instantiate a new "row" view.
         final ViewGroup newView = (ViewGroup) LayoutInflater.from(this).inflate(
                 R.layout.weapon_item, mWeaponGroup, false);
-
+        
+        setupSpinner((Spinner)newView.findViewById(R.id.pow_entry), R.array.pow_array, false, true);
+        setupSpinner((Spinner)newView.findViewById(R.id.rof_entry), R.array.rof_array, false, false);
 
         // Set a click listener for the "X" button in the row that will remove the row.
         newView.findViewById(R.id.delete_button).setOnClickListener(new View.OnClickListener() {
@@ -408,11 +479,17 @@ public class MainActivity extends FragmentActivity {
 			
 			CheckBox checkRanged = (CheckBox) curView.findViewById(R.id.ranged_entry);
 			checkRanged.setChecked(weapons.get(i).getRanged());
-			EditText rofText = (EditText) curView.findViewById(R.id.rof_entry);
-			rofText.setText(Integer.toString(weapons.get(i).getROF()));
-			System.out.println("here " + weapons.get(i).getPow());
-		    EditText powText = (EditText) curView.findViewById(R.id.pow_entry);
-			powText.setText(Integer.toString(weapons.get(i).getPow()));
+			Spinner rofText = (Spinner) curView.findViewById(R.id.rof_entry);
+			
+			//set rof to correct value
+			if (weapons.get(i).getROF() == -1)
+				rofText.setSelection(0);
+			else
+				rofText.setSelection(weapons.get(i).getROF());
+			
+			//set power to correct value
+			Spinner powText = (Spinner) curView.findViewById(R.id.pow_entry);
+			powText.setSelection(weapons.get(i).getPow()-6);
 				
 			
 		}

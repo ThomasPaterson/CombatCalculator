@@ -8,6 +8,19 @@
 package com.example.combatcalculator;
 
 public final class R {
+    public static final class array {
+        public static final int add_dice_array=0x7f050006;
+        public static final int add_value_array=0x7f050008;
+        public static final int arm_array=0x7f050005;
+        public static final int atk_array=0x7f050002;
+        public static final int def_array=0x7f050004;
+        public static final int discard_dice_array=0x7f050007;
+        public static final int focus_array=0x7f050001;
+        public static final int pow_array=0x7f050003;
+        /**  End Attacker option strings 
+         */
+        public static final int rof_array=0x7f050000;
+    }
     public static final class attr {
     }
     public static final class drawable {
@@ -16,50 +29,64 @@ public final class R {
         public static final int list_divide=0x7f020002;
     }
     public static final class id {
-        public static final int Button01=0x7f070024;
-        public static final int Button02=0x7f07000e;
-        public static final int Button03=0x7f070017;
-        public static final int Button04=0x7f070021;
-        public static final int Button20=0x7f07001a;
-        public static final int CheckBox01=0x7f070023;
-        public static final int TextView01=0x7f070019;
-        public static final int TextView02=0x7f070026;
-        public static final int TextView03=0x7f070022;
-        public static final int TextView06=0x7f07001d;
-        public static final int TextView07=0x7f070028;
-        public static final int TextView08=0x7f070010;
-        public static final int TextView09=0x7f070011;
-        public static final int TextView10=0x7f070015;
-        public static final int TextView11=0x7f070013;
-        public static final int TextView12=0x7f070007;
-        public static final int TextView13=0x7f070008;
-        public static final int TextView14=0x7f07000c;
-        public static final int TextView15=0x7f07000a;
-        public static final int arm_entry=0x7f070014;
-        public static final int attacker_name=0x7f070001;
-        public static final int button3=0x7f07001f;
-        public static final int charging_entry=0x7f07001e;
-        public static final int container=0x7f070004;
-        public static final int def_entry=0x7f070012;
-        public static final int defender_name=0x7f070002;
-        public static final int delete_button=0x7f070025;
-        public static final int divider1=0x7f07000f;
-        public static final int divider2=0x7f070018;
-        public static final int divider3=0x7f07001b;
-        public static final int divider4=0x7f070020;
-        public static final int focus_amount=0x7f070003;
-        public static final int focus_entry=0x7f07000d;
-        public static final int health_entry=0x7f070016;
-        public static final int hello_world=0x7f070005;
-        public static final int main_container=0x7f070000;
-        public static final int mat_entry=0x7f070009;
-        public static final int menu_settings=0x7f07002b;
-        public static final int pow_entry=0x7f070027;
-        public static final int ranged_entry=0x7f07002a;
-        public static final int rat_entry=0x7f07000b;
-        public static final int rof_entry=0x7f070029;
-        public static final int scroll=0x7f070006;
-        public static final int textView1=0x7f07001c;
+        public static final int Button01=0x7f080034;
+        public static final int Button02=0x7f08000e;
+        public static final int Button03=0x7f080017;
+        public static final int Button04=0x7f080021;
+        public static final int Button20=0x7f08001a;
+        public static final int CheckBox04=0x7f080029;
+        public static final int CheckBox05=0x7f080027;
+        public static final int CheckBox06=0x7f080024;
+        public static final int CheckBox07=0x7f080023;
+        public static final int CheckBox08=0x7f080025;
+        public static final int CheckBox09=0x7f080028;
+        public static final int TextView01=0x7f080019;
+        public static final int TextView02=0x7f08002c;
+        public static final int TextView03=0x7f08002f;
+        public static final int TextView04=0x7f08002a;
+        public static final int TextView05=0x7f080026;
+        public static final int TextView06=0x7f08001d;
+        public static final int TextView07=0x7f080022;
+        public static final int TextView08=0x7f080010;
+        public static final int TextView09=0x7f080011;
+        public static final int TextView10=0x7f080015;
+        public static final int TextView11=0x7f080013;
+        public static final int TextView12=0x7f080007;
+        public static final int TextView13=0x7f080008;
+        public static final int TextView14=0x7f08000c;
+        public static final int TextView15=0x7f08000a;
+        public static final int TextView16=0x7f080031;
+        public static final int add_atk_spinner=0x7f08002e;
+        public static final int add_dam_spinner=0x7f080030;
+        public static final int arm_entry=0x7f080014;
+        public static final int attacker_name=0x7f080001;
+        public static final int button3=0x7f08001f;
+        public static final int charging_entry=0x7f08001e;
+        public static final int container=0x7f080004;
+        public static final int def_entry=0x7f080012;
+        public static final int defender_name=0x7f080002;
+        public static final int delete_button=0x7f080035;
+        public static final int discard_atk_spinner=0x7f080032;
+        public static final int discard_dam_spinner=0x7f080033;
+        public static final int divider1=0x7f08000f;
+        public static final int divider2=0x7f080018;
+        public static final int divider3=0x7f08001b;
+        public static final int divider4=0x7f080020;
+        public static final int focus_amount=0x7f080003;
+        public static final int focus_entry=0x7f08000d;
+        public static final int health_entry=0x7f080016;
+        public static final int hello_world=0x7f080005;
+        public static final int main_container=0x7f080000;
+        public static final int mat_entry=0x7f080009;
+        public static final int menu_settings=0x7f080039;
+        public static final int pow_entry=0x7f080036;
+        public static final int ranged_entry=0x7f080038;
+        public static final int rat_entry=0x7f08000b;
+        public static final int rof_entry=0x7f080037;
+        public static final int scroll=0x7f080006;
+        public static final int textView1=0x7f08001c;
+        public static final int val_atk_spinner=0x7f08002b;
+        public static final int val_dam_spinner=0x7f08002d;
     }
     public static final class layout {
         public static final int activity_calc_display=0x7f030000;
@@ -69,37 +96,60 @@ public final class R {
         public static final int weapon_item=0x7f030004;
     }
     public static final class menu {
-        public static final int activity_calc_display=0x7f060000;
-        public static final int activity_display_calc=0x7f060001;
-        public static final int activity_main=0x7f060002;
-        public static final int activity_options=0x7f060003;
+        public static final int activity_calc_display=0x7f070000;
+        public static final int activity_display_calc=0x7f070001;
+        public static final int activity_main=0x7f070002;
+        public static final int activity_options=0x7f070003;
     }
     public static final class string {
         public static final int ROF=0x7f040015;
         public static final int action_add_weapon=0x7f040022;
         public static final int action_remove_item=0x7f040021;
         public static final int action_weapon=0x7f040020;
+        public static final int add_dice=0x7f040038;
+        public static final int add_dice_dam=0x7f040034;
+        public static final int add_dice_hit=0x7f040033;
+        public static final int add_value=0x7f040037;
         public static final int advanced_settings=0x7f040012;
+        public static final int all_attacks=0x7f040036;
         public static final int app_name=0x7f040000;
         public static final int arm=0x7f040009;
+        public static final int assault=0x7f04002e;
+        public static final int attack_text=0x7f040024;
         public static final int attacker=0x7f04000e;
+        public static final int bonus_dam=0x7f040032;
+        public static final int bonus_hit=0x7f040031;
+        public static final int boosted_dam=0x7f040028;
+        public static final int boosted_hit=0x7f040027;
         public static final int calculate=0x7f04000d;
         public static final int cancel_options=0x7f04001e;
         public static final int charging=0x7f040017;
+        public static final int cma=0x7f04002c;
+        public static final int cra=0x7f04002b;
+        public static final int damage_text=0x7f040025;
         public static final int def=0x7f040008;
         public static final int def_default=0x7f04000a;
         public static final int defender=0x7f04000f;
+        public static final int discard_dice=0x7f040039;
         public static final int focus=0x7f040007;
         public static final int focus_default=0x7f040005;
+        /**  Attacker option strings 
+         */
+        public static final int free_charge=0x7f040026;
         public static final int go_back=0x7f040023;
+        public static final int gunfighter=0x7f04002a;
         public static final int hello_world=0x7f040001;
         public static final int hp=0x7f04000b;
         public static final int hp_default=0x7f04000c;
+        public static final int hunter=0x7f04002d;
         public static final int mat=0x7f040003;
         public static final int menu_settings=0x7f040002;
+        public static final int point_blank=0x7f040029;
         public static final int pow_str=0x7f040014;
         public static final int ranged=0x7f040016;
         public static final int rat=0x7f040006;
+        public static final int reroll_dam=0x7f040030;
+        public static final int reroll_hit=0x7f04002f;
         public static final int save_load=0x7f040013;
         public static final int save_options=0x7f04001d;
         public static final int situation=0x7f040011;
@@ -109,15 +159,12 @@ public final class R {
         public static final int title_section1=0x7f04001a;
         public static final int title_section2=0x7f040019;
         public static final int title_section3=0x7f040018;
+        public static final int to_discard=0x7f040035;
         public static final int value_default=0x7f040004;
         public static final int weapons=0x7f040010;
     }
     public static final class style {
         /** 
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    
-
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
@@ -134,10 +181,14 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f050000;
-        /**  Application theme. 
+        public static final int AppBaseTheme=0x7f060001;
+        /** 
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    
+ Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f050001;
+        public static final int AppTheme=0x7f060000;
     }
 }

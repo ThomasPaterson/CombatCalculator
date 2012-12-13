@@ -37,5 +37,180 @@
     <string name="action_remove_item">Remove item</string>
     <string name="action_add_weapon">New</string>
     <string name="go_back">Close</string>
+    <string name="attack_text">Attack: </string>
+    <string name="damage_text">Damage: </string>
+    
+    <!-- Attacker option strings -->
+    <string name="free_charge">Free Charge: </string>
+    <string name="boosted_hit">Attack Rolls Boosted: </string>
+    <string name="boosted_dam">Damage Rolls Boosted: </string>
+    <string name="point_blank">Point Blank: </string>
+    <string name="gunfighter">Gunfighter: </string>
+    <string name="cra">CRA: </string>
+    <string name="cma">CMA: </string>
+    <string name="hunter">Hunter: </string>
+    <string name="assault">Assault: </string>
+    <string name="reroll_hit">Reroll Attack Rolls: </string>
+    <string name="reroll_dam">Reroll Damage Rolls: </string>
+    <string name="bonus_hit">Bonus To Hit: </string>
+    <string name="bonus_dam">Bonus To Damage: </string>
+    <string name="add_dice_hit">Add Attack Dice: </string>
+    <string name="add_dice_dam">Add Damage Dice: </string>
+    <string name="to_discard">to Discard: </string>
+    <string name="all_attacks">Apply to All Attacks</string>
+    <string name="add_value">Add Value</string>
+    <string name="add_dice">Add/Remove Dice</string>
+    <string name="discard_dice">Discard Lowest Dice</string>
+    
+    <!-- End Attacker option strings -->
+    
+    
+    <string-array name="rof_array">
+        <item>Infinite</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+    
+    <string-array name="focus_array">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+    </string-array>
+    
+    <string-array name="atk_array">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+    </string-array>
+    
+    <string-array name="pow_array">
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+    </string-array>
+    
+    <string-array name="def_array">
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+    </string-array>
 
+    
+    <string-array name="arm_array">
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+    </string-array>
+    
+    <string-array name="add_dice_array">
+        <item>-1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    
+    <string-array name="discard_dice_array">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    
+    <string-array name="add_value_array">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+        
 </resources>

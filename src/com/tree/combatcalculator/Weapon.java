@@ -36,6 +36,16 @@ public class Weapon extends AtkVarUser implements Parcelable{
     	variables = newVariables;
 
     }
+    
+  //manually set all variables
+    public Weapon(int newPow, boolean isRanged, int rof, ArrayList<AtkVar> newVariables) {
+
+    	pow = newPow;
+    	is_ranged = isRanged;
+    	variables = newVariables;
+    	ROF = rof;
+
+    }
 
     //manually set all variables
     public Weapon(int newPow, boolean isRanged, ArrayList<AtkVar> newVariables, boolean canCrit) {

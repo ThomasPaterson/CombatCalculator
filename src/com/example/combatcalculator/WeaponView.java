@@ -6,14 +6,15 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 public class WeaponView extends LinearLayout {
 
-    private EditText powText;
-    private EditText rofText;
+    private Spinner powText;
+    private Spinner rofText;
     private CheckBox rangeBox;
     
 
@@ -35,16 +36,18 @@ public class WeaponView extends LinearLayout {
         LayoutInflater.from(getContext()).inflate(R.layout.weapon_item, this, true);
         
 
-        powText = (EditText) findViewById(R.id.pow_entry);
-        rofText = (EditText) findViewById(R.id.rof_entry);
+        powText = (Spinner) findViewById(R.id.pow_entry);
+        rofText = (Spinner) findViewById(R.id.rof_entry);
         rangeBox = (CheckBox) findViewById(R.id.ranged_entry);
 
     }
 
+	
+	
     @Override
     protected Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
-        return new SavedState(superState, powText.getText().toString(), rofText.getText().toString(), rangeBox.isChecked());
+        return new SavedState(superState, powText.getSelectedItemPosition(), rofText.getSelectedItemPosition(), rangeBox.isChecked());
     }
 
     @Override
@@ -52,8 +55,8 @@ public class WeaponView extends LinearLayout {
         SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
         
-        powText.setText(savedState.getPow());
-        rofText.setText(savedState.getROF());
+        powText.setSelection(savedState.getPow());
+        rofText.setSelection(savedState.getROF());
         rangeBox.setChecked(savedState.getRanged());
     }
 
@@ -75,11 +78,11 @@ public class WeaponView extends LinearLayout {
 */
     protected static class SavedState extends BaseSavedState {
 
-        private final String pow;
-        private final String rof;
+        private final int pow;
+        private final int rof;
         private final boolean ranged;
 
-        private SavedState(Parcelable superState, String pow, String rof, boolean ranged) {
+        private SavedState(Parcelable superState, int pow, int rof, boolean ranged) {
             super(superState);
             this.pow = pow;
             this.rof = rof;
@@ -88,18 +91,18 @@ public class WeaponView extends LinearLayout {
 
         private SavedState(Parcel in) {
             super(in);
-            pow = in.readString();
-            rof = in.readString();
+            pow = in.readInt();
+            rof = in.readInt();
             boolean[] temp = new boolean[1];
             in.readBooleanArray(temp);
             ranged = temp[0];
         }
 
-        public String getPow() {
+        public int getPow() {
             return pow;
         }
 
-        public String getROF() {
+        public int getROF() {
             return rof;
         }
 
@@ -110,8 +113,8 @@ public class WeaponView extends LinearLayout {
         @Override
         public void writeToParcel(Parcel destination, int flags) {
             super.writeToParcel(destination, flags);
-            destination.writeString(pow);
-            destination.writeString(rof);
+            destination.writeInt(pow);
+            destination.writeInt(rof);
             boolean[] temp = {ranged};
             destination.writeBooleanArray(temp);
         }

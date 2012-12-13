@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.tree.combatcalculator.AtkVar;
 
@@ -40,10 +42,38 @@ public class OptionsActivity extends Activity {
 			prevSet = new ArrayList<AtkVar>();
 		
 		
-		
 		setContentView(R.layout.activity_options);
 		
+		setupSpinner(R.id.val_atk_spinner, R.array.add_value_array, false, 0, 0);
+		setupSpinner(R.id.val_dam_spinner, R.array.add_value_array, false, 0, 0);
+		setupSpinner(R.id.add_atk_spinner, R.array.add_dice_array, false, 0, 1);
+		setupSpinner(R.id.add_dam_spinner, R.array.add_dice_array, false, 0, 1);
+		setupSpinner(R.id.discard_atk_spinner, R.array.discard_dice_array, false, 0, 0);
+		setupSpinner(R.id.discard_dam_spinner, R.array.discard_dice_array, false, 0, 0);
+		
 		//TODO: make it fill in previous options selected
+	}
+	
+	
+	/**
+     *Initializes a spinner with the given array id and spinner id, sets it to default value if it 
+     *isn't coming from a previous screen
+    */
+	private void setupSpinner(int entry, int array, boolean saved, int position, int def){
+		
+		Spinner spinner = (Spinner) findViewById(entry);
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+		        array, android.R.layout.simple_dropdown_item_1line);
+		
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(adapter);
+		
+		if (saved)
+			spinner.setSelection(position);
+		else
+			spinner.setSelection(def);
+		
+		
 	}
 
 	@Override
