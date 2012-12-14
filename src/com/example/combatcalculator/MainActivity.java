@@ -237,8 +237,7 @@ public class MainActivity extends FragmentActivity {
 	}
 	
 	/**
-     * Creates the various objects from the fields that were filled
-     * and sends them to the CalcDisplayActivity for processing and display
+     * Sends the current data on the attacker to the options dialog, requests an attacker response
     */
 	public void sendToAttackerOptions(View view){
 		
@@ -251,6 +250,22 @@ public class MainActivity extends FragmentActivity {
 		
 	}
 	
+	/**
+     * Sends the current data on the defender to the options dialog, requests an defender response
+    */
+	public void sendToDefenderOptions(View view){
+		
+		Intent intent = new Intent(this, OptionsActivity.class);
+		
+		intent.putParcelableArrayListExtra(OptionsActivity.PREV_CHOICE, defenderVars);
+		intent.putExtra(OptionsActivity.TYPE_CHOSEN, DEFENDER);
+		
+	    startActivityForResult(intent, DEFENDER_REQ);
+		
+	}
+	
+	
+	
 
 	@Override
     protected void onActivityResult(int pRequestCode, int resultCode, Intent data){
@@ -262,7 +277,14 @@ public class MainActivity extends FragmentActivity {
 			ArrayList<AtkVar> newList = data.getParcelableArrayListExtra(OptionsActivity.CHANGED);
 			
 			if (newList != null)
-			attackerVars = new ArrayList<AtkVar>(newList);
+				attackerVars = new ArrayList<AtkVar>(newList);
+			
+		}else if (resultCode == DEFENDER_REQ){
+			
+			ArrayList<AtkVar> newList = data.getParcelableArrayListExtra(OptionsActivity.CHANGED);
+			
+			if (newList != null)
+				defenderVars = new ArrayList<AtkVar>(newList);
 			
 		}
 			
@@ -324,6 +346,8 @@ public class MainActivity extends FragmentActivity {
 	    
 	    if (healthText.getText().toString() != "")
 	    	defender.setHealth(Integer.parseInt(healthText.getText().toString()));
+	    
+	    defender.setVariables(defenderVars);
 	    
 	    intent.putExtra(DEFENDER, defender);
 	    

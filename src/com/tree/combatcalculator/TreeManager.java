@@ -284,15 +284,15 @@ public class TreeManager {
     private void makeAttackNode(int curFocus, Node prevNode, int[] initWeapons,
     	boolean doneInits, int weaponToUse, ArrayList<AtkVar> modSit, int depth){
 
-			boolean makeNormal = checkAttackNormal(weaponToUse, doneInits, curFocus);
+			boolean makeNormal = checkAttackNormal(weaponToUse, doneInits, curFocus, modSit);
 
     		//make a not boosted attack node, if it is not using heuristics, or if using heuristics and attack
     		//roll is boosted
     		if (makeNormal){
-
-    		DecisionNode newNode = addDecisionNode(Node.ATTACK, prevNode, false, 0, weaponToUse, modSit);
-
-    		makeResultAttackNode(curFocus, newNode, initWeapons, doneInits, weaponToUse, modSit, depth);
+	
+	    		DecisionNode newNode = addDecisionNode(Node.ATTACK, prevNode, false, 0, weaponToUse, modSit);
+	
+	    		makeResultAttackNode(curFocus, newNode, initWeapons, doneInits, weaponToUse, modSit, depth);
 
     		}
 
@@ -308,15 +308,19 @@ public class TreeManager {
 
 
     //checks to see if an attack roll should be normal or not
-    private boolean checkAttackNormal(int weaponToUse, boolean doneInits, int curFocus){
+    private boolean checkAttackNormal(int weaponToUse, boolean doneInits, int curFocus, ArrayList<AtkVar> modSit){
 
     	//check to see if already boosted
-		boolean alreadyBoosted = AtkVar.checkContainsName(sit, weapons.get(weaponToUse).getVariables(),
+		boolean alreadyBoosted = AtkVar.checkContainsName(modSit, weapons.get(weaponToUse).getVariables(),
 			atkModel.getVariables(), AtkVar.BOOSTED_HIT);
+		
+		System.out.println("alreadyBoosted: " + alreadyBoosted);
 
 		//if it using heuristics, don't make a non boosted if it wants only boosted
 		//or if it is already boosted
-		if ((usingHeuristics(doneInits) && checkOptimalChoice(true, false, curFocus) && doneInits) || !alreadyBoosted)
+		if (alreadyBoosted)
+			return true;
+		else if ((usingHeuristics(doneInits) && checkOptimalChoice(true, false, curFocus) && doneInits))
 			return false;
 
 		return true;

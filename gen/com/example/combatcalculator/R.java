@@ -17,9 +17,11 @@ public final class R {
         public static final int discard_dice_array=0x7f050007;
         public static final int focus_array=0x7f050001;
         public static final int pow_array=0x7f050003;
-        /**  End Attacker option strings 
+        /**  Defender option strings 
+ End of Defender option strings 
          */
         public static final int rof_array=0x7f050000;
+        public static final int shield_array=0x7f050009;
     }
     public static final class attr {
     }
@@ -57,18 +59,21 @@ public final class R {
         public static final int add_atk_spinner=0x7f080036;
         public static final int add_dam_spinner=0x7f080038;
         public static final int arm_entry=0x7f080014;
+        public static final int arm_spinner=0x7f080042;
         public static final int assault_box=0x7f080028;
         public static final int attacker_name=0x7f080001;
         public static final int boosted_dam_box=0x7f080031;
         public static final int boosted_hit_box=0x7f08002f;
         public static final int button3=0x7f08001f;
+        public static final int camoflauge_box=0x7f08003f;
         public static final int charging_entry=0x7f08001e;
         public static final int cma_box=0x7f080023;
         public static final int container=0x7f080004;
         public static final int cra_box=0x7f080024;
         public static final int def_entry=0x7f080012;
+        public static final int def_spinner=0x7f080041;
         public static final int defender_name=0x7f080002;
-        public static final int delete_button=0x7f08003d;
+        public static final int delete_button=0x7f080043;
         public static final int discard_atk_spinner=0x7f08003a;
         public static final int discard_dam_spinner=0x7f08003b;
         public static final int divider1=0x7f08000f;
@@ -81,17 +86,20 @@ public final class R {
         public static final int gunfighter_box=0x7f080025;
         public static final int health_entry=0x7f080016;
         public static final int hello_world=0x7f080005;
+        public static final int knocked_down_box=0x7f08003e;
         public static final int main_container=0x7f080000;
         public static final int mat_entry=0x7f080009;
-        public static final int menu_settings=0x7f080041;
+        public static final int menu_settings=0x7f080047;
         public static final int point_blank_box=0x7f080027;
-        public static final int pow_entry=0x7f08003e;
-        public static final int ranged_entry=0x7f080040;
+        public static final int pow_entry=0x7f080044;
+        public static final int ranged_entry=0x7f080046;
         public static final int rat_entry=0x7f08000b;
         public static final int reroll_atk_box=0x7f08002b;
         public static final int reroll_dam_box=0x7f08002d;
-        public static final int rof_entry=0x7f08003f;
+        public static final int rof_entry=0x7f080045;
         public static final int scroll=0x7f080006;
+        public static final int set_defense_box=0x7f08003d;
+        public static final int shield_spinner=0x7f080040;
         public static final int textView1=0x7f08001c;
         public static final int val_atk_spinner=0x7f080033;
         public static final int val_dam_spinner=0x7f080035;
@@ -101,7 +109,9 @@ public final class R {
         public static final int activity_display_calc=0x7f030001;
         public static final int activity_main=0x7f030002;
         public static final int activity_options=0x7f030003;
-        public static final int weapon_item=0x7f030004;
+        public static final int attacker_options=0x7f030004;
+        public static final int defender_options=0x7f030005;
+        public static final int weapon_item=0x7f030006;
     }
     public static final class menu {
         public static final int activity_calc_display=0x7f070000;
@@ -114,6 +124,8 @@ public final class R {
         public static final int action_add_weapon=0x7f040022;
         public static final int action_remove_item=0x7f040021;
         public static final int action_weapon=0x7f040020;
+        public static final int add_arm=0x7f04003c;
+        public static final int add_def=0x7f04003b;
         public static final int add_dice=0x7f040038;
         public static final int add_dice_dam=0x7f040034;
         public static final int add_dice_hit=0x7f040033;
@@ -130,6 +142,7 @@ public final class R {
         public static final int boosted_dam=0x7f040028;
         public static final int boosted_hit=0x7f040027;
         public static final int calculate=0x7f04000d;
+        public static final int camoflauge=0x7f04003f;
         public static final int cancel_options=0x7f04001e;
         public static final int charging=0x7f040017;
         public static final int cma=0x7f04002c;
@@ -150,6 +163,7 @@ public final class R {
         public static final int hp=0x7f04000b;
         public static final int hp_default=0x7f04000c;
         public static final int hunter=0x7f04002d;
+        public static final int knockdown=0x7f04003d;
         public static final int mat=0x7f040003;
         public static final int menu_settings=0x7f040002;
         public static final int point_blank=0x7f040029;
@@ -160,6 +174,10 @@ public final class R {
         public static final int reroll_hit=0x7f04002f;
         public static final int save_load=0x7f040013;
         public static final int save_options=0x7f04001d;
+        public static final int set_defense=0x7f04003e;
+        /**  End Attacker option strings 
+         */
+        public static final int shield_value=0x7f04003a;
         public static final int situation=0x7f040011;
         public static final int title_activity_calc_display=0x7f04001b;
         public static final int title_activity_display_calc=0x7f04001f;

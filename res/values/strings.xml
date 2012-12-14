@@ -63,7 +63,17 @@
     <string name="discard_dice">Discard Lowest Dice</string>
     
     <!-- End Attacker option strings -->
+    <string name="shield_value">Amount of Arm \nfrom Shields: </string>
+    <string name="add_def">Add/Minus Def: </string>
+    <string name="add_arm">Add/Minus Arm: </string>
+    <string name="knockdown">Knocked Down: </string>
+    <string name="set_defense">Set Defense: </string>
+    <string name="camoflauge">Camoflauge: </string>
     
+    <!-- Defender option strings -->
+    
+    
+    <!-- End of Defender option strings -->
     
     <string-array name="rof_array">
         <item>Infinite</item>
@@ -216,6 +226,18 @@
         <item>8</item>
         <item>9</item>
         <item>10</item>
+    </string-array>
+    
+    <string-array name="shield_array">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
     </string-array>
         
 </resources>

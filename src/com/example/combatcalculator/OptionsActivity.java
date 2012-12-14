@@ -48,9 +48,64 @@ public class OptionsActivity extends Activity {
 			System.out.println(a.getName());
 		
 		
-		setContentView(R.layout.activity_options);
 		
 		
+		
+		
+		
+		
+		if (typeChosen.equals(MainActivity.ATTACKER)){
+			setContentView(R.layout.attacker_options);
+			fillAttackerPrevious();
+			
+		}else if (typeChosen.equals(MainActivity.DEFENDER)){
+			setContentView(R.layout.defender_options);
+			fillDefenderPrevious();
+			
+		}
+		
+	}
+	/**
+     *Initializes all the variables from the array on the defender from last time
+    */
+	private void fillDefenderPrevious(){
+		
+		setupSpinner(R.id.def_spinner, R.array.add_value_array, false, 0, 5);
+		setupSpinner(R.id.arm_spinner, R.array.add_value_array, false, 0, 5);
+		setupSpinner(R.id.shield_spinner, R.array.shield_array, false, 0, 0);
+
+		if (AtkVar.checkContainsName(prevSet, AtkVar.SET_DEFENSE))
+			((CheckBox)findViewById(R.id.set_defense_box)).setChecked(true);
+		
+		if (AtkVar.checkContainsName(prevSet, AtkVar.CAMOFLAUGE))
+			((CheckBox)findViewById(R.id.camoflauge_box)).setChecked(true);
+		
+		if (AtkVar.checkContainsName(prevSet, AtkVar.KNOCKDOWN))
+			((CheckBox)findViewById(R.id.knocked_down_box)).setChecked(true);
+		
+		//check spinner values, not boolean so check to see if there by null
+		AtkVar modDef = AtkVar.getAtkVarByName(prevSet, AtkVar.MOD_DEF);
+		if (modDef != null)
+			((Spinner)findViewById(R.id.def_spinner)).setSelection(modDef.getValue()+5);
+				
+		AtkVar modArm = AtkVar.getAtkVarByName(prevSet, AtkVar.MOD_ARM);
+		if (modArm != null)
+			((Spinner)findViewById(R.id.arm_spinner)).setSelection(modArm.getValue()+5);
+				
+		AtkVar modShield = AtkVar.getAtkVarByName(prevSet, AtkVar.SHIELD_BONUS);
+		if (modShield != null)
+			((Spinner)findViewById(R.id.shield_spinner)).setSelection(modShield.getValue());
+		
+		
+	}
+	
+	
+	
+	
+	/**
+     *Initializes all the variables from the array on the attacker from last time
+    */
+	private void fillAttackerPrevious(){
 		
 		setupSpinner(R.id.val_atk_spinner, R.array.add_value_array, false, 0, 5);
 		setupSpinner(R.id.val_dam_spinner, R.array.add_value_array, false, 0, 5);
@@ -58,18 +113,6 @@ public class OptionsActivity extends Activity {
 		setupSpinner(R.id.add_dam_spinner, R.array.add_dice_array, false, 0, 1);
 		setupSpinner(R.id.discard_atk_spinner, R.array.discard_dice_array, false, 0, 0);
 		setupSpinner(R.id.discard_dam_spinner, R.array.discard_dice_array, false, 0, 0);
-		
-		if (typeChosen.equals(MainActivity.ATTACKER))
-			fillAttackerPrevious();
-		
-		//TODO: make it fill in previous options selected
-	}
-	
-	
-	/**
-     *Initializes all the variables from the array on the attackrer from last time
-    */
-	private void fillAttackerPrevious(){
 		
 		if (AtkVar.checkContainsName(prevSet, AtkVar.GUNFIGHTER))
 			((CheckBox)findViewById(R.id.gunfighter_box)).setChecked(true);
@@ -210,6 +253,42 @@ public class OptionsActivity extends Activity {
 		
 	}
 	
+	/**
+     *Takes all the filled in variables and returns them, for the defender
+    */
+	private ArrayList<AtkVar> returnDefenderArray(){
+		
+		ArrayList<AtkVar> newList = new ArrayList<AtkVar>();
+		
+		if (((CheckBox)findViewById(R.id.camoflauge_box)).isChecked())
+			newList.add(new AtkVar(AtkVar.CAMOFLAUGE));
+		
+		if (((CheckBox)findViewById(R.id.set_defense_box)).isChecked())
+			newList.add(new AtkVar(AtkVar.SET_DEFENSE));
+		
+		if (((CheckBox)findViewById(R.id.knocked_down_box)).isChecked())
+			newList.add(new AtkVar(AtkVar.KNOCKDOWN));
+		
+		
+		//if the value isn't at zero, record what it has been changed to
+		int modDef = Integer.parseInt(((Spinner)findViewById(R.id.def_spinner)).getSelectedItem().toString());
+		if (modDef != 0)
+			newList.add(new AtkVar(AtkVar.MOD_DEF, modDef));
+		
+		//if the value isn't at zero, record what it has been changed to
+		int modArm = Integer.parseInt(((Spinner)findViewById(R.id.arm_spinner)).getSelectedItem().toString());
+		if (modArm != 0)
+			newList.add(new AtkVar(AtkVar.MOD_ARM, modArm));
+		
+		//if the value isn't at zero, record what it has been changed to
+		int modShield = Integer.parseInt(((Spinner)findViewById(R.id.shield_spinner)).getSelectedItem().toString());
+		if (modShield != 0)
+			newList.add(new AtkVar(AtkVar.SHIELD_BONUS, modShield));
+		
+		return newList;
+		
+	}
+	
 	
 	/**
      *Initializes a spinner with the given array id and spinner id, sets it to default value if it 
@@ -249,7 +328,12 @@ public class OptionsActivity extends Activity {
 		
 		Intent intent = new Intent(this, MainActivity.class);
 		
-		ArrayList<AtkVar> newList = returnAttackerArray();
+		ArrayList<AtkVar> newList = null;
+		
+		if (typeChosen.equals(MainActivity.ATTACKER))
+			newList = returnAttackerArray();
+		else if (typeChosen.equals(MainActivity.DEFENDER))
+			newList = returnDefenderArray();
 		
 		intent.putParcelableArrayListExtra(CHANGED, newList);
 		intent.putExtra(TYPE_CHOSEN, typeChosen);
@@ -257,10 +341,23 @@ public class OptionsActivity extends Activity {
 		if (numChosen != -1)
 			intent.putExtra(NUM_CHOSEN, numChosen);
 		
-		setResult(MainActivity.ATTACKER_REQ, intent);
+		setResult(getRequestType(), intent);
 		finish();
 
 	    
+	}
+	
+	
+	private int getRequestType(){
+		
+		if (typeChosen.equals(MainActivity.ATTACKER))
+			return MainActivity.ATTACKER_REQ;
+		else if (typeChosen.equals(MainActivity.DEFENDER))
+			return MainActivity.DEFENDER_REQ;
+		
+		return -1;
+		
+		
 	}
 	
 	

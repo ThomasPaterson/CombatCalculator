@@ -84,6 +84,7 @@ public class AtkVar implements Parcelable {
 	public static String FIRST_ATTACK = "first_attack";
 	public static String KNOCKED_DOWN = "knocked_down";
 	public static String SHIELD = "shield";
+	public static String SHIELD_BONUS = "shield_bonus";
 	public static String SHIELD_WALL = "shield";
 	public static String BUCKLER = "buckler";
 	public static String DOUBLE_DAMAGE = "DOUBLE_DAMAGE";
@@ -97,10 +98,13 @@ public class AtkVar implements Parcelable {
 	public static String CRA = "cra";
 	public static String CMA = "cma";
 	public static String ASSAULT = "assault";
+	public static String SET_DEFENSE = "set_defense";
+	public static String CAMOFLAUGE = "camoflauge";
 
 
 	//conditions
 	public static String IS_CHARGING = "is_CHARGING";
+	public static String IS_COVER_OR_CONCEALMENT = "IS_COVER_OR_CONCEALMENT";
 	public static String IS_RANGED = "is_ranged";
 	public static String GET_CRIT = "get_crit";
 	public static String IS_FIRST_ATTACK = "is_first_attack";
@@ -150,6 +154,14 @@ public class AtkVar implements Parcelable {
     		type = MOD;
     		value = -4;
 
+    	}else if (name.equals(CAMOFLAUGE)){
+
+    		conditions.add(IS_RANGED);
+    		conditions.add(IS_COVER_OR_CONCEALMENT);
+    		target = DEF;
+    		type = MOD;
+    		value = 2;
+
     	}else if (name.equals(CONCEALMENT)){
 
     		conditions.add(IS_RANGED);
@@ -176,6 +188,13 @@ public class AtkVar implements Parcelable {
     		target = FOCUS;
     		type = MOD;
     		value = 1;
+
+    	}else if (name.equals(SET_DEFENSE)){
+
+    		conditions.add(IS_CHARGING);
+    		target = DEF;
+    		type = MOD;
+    		value = 2;
 
     	}else if (name.equals(CHARGING)){
 
@@ -255,6 +274,11 @@ public class AtkVar implements Parcelable {
     		target = ARM;
     		type = MOD;
     		value = 2;
+
+    	}else if (name.equals(SHIELD_BONUS)){
+
+    		target = ARM;
+    		type = MOD;
 
     	}else if (name.equals(BUCKLER)){
 
@@ -510,20 +534,25 @@ public class AtkVar implements Parcelable {
     //checks all the conditions to see if there is one that is invalid
     public boolean meetsConditions(ArrayList<AtkVar> variables){
 
-		String targetString = "";
+		ArrayList<String> targetString = new ArrayList<String>();
 
 		//loop through all conditions
 		for (String condition : conditions){
 
 			//determine the targetString by the type of condition
 			if (condition.equals(IS_CHARGING))
-				targetString = CHARGING;
+				targetString.add(CHARGING);
 			else if (condition.equals(IS_RANGED))
-				targetString = RANGED;
+				targetString.add(RANGED);
 			else if (condition.equals(GET_CRIT))
-				targetString = CRIT;
+				targetString.add(CRIT);
 			else if (condition.equals(IS_FIRST_ATTACK))
-				targetString = FIRST_ATTACK;
+				targetString.add(FIRST_ATTACK);
+			else if (condition.equals(IS_COVER_OR_CONCEALMENT)){
+				targetString.add(COVER);
+				targetString.add(CONCEALMENT);
+				
+			}
 
 
 
@@ -532,11 +561,18 @@ public class AtkVar implements Parcelable {
 			//loop through all the variables provided, if it is in there, continue onto the next one
 			//otherwise break the loop
     		for (AtkVar variable : variables){
-
-    			if (variable.getName().equals(targetString)){
-    				found = true;
-    				break;
+    			
+    			for (String s : targetString){
+    				
+    				if (variable.getName().equals(s)){
+        				found = true;
+        				break;
+        			}
+    				
     			}
+
+    			if (found)
+    				break;
 
     		}//end variables loop
 
