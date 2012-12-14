@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 
 import com.tree.combatcalculator.AtkVar;
@@ -36,22 +37,177 @@ public class OptionsActivity extends Activity {
 			numChosen = intent.getIntExtra(NUM_CHOSEN, 0);
 		
 		//get the previously set options
-		prevSet = intent.getParcelableExtra(PREV_CHOICE);
+		prevSet = intent.getParcelableArrayListExtra(PREV_CHOICE);
 		
 		if (prevSet == null)
 			prevSet = new ArrayList<AtkVar>();
 		
+		System.out.println("number of variables: " + prevSet.size());
+		
+		for (AtkVar a : prevSet)
+			System.out.println(a.getName());
+		
 		
 		setContentView(R.layout.activity_options);
 		
-		setupSpinner(R.id.val_atk_spinner, R.array.add_value_array, false, 0, 0);
-		setupSpinner(R.id.val_dam_spinner, R.array.add_value_array, false, 0, 0);
+		
+		
+		setupSpinner(R.id.val_atk_spinner, R.array.add_value_array, false, 0, 5);
+		setupSpinner(R.id.val_dam_spinner, R.array.add_value_array, false, 0, 5);
 		setupSpinner(R.id.add_atk_spinner, R.array.add_dice_array, false, 0, 1);
 		setupSpinner(R.id.add_dam_spinner, R.array.add_dice_array, false, 0, 1);
 		setupSpinner(R.id.discard_atk_spinner, R.array.discard_dice_array, false, 0, 0);
 		setupSpinner(R.id.discard_dam_spinner, R.array.discard_dice_array, false, 0, 0);
 		
+		if (typeChosen.equals(MainActivity.ATTACKER))
+			fillAttackerPrevious();
+		
 		//TODO: make it fill in previous options selected
+	}
+	
+	
+	/**
+     *Initializes all the variables from the array on the attackrer from last time
+    */
+	private void fillAttackerPrevious(){
+		
+		if (AtkVar.checkContainsName(prevSet, AtkVar.GUNFIGHTER))
+			((CheckBox)findViewById(R.id.gunfighter_box)).setChecked(true);
+		
+		if (AtkVar.checkContainsName(prevSet, AtkVar.POINT_BLANK))
+			((CheckBox)findViewById(R.id.point_blank_box)).setChecked(true);
+		
+		if (AtkVar.checkContainsName(prevSet, AtkVar.CMA))
+			((CheckBox)findViewById(R.id.cma_box)).setChecked(true);
+		
+		if (AtkVar.checkContainsName(prevSet, AtkVar.CRA))
+			((CheckBox)findViewById(R.id.cra_box)).setChecked(true);
+		
+		if (AtkVar.checkContainsName(prevSet, AtkVar.ASSAULT))
+			((CheckBox)findViewById(R.id.assault_box)).setChecked(true);
+		
+		if (AtkVar.checkContainsName(prevSet, AtkVar.FREE_CHARGE))
+			((CheckBox)findViewById(R.id.free_charge_box)).setChecked(true);
+		
+		if (AtkVar.checkContainsName(prevSet, AtkVar.REROLL_ATK))
+			((CheckBox)findViewById(R.id.reroll_atk_box)).setChecked(true);
+		
+		if (AtkVar.checkContainsName(prevSet, AtkVar.REROLL_DAM))
+			((CheckBox)findViewById(R.id.reroll_dam_box)).setChecked(true);
+		
+		if (AtkVar.checkContainsName(prevSet, AtkVar.BOOSTED_HIT))
+			((CheckBox)findViewById(R.id.boosted_hit_box)).setChecked(true);
+		
+		if (AtkVar.checkContainsName(prevSet, AtkVar.BOOSTED_DAM))
+			((CheckBox)findViewById(R.id.boosted_dam_box)).setChecked(true);
+		
+		//check spinner values, not boolean so check to see if there by null
+		AtkVar modAtk = AtkVar.getAtkVarByName(prevSet, AtkVar.MOD_ATK);
+		if (modAtk != null)
+			((Spinner)findViewById(R.id.val_atk_spinner)).setSelection(modAtk.getValue()+5);
+		
+		AtkVar modDam = AtkVar.getAtkVarByName(prevSet, AtkVar.MOD_POW);
+		if (modDam != null)
+			((Spinner)findViewById(R.id.val_dam_spinner)).setSelection(modDam.getValue()+5);
+		
+		AtkVar modAtkDice = AtkVar.getAtkVarByName(prevSet, AtkVar.ADD_HIT);
+		if (modAtkDice != null)
+			((Spinner)findViewById(R.id.add_atk_spinner)).setSelection(modAtkDice.getValue()+1);
+		
+		AtkVar modDamDice = AtkVar.getAtkVarByName(prevSet, AtkVar.ADD_DAM);
+		if (modDamDice != null)
+			((Spinner)findViewById(R.id.add_dam_spinner)).setSelection(modDamDice.getValue()+1);
+		
+		AtkVar modAtkDiscard = AtkVar.getAtkVarByName(prevSet, AtkVar.DISCARD_ATK);
+		if (modAtkDiscard != null)
+			((Spinner)findViewById(R.id.discard_atk_spinner)).setSelection(modAtkDiscard.getValue());
+		
+		AtkVar modDamDiscard = AtkVar.getAtkVarByName(prevSet, AtkVar.DISCARD_DAM);
+		if (modDamDiscard != null)
+			((Spinner)findViewById(R.id.discard_dam_spinner)).setSelection(modDamDiscard.getValue());
+			
+		
+		
+	
+		
+		
+		
+	}
+	
+	
+	/**
+     *Takes all the filled in variables and returns them, for the attacker
+    */
+	private ArrayList<AtkVar> returnAttackerArray(){
+		
+		ArrayList<AtkVar> newList = new ArrayList<AtkVar>();
+		
+		if (((CheckBox)findViewById(R.id.gunfighter_box)).isChecked())
+			newList.add(new AtkVar(AtkVar.GUNFIGHTER));
+		
+		if (((CheckBox)findViewById(R.id.point_blank_box)).isChecked())
+			newList.add(new AtkVar(AtkVar.POINT_BLANK));
+		
+		if (((CheckBox)findViewById(R.id.cma_box)).isChecked())
+			newList.add(new AtkVar(AtkVar.CMA));
+		
+		if (((CheckBox)findViewById(R.id.cra_box)).isChecked())
+			newList.add(new AtkVar(AtkVar.CRA));
+		
+		if (((CheckBox)findViewById(R.id.assault_box)).isChecked())
+			newList.add(new AtkVar(AtkVar.ASSAULT));
+		
+		if (((CheckBox)findViewById(R.id.free_charge_box)).isChecked())
+			newList.add(new AtkVar(AtkVar.FREE_CHARGE));
+		
+		if (((CheckBox)findViewById(R.id.reroll_atk_box)).isChecked())
+			newList.add(new AtkVar(AtkVar.REROLL_ATK));
+		
+		if (((CheckBox)findViewById(R.id.reroll_dam_box)).isChecked())
+			newList.add(new AtkVar(AtkVar.REROLL_DAM));
+		
+		if (((CheckBox)findViewById(R.id.boosted_hit_box)).isChecked())
+			newList.add(new AtkVar(AtkVar.BOOSTED_HIT));
+		
+		if (((CheckBox)findViewById(R.id.boosted_dam_box)).isChecked())
+			newList.add(new AtkVar(AtkVar.BOOSTED_DAM));
+		
+		//if the value isn't at zero, record what it has been changed to
+		int modAtk = Integer.parseInt(((Spinner)findViewById(R.id.val_atk_spinner)).getSelectedItem().toString());
+		if (modAtk != 0)
+			newList.add(new AtkVar(AtkVar.MOD_ATK, modAtk));
+		
+		//if the value isn't at zero, record what it has been changed to
+		int modDam = Integer.parseInt(((Spinner)findViewById(R.id.val_dam_spinner)).getSelectedItem().toString());
+		if (modDam != 0)
+			newList.add(new AtkVar(AtkVar.MOD_POW, modDam));
+		
+		//if the value isn't at zero, record what it has been changed to
+		int addAtk = Integer.parseInt(((Spinner)findViewById(R.id.add_atk_spinner)).getSelectedItem().toString());
+		if (addAtk != 0)
+			newList.add(new AtkVar(AtkVar.ADD_HIT, addAtk));
+		
+		
+		//if the value isn't at zero, record what it has been changed to
+		int addDam = Integer.parseInt(((Spinner)findViewById(R.id.add_dam_spinner)).getSelectedItem().toString());
+		if (addDam != 0)
+			newList.add(new AtkVar(AtkVar.ADD_DAM, addDam));
+				
+		//if the value isn't at zero, record what it has been changed to
+		int disAtk = Integer.parseInt(((Spinner)findViewById(R.id.discard_atk_spinner)).getSelectedItem().toString());
+		if (disAtk != 0)
+			newList.add(new AtkVar(AtkVar.DISCARD_ATK, disAtk));
+				
+		//if the value isn't at zero, record what it has been changed to
+		int disDam = Integer.parseInt(((Spinner)findViewById(R.id.discard_dam_spinner)).getSelectedItem().toString());
+		if (disDam != 0)
+			newList.add(new AtkVar(AtkVar.DISCARD_DAM, disDam));
+		
+			
+		
+		
+		return newList;
+		
 	}
 	
 	
@@ -93,7 +249,7 @@ public class OptionsActivity extends Activity {
 		
 		Intent intent = new Intent(this, MainActivity.class);
 		
-		ArrayList<AtkVar> newList = readOptions();
+		ArrayList<AtkVar> newList = returnAttackerArray();
 		
 		intent.putParcelableArrayListExtra(CHANGED, newList);
 		intent.putExtra(TYPE_CHOSEN, typeChosen);

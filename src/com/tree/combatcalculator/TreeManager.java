@@ -316,7 +316,7 @@ public class TreeManager {
 
 		//if it using heuristics, don't make a non boosted if it wants only boosted
 		//or if it is already boosted
-		if ((usingHeuristics(doneInits) && checkOptimalChoice(true, false, curFocus) && doneInits) || alreadyBoosted)
+		if ((usingHeuristics(doneInits) && checkOptimalChoice(true, false, curFocus) && doneInits) || !alreadyBoosted)
 			return false;
 
 		return true;

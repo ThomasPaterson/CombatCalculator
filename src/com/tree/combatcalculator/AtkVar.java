@@ -94,6 +94,9 @@ public class AtkVar implements Parcelable {
 	public static String SUSTAINED_ATK_AB = "SUSTAINED_ATK_AB";
 	public static String MULT_ATKERS = "MULT_ATKERS";
 	public static String COMBINED = "combined";
+	public static String CRA = "cra";
+	public static String CMA = "cma";
+	public static String ASSAULT = "assault";
 
 
 	//conditions
@@ -375,6 +378,21 @@ public class AtkVar implements Parcelable {
     		target = BLANK;
     		type = SPECIAL;
 
+    	}else if (name.equals(CRA)){
+
+    		target = BLANK;
+    		type = SPECIAL;
+
+    	}else if (name.equals(CMA)){
+
+    		target = BLANK;
+    		type = SPECIAL;
+
+    	}else if (name.equals(ASSAULT)){
+
+    		target = BLANK;
+    		type = SPECIAL;
+
     	}
 
 
@@ -436,6 +454,19 @@ public class AtkVar implements Parcelable {
     	}
 
     }//end removeVariable
+    
+  //returns either the atkvar requested, or null if nothing is there
+    public static AtkVar getAtkVarByName(ArrayList<AtkVar> variables, String nameToCheck){
+    	
+    	for (int i = 0; i < variables.size(); i++)
+    		if (variables.get(i).getName().equals(nameToCheck))
+    			return variables.get(i);
+
+
+    	return null;
+    	
+    	
+    }
 
 
 	//checks to see if an arraylist of atkvars contains one of a specific variable
@@ -449,6 +480,7 @@ public class AtkVar implements Parcelable {
     	return false;
 
     }//end removeVariable
+    
 
 
     //checks to see if an arraylist of atkvars contains one of a specific variable

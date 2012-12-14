@@ -253,7 +253,7 @@ public class CalcDisplayActivity extends FragmentActivity implements
 			AttackHolder holder = holders[0];
 			System.out.println(holder.situation.toString());
 			ArrayList<Node> bestPath = null;
-			String[] resultStrings = null;
+			String[] resultStrings = {"error", "error"};
 			
 			try {
 				

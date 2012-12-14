@@ -58,7 +58,7 @@
     <string name="add_dice_dam">Add Damage Dice: </string>
     <string name="to_discard">to Discard: </string>
     <string name="all_attacks">Apply to All Attacks</string>
-    <string name="add_value">Add Value</string>
+    <string name="add_value">Add/Minus Value</string>
     <string name="add_dice">Add/Remove Dice</string>
     <string name="discard_dice">Discard Lowest Dice</string>
     
@@ -200,6 +200,11 @@
     </string-array>
     
     <string-array name="add_value_array">
+        <item>-5</item>
+        <item>-4</item>
+        <item>-3</item>
+        <item>-2</item>
+        <item>-1</item>
         <item>0</item>
         <item>1</item>
         <item>2</item>

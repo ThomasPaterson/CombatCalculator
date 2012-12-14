@@ -1,11 +1,16 @@
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".OptionsActivity" >
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +24,7 @@
             android:text="@string/cma" />
 
         <CheckBox
-            android:id="@+id/CheckBox07"
+            android:id="@+id/cma_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -30,7 +35,7 @@
             android:text="@string/cra" />
 
         <CheckBox
-            android:id="@+id/CheckBox06"
+            android:id="@+id/cra_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -47,7 +52,7 @@
             android:text="@string/gunfighter" />
 
         <CheckBox
-            android:id="@+id/CheckBox08"
+            android:id="@+id/gunfighter_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -58,7 +63,7 @@
             android:text="@string/point_blank" />
 
         <CheckBox
-            android:id="@+id/CheckBox05"
+            android:id="@+id/point_blank_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -75,7 +80,7 @@
             android:text="@string/assault" />
 
         <CheckBox
-            android:id="@+id/CheckBox09"
+            android:id="@+id/assault_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -86,9 +91,72 @@
             android:text="@string/free_charge" />
 
         <CheckBox
-            android:id="@+id/CheckBox04"
+            android:id="@+id/free_charge_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/TextView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reroll_hit" />
+
+        <CheckBox
+            android:id="@+id/reroll_atk_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/TextView18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reroll_dam" />
+
+        <CheckBox
+            android:id="@+id/reroll_dam_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/TextView19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/boosted_hit" />
+
+        <CheckBox
+            android:id="@+id/boosted_hit_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/TextView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/boosted_dam" />
+
+        <CheckBox
+            android:id="@+id/boosted_dam_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -109,14 +177,12 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-
-            <TextView
-                android:id="@+id/TextView12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/add_value"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-      
+        <TextView
+            android:id="@+id/TextView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_value"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
     </LinearLayout>
 
     <LinearLayout
@@ -135,7 +201,7 @@
             android:id="@+id/val_atk_spinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5" 
+            android:layout_weight="0.5"
             android:spinnerMode="dropdown" />
 
         <TextView
@@ -150,7 +216,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:spinnerMode="dropdown"/>
+            android:spinnerMode="dropdown" />
     </LinearLayout>
 
     <LinearLayout
@@ -162,8 +228,8 @@
             android:id="@+id/TextView13"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add_dice" 
-            android:textAppearance="?android:attr/textAppearanceLarge"/>
+            android:text="@string/add_dice"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
     </LinearLayout>
 
     <LinearLayout
@@ -262,5 +328,7 @@
             android:onClick="returnEmptyList"
             android:text="@string/cancel_options" />
     </LinearLayout>
+    
+    </LinearLayout>
 
-</LinearLayout>
+</ScrollView>

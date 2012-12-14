@@ -244,7 +244,7 @@ public class MainActivity extends FragmentActivity {
 		
 		Intent intent = new Intent(this, OptionsActivity.class);
 		
-		intent.putExtra(OptionsActivity.PREV_CHOICE, attackerVars);
+		intent.putParcelableArrayListExtra(OptionsActivity.PREV_CHOICE, attackerVars);
 		intent.putExtra(OptionsActivity.TYPE_CHOSEN, ATTACKER);
 		
 	    startActivityForResult(intent, ATTACKER_REQ);
@@ -257,8 +257,14 @@ public class MainActivity extends FragmentActivity {
 	
 		if (resultCode == -1)
 			finish();
-		else if (resultCode == ATTACKER_REQ)
-			attackerVars = data.getParcelableArrayListExtra(OptionsActivity.CHANGED);
+		else if (resultCode == ATTACKER_REQ){
+			
+			ArrayList<AtkVar> newList = data.getParcelableArrayListExtra(OptionsActivity.CHANGED);
+			
+			if (newList != null)
+			attackerVars = new ArrayList<AtkVar>(newList);
+			
+		}
 			
 		
 			

@@ -32,7 +32,7 @@
         <activity
             android:name="com.example.combatcalculator.OptionsActivity"
             android:label="@string/title_activity_options"
-            android:theme="@android:style/Theme.Dialog" >
+            android:theme="@style/AppTheme" >
         </activity>
         <activity
             android:name="com.example.combatcalculator.DisplayCalcActivity"
