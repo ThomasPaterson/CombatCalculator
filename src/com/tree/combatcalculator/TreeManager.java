@@ -46,6 +46,8 @@ public class TreeManager {
 
 	//used to represent when an attack is illegal
 	static private int ILLEGAL = 1000;
+	
+	static final private int FIRST_ATTACK = 1;
 
 	//set up the initial values
     public TreeManager(AttackCalculator atkCalc, int optimization, AttackModel atk,
@@ -270,7 +272,7 @@ public class TreeManager {
 			//make attack if attacks left
     		if (availableForAtk(weaponToUse, initWeapons)){
 
-	    		DecisionNode newNode = addDecisionNode(Node.BUY, prevNode, false, weaponToUse, weaponToUse, modSit);
+	    		DecisionNode newNode = addDecisionNode(Node.BUY, prevNode, doneInits, weaponToUse, weaponToUse, modSit);
 
 				int[] copyWeapons = addAttackRecord(initWeapons, weaponToUse);
 
@@ -1188,13 +1190,19 @@ public class TreeManager {
 		DecisionNode attackDecNode = (DecisionNode) hitNode.getParent();
 		result.boughtAttackBoost = attackDecNode.getBoost();
 		
-		//DecisionNode damDecNode = (DecisionNode) optimalPath.get(index+2);
-		//result.boughtDamageBoost = damDecNode.getBoost();
+		if (index == FIRST_ATTACK){
+			List<AtkVar> situation = optimalPath.get(index-1).getSit();
+			if (situation != null)
+				result.isCharge = AtkVar.checkContainsName(situation, AtkVar.CHARGING);
+		}
 		
-		//List<AtkVar> situation = optimalPath.get(index).getSit();
-		//result.isCharge = AtkVar.checkContainsName(situation, AtkVar.CHARGING);
+		if (!result.isCharge){
+			DecisionNode damDecNode = (DecisionNode) optimalPath.get(index+2);
+			result.boughtDamageBoost = damDecNode.getBoost();
+		}
 		
-		//result.boughtAttack = ((DecisionNode) optimalPath.get(index)).getBoost();
+		
+		result.boughtAttack = ((DecisionNode) optimalPath.get(index)).getBoost();
 		
 	}
 

@@ -268,7 +268,6 @@ private void setResults(List<AttackResult> attackResults){
 			AttackHolder holder = holders[0];
 			System.out.println(holder.situation.toString());
 			ArrayList<Node> bestPath = null;
-			String[] resultStrings = {"error", "error"};
 			ArrayList<AttackResult> attackResults = null;
 			
 			try {
@@ -280,7 +279,6 @@ private void setResults(List<AttackResult> attackResults){
 			System.out.println("starting tree");
 			
 				bestPath = tree.makeTree(holder.focus);
-				resultStrings = tree.printResults(bestPath, holder.focus);
 				attackResults = tree.setAttackResults(bestPath, holder.focus);
 				
 	        } catch (Exception e) {
