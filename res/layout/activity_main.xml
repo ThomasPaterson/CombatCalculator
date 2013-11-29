@@ -296,18 +296,17 @@
             android:id="@+id/charging_entry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/button3"
+        
+        <TextView
+            android:id="@+id/TextView06"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/advanced_settings" />
+            android:text="@string/ranged" />
+
+        <CheckBox
+            android:id="@+id/ranged_situation_entry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <View

@@ -1,27 +1,44 @@
 package com.example.combatcalculator;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
+import android.widget.SimpleAdapter;
 import android.widget.Spinner;
+import java.util.Collections;
 
-import com.tree.combatcalculator.AtkVar;
-
-public class OptionsActivity extends Activity {
+public class OptionsActivity extends Activity implements OnItemSelectedListener{
 	
-	private String typeChosen;
-	private int numChosen = -1;
-	private ArrayList<AtkVar> prevSet;
 	public final static String TYPE_CHOSEN = "com.example.myfirstapp.TYPE_CHOSEN";
 	public final static String NUM_CHOSEN = "com.example.myfirstapp.NUM_CHOSEN";
 	public final static String PREV_CHOICE = "com.example.myfirstapp.PREV_CHOICE";
 	public final static String CHANGED = "com.example.myfirstapp.CHANGED";
+	
+
+
+	private int numChosen = -1;
+	private List<AttackProperty> options;
+	private List<Map<String, AttackProperty>> optionsMap;
+	private List<Map<String, AttackProperty>> savedOptions;
+	private String optionType;
+	private ViewGroup mContainerView;
+
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,319 +46,184 @@ public class OptionsActivity extends Activity {
 		
 		Intent intent = getIntent();
 		
-		//gets type, can be an attacker, defender, weapon, situation
-		typeChosen = intent.getStringExtra(TYPE_CHOSEN);
+		optionType = intent.getStringExtra(TYPE_CHOSEN);
+		System.out.println("Type chosen: " + optionType);
 		
-		//if it is a weapon, set the correct weapon
-		if (typeChosen.equals(MainActivity.WEAPONS))
+		setContentView(R.layout.activity_options);
+		mContainerView = (ViewGroup) findViewById(R.id.container);
+
+		List<AttackProperty> prevSet = intent.getParcelableArrayListExtra(PREV_CHOICE);
+		
+		options = AttackProperty.getOptions(optionType, getBaseContext());
+		
+		if (optionType.equals(ConfigManager.WEAPONS))
 			numChosen = intent.getIntExtra(NUM_CHOSEN, 0);
 		
-		//get the previously set options
-		prevSet = intent.getParcelableArrayListExtra(PREV_CHOICE);
+		optionsMap = AttackProperty.makeMapForSpinner(options);
 		
 		if (prevSet == null)
-			prevSet = new ArrayList<AtkVar>();
-		
-		System.out.println("number of variables: " + prevSet.size());
-		
-		for (AtkVar a : prevSet)
-			System.out.println(a.getName());
-		
-		
-		
-		
-		
-		
-		
-		
-		if (typeChosen.equals(MainActivity.ATTACKER)){
-			setContentView(R.layout.attacker_options);
-			fillAttackerPrevious();
-			
-		}else if (typeChosen.equals(MainActivity.DEFENDER)){
-			setContentView(R.layout.defender_options);
-			fillDefenderPrevious();
-			
-		}
-		
-	}
-	/**
-     *Initializes all the variables from the array on the defender from last time
-    */
-	private void fillDefenderPrevious(){
-		
-		setupSpinner(R.id.def_spinner, R.array.add_value_array, false, 0, 5);
-		setupSpinner(R.id.arm_spinner, R.array.add_value_array, false, 0, 5);
-		setupSpinner(R.id.shield_spinner, R.array.shield_array, false, 0, 0);
-
-		if (AtkVar.checkContainsName(prevSet, AtkVar.SET_DEFENSE))
-			((CheckBox)findViewById(R.id.set_defense_box)).setChecked(true);
-		
-		if (AtkVar.checkContainsName(prevSet, AtkVar.CAMOFLAUGE))
-			((CheckBox)findViewById(R.id.camoflauge_box)).setChecked(true);
-		
-		if (AtkVar.checkContainsName(prevSet, AtkVar.KNOCKDOWN))
-			((CheckBox)findViewById(R.id.knocked_down_box)).setChecked(true);
-		
-		//check spinner values, not boolean so check to see if there by null
-		AtkVar modDef = AtkVar.getAtkVarByName(prevSet, AtkVar.MOD_DEF);
-		if (modDef != null)
-			((Spinner)findViewById(R.id.def_spinner)).setSelection(modDef.getValue()+5);
-				
-		AtkVar modArm = AtkVar.getAtkVarByName(prevSet, AtkVar.MOD_ARM);
-		if (modArm != null)
-			((Spinner)findViewById(R.id.arm_spinner)).setSelection(modArm.getValue()+5);
-				
-		AtkVar modShield = AtkVar.getAtkVarByName(prevSet, AtkVar.SHIELD_BONUS);
-		if (modShield != null)
-			((Spinner)findViewById(R.id.shield_spinner)).setSelection(modShield.getValue());
-		
-		
-	}
-	
-	
-	
-	
-	/**
-     *Initializes all the variables from the array on the attacker from last time
-    */
-	private void fillAttackerPrevious(){
-		
-		setupSpinner(R.id.val_atk_spinner, R.array.add_value_array, false, 0, 5);
-		setupSpinner(R.id.val_dam_spinner, R.array.add_value_array, false, 0, 5);
-		setupSpinner(R.id.add_atk_spinner, R.array.add_dice_array, false, 0, 1);
-		setupSpinner(R.id.add_dam_spinner, R.array.add_dice_array, false, 0, 1);
-		setupSpinner(R.id.discard_atk_spinner, R.array.discard_dice_array, false, 0, 0);
-		setupSpinner(R.id.discard_dam_spinner, R.array.discard_dice_array, false, 0, 0);
-		
-		if (AtkVar.checkContainsName(prevSet, AtkVar.GUNFIGHTER))
-			((CheckBox)findViewById(R.id.gunfighter_box)).setChecked(true);
-		
-		if (AtkVar.checkContainsName(prevSet, AtkVar.POINT_BLANK))
-			((CheckBox)findViewById(R.id.point_blank_box)).setChecked(true);
-		
-		if (AtkVar.checkContainsName(prevSet, AtkVar.CMA))
-			((CheckBox)findViewById(R.id.cma_box)).setChecked(true);
-		
-		if (AtkVar.checkContainsName(prevSet, AtkVar.CRA))
-			((CheckBox)findViewById(R.id.cra_box)).setChecked(true);
-		
-		if (AtkVar.checkContainsName(prevSet, AtkVar.ASSAULT))
-			((CheckBox)findViewById(R.id.assault_box)).setChecked(true);
-		
-		if (AtkVar.checkContainsName(prevSet, AtkVar.FREE_CHARGE))
-			((CheckBox)findViewById(R.id.free_charge_box)).setChecked(true);
-		
-		if (AtkVar.checkContainsName(prevSet, AtkVar.REROLL_ATK))
-			((CheckBox)findViewById(R.id.reroll_atk_box)).setChecked(true);
-		
-		if (AtkVar.checkContainsName(prevSet, AtkVar.REROLL_DAM))
-			((CheckBox)findViewById(R.id.reroll_dam_box)).setChecked(true);
-		
-		if (AtkVar.checkContainsName(prevSet, AtkVar.BOOSTED_HIT))
-			((CheckBox)findViewById(R.id.boosted_hit_box)).setChecked(true);
-		
-		if (AtkVar.checkContainsName(prevSet, AtkVar.BOOSTED_DAM))
-			((CheckBox)findViewById(R.id.boosted_dam_box)).setChecked(true);
-		
-		//check spinner values, not boolean so check to see if there by null
-		AtkVar modAtk = AtkVar.getAtkVarByName(prevSet, AtkVar.MOD_ATK);
-		if (modAtk != null)
-			((Spinner)findViewById(R.id.val_atk_spinner)).setSelection(modAtk.getValue()+5);
-		
-		AtkVar modDam = AtkVar.getAtkVarByName(prevSet, AtkVar.MOD_POW);
-		if (modDam != null)
-			((Spinner)findViewById(R.id.val_dam_spinner)).setSelection(modDam.getValue()+5);
-		
-		AtkVar modAtkDice = AtkVar.getAtkVarByName(prevSet, AtkVar.ADD_HIT);
-		if (modAtkDice != null)
-			((Spinner)findViewById(R.id.add_atk_spinner)).setSelection(modAtkDice.getValue()+1);
-		
-		AtkVar modDamDice = AtkVar.getAtkVarByName(prevSet, AtkVar.ADD_DAM);
-		if (modDamDice != null)
-			((Spinner)findViewById(R.id.add_dam_spinner)).setSelection(modDamDice.getValue()+1);
-		
-		AtkVar modAtkDiscard = AtkVar.getAtkVarByName(prevSet, AtkVar.DISCARD_ATK);
-		if (modAtkDiscard != null)
-			((Spinner)findViewById(R.id.discard_atk_spinner)).setSelection(modAtkDiscard.getValue());
-		
-		AtkVar modDamDiscard = AtkVar.getAtkVarByName(prevSet, AtkVar.DISCARD_DAM);
-		if (modDamDiscard != null)
-			((Spinner)findViewById(R.id.discard_dam_spinner)).setSelection(modDamDiscard.getValue());
-			
-		
-		
-	
-		
-		
-		
-	}
-	
-	
-	/**
-     *Takes all the filled in variables and returns them, for the attacker
-    */
-	private ArrayList<AtkVar> returnAttackerArray(){
-		
-		ArrayList<AtkVar> newList = new ArrayList<AtkVar>();
-		
-		if (((CheckBox)findViewById(R.id.gunfighter_box)).isChecked())
-			newList.add(new AtkVar(AtkVar.GUNFIGHTER));
-		
-		if (((CheckBox)findViewById(R.id.point_blank_box)).isChecked())
-			newList.add(new AtkVar(AtkVar.POINT_BLANK));
-		
-		if (((CheckBox)findViewById(R.id.cma_box)).isChecked())
-			newList.add(new AtkVar(AtkVar.CMA));
-		
-		if (((CheckBox)findViewById(R.id.cra_box)).isChecked())
-			newList.add(new AtkVar(AtkVar.CRA));
-		
-		if (((CheckBox)findViewById(R.id.assault_box)).isChecked())
-			newList.add(new AtkVar(AtkVar.ASSAULT));
-		
-		if (((CheckBox)findViewById(R.id.free_charge_box)).isChecked())
-			newList.add(new AtkVar(AtkVar.FREE_CHARGE));
-		
-		if (((CheckBox)findViewById(R.id.reroll_atk_box)).isChecked())
-			newList.add(new AtkVar(AtkVar.REROLL_ATK));
-		
-		if (((CheckBox)findViewById(R.id.reroll_dam_box)).isChecked())
-			newList.add(new AtkVar(AtkVar.REROLL_DAM));
-		
-		if (((CheckBox)findViewById(R.id.boosted_hit_box)).isChecked())
-			newList.add(new AtkVar(AtkVar.BOOSTED_HIT));
-		
-		if (((CheckBox)findViewById(R.id.boosted_dam_box)).isChecked())
-			newList.add(new AtkVar(AtkVar.BOOSTED_DAM));
-		
-		//if the value isn't at zero, record what it has been changed to
-		int modAtk = Integer.parseInt(((Spinner)findViewById(R.id.val_atk_spinner)).getSelectedItem().toString());
-		if (modAtk != 0)
-			newList.add(new AtkVar(AtkVar.MOD_ATK, modAtk));
-		
-		//if the value isn't at zero, record what it has been changed to
-		int modDam = Integer.parseInt(((Spinner)findViewById(R.id.val_dam_spinner)).getSelectedItem().toString());
-		if (modDam != 0)
-			newList.add(new AtkVar(AtkVar.MOD_POW, modDam));
-		
-		//if the value isn't at zero, record what it has been changed to
-		int addAtk = Integer.parseInt(((Spinner)findViewById(R.id.add_atk_spinner)).getSelectedItem().toString());
-		if (addAtk != 0)
-			newList.add(new AtkVar(AtkVar.ADD_HIT, addAtk));
-		
-		
-		//if the value isn't at zero, record what it has been changed to
-		int addDam = Integer.parseInt(((Spinner)findViewById(R.id.add_dam_spinner)).getSelectedItem().toString());
-		if (addDam != 0)
-			newList.add(new AtkVar(AtkVar.ADD_DAM, addDam));
-				
-		//if the value isn't at zero, record what it has been changed to
-		int disAtk = Integer.parseInt(((Spinner)findViewById(R.id.discard_atk_spinner)).getSelectedItem().toString());
-		if (disAtk != 0)
-			newList.add(new AtkVar(AtkVar.DISCARD_ATK, disAtk));
-				
-		//if the value isn't at zero, record what it has been changed to
-		int disDam = Integer.parseInt(((Spinner)findViewById(R.id.discard_dam_spinner)).getSelectedItem().toString());
-		if (disDam != 0)
-			newList.add(new AtkVar(AtkVar.DISCARD_DAM, disDam));
-		
-			
-		
-		
-		return newList;
-		
-	}
-	
-	/**
-     *Takes all the filled in variables and returns them, for the defender
-    */
-	private ArrayList<AtkVar> returnDefenderArray(){
-		
-		ArrayList<AtkVar> newList = new ArrayList<AtkVar>();
-		
-		if (((CheckBox)findViewById(R.id.camoflauge_box)).isChecked())
-			newList.add(new AtkVar(AtkVar.CAMOFLAUGE));
-		
-		if (((CheckBox)findViewById(R.id.set_defense_box)).isChecked())
-			newList.add(new AtkVar(AtkVar.SET_DEFENSE));
-		
-		if (((CheckBox)findViewById(R.id.knocked_down_box)).isChecked())
-			newList.add(new AtkVar(AtkVar.KNOCKDOWN));
-		
-		
-		//if the value isn't at zero, record what it has been changed to
-		int modDef = Integer.parseInt(((Spinner)findViewById(R.id.def_spinner)).getSelectedItem().toString());
-		if (modDef != 0)
-			newList.add(new AtkVar(AtkVar.MOD_DEF, modDef));
-		
-		//if the value isn't at zero, record what it has been changed to
-		int modArm = Integer.parseInt(((Spinner)findViewById(R.id.arm_spinner)).getSelectedItem().toString());
-		if (modArm != 0)
-			newList.add(new AtkVar(AtkVar.MOD_ARM, modArm));
-		
-		//if the value isn't at zero, record what it has been changed to
-		int modShield = Integer.parseInt(((Spinner)findViewById(R.id.shield_spinner)).getSelectedItem().toString());
-		if (modShield != 0)
-			newList.add(new AtkVar(AtkVar.SHIELD_BONUS, modShield));
-		
-		return newList;
-		
-	}
-	
-	
-	/**
-     *Initializes a spinner with the given array id and spinner id, sets it to default value if it 
-     *isn't coming from a previous screen
-    */
-	private void setupSpinner(int entry, int array, boolean saved, int position, int def){
-		
-		Spinner spinner = (Spinner) findViewById(entry);
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-		        array, android.R.layout.simple_dropdown_item_1line);
-		
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinner.setAdapter(adapter);
-		
-		if (saved)
-			spinner.setSelection(position);
+			prevSet = new ArrayList<AttackProperty>();
 		else
-			spinner.setSelection(def);
-		
+			setupOldSet(prevSet);
 		
 	}
+	
+
+	
+	
+	
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+	    // Save the user's current state
+			savedInstanceState.putSerializable(NUM_CHOSEN, numChosen);
+	    
+	    
+	    // Always call the superclass so it can save the view hierarchy state
+	    super.onSaveInstanceState(savedInstanceState);
+	}
+	
+
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // Navigate "up" the demo structure to the launchpad activity.
+                // See http://developer.android.com/design/patterns/navigation.html for more.
+                NavUtils.navigateUpTo(this, new Intent(this, MainActivity.class));
+                return true;
+
+            case R.id.action_add_item:
+                // Hide the "empty" view since there is now at least one item in the list.
+               
+                addItem();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+	
+	 private void addItem() {
+	        addItem(null);
+	    }
+	 
+	 private void addItem(AttackProperty newProperty) {
+		 
+		 	findViewById(android.R.id.empty).setVisibility(View.GONE);
+		 	
+	        // Instantiate a new "row" view.
+	        final ViewGroup newView = (ViewGroup) LayoutInflater.from(this).inflate(
+	                R.layout.list_special_rules, mContainerView, false);
+	        
+	        final Spinner optionsSpinner = (Spinner)newView.findViewById(R.id.options_selection_spinner);
+	        final Spinner valueSpinner = (Spinner)newView.findViewById(R.id.values_selection_spinner);
+	        
+	        
+	        setupSpinner(optionsSpinner, newProperty);
+	        setupValueSpinner(valueSpinner, newProperty);
+	        
+	        toggleValueView(optionsSpinner, valueSpinner);
+			
+	        
+	        
+	        // Set a click listener for the "X" button in the row that will remove the row.
+	        newView.findViewById(R.id.delete_button).setOnClickListener(new View.OnClickListener() {
+	            
+	            public void onClick(View view) {
+	                // Remove the row from its parent (the container view).
+	                // Because mContainerView has android:animateLayoutChanges set to true,
+	                // this removal is automatically animated.
+	                mContainerView.removeView(newView);
+
+	                // If there are no rows remaining, show the empty view.
+	                if (mContainerView.getChildCount() == 0) {
+	                    findViewById(android.R.id.empty).setVisibility(View.VISIBLE);
+	                }
+	            }
+	        });
+	        
+	     // Set a selection listener for the "type" button in the row that will make the value invisible for binary choices
+	        optionsSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+	            
+	        	
+	        	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+	        		
+	        		toggleValueView(optionsSpinner, valueSpinner);
+	        			
+	            }
+	        	
+	        	
+				public void onNothingSelected(AdapterView<?> arg0) {
+					
+				}
+	        });
+	        
+
+	        mContainerView.addView(newView, 0);
+	    }
+	 
+	 
+	 
+	 private void toggleValueView(Spinner optionsSpinner, Spinner valueSpinner){
+		 
+		 Map<String, AttackProperty> mappedProperty = (Map<String, AttackProperty>) optionsSpinner.getSelectedItem();
+ 		
+ 		
+ 		if (mappedProperty.get("Name").hasValues())
+ 			valueSpinner.setVisibility(View.VISIBLE);
+ 		else
+ 			valueSpinner.setVisibility(View.INVISIBLE);
+		 
+	 }
+	 
+	 public void onItemSelected(AdapterView<?> parent, View view, 
+	            int pos, long id) {
+	        // An item was selected. You can retrieve the selected item using
+	        // parent.getItemAtPosition(pos)
+		 
+		 Map<String, AttackProperty> mappedProperty = (Map<String, AttackProperty>) parent.getItemAtPosition(pos);
+
+	 }
+
+	    public void onNothingSelected(AdapterView<?> parent) {
+	        // Another interface callback
+	    }
+
+	 
+	 
+	 private void addPropertyToSpinner(Spinner spinner, AttackProperty newProperty){
+		 if (newProperty != null){
+			 
+			 for (int i = 0; i < options.size(); i++)
+				 if (options.get(i).getName().equals(newProperty.getName()))
+					 spinner.setSelection(i); 
+		 }
+	 }
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
+		super.onCreateOptionsMenu(menu);
 		getMenuInflater().inflate(R.menu.activity_options, menu);
 		return true;
 	}
+
 	
 	
 
-	/**
-     * Creates an arraylist of atkvars for the options selected, and sends that plus the
-     * type of atkvar user that requested it
-    */
+
 	public void returnList(View view){
 		
-		Intent intent = new Intent(this, MainActivity.class);
+		Intent result = new Intent();
 		
-		ArrayList<AtkVar> newList = null;
+
+		result.putParcelableArrayListExtra(CHANGED, (ArrayList<AttackProperty>)getAttackProperties());
+		result.putExtra(TYPE_CHOSEN, optionType);
 		
-		if (typeChosen.equals(MainActivity.ATTACKER))
-			newList = returnAttackerArray();
-		else if (typeChosen.equals(MainActivity.DEFENDER))
-			newList = returnDefenderArray();
+		if (optionType.equals(ConfigManager.WEAPONS))
+			result.putExtra(NUM_CHOSEN, numChosen);
 		
-		intent.putParcelableArrayListExtra(CHANGED, newList);
-		intent.putExtra(TYPE_CHOSEN, typeChosen);
-		
-		if (numChosen != -1)
-			intent.putExtra(NUM_CHOSEN, numChosen);
-		
-		setResult(getRequestType(), intent);
+		setResult(getRequestType(), result);
 		finish();
 
 	    
@@ -350,15 +232,118 @@ public class OptionsActivity extends Activity {
 	
 	private int getRequestType(){
 		
-		if (typeChosen.equals(MainActivity.ATTACKER))
-			return MainActivity.ATTACKER_REQ;
-		else if (typeChosen.equals(MainActivity.DEFENDER))
-			return MainActivity.DEFENDER_REQ;
+		if (optionType.equals(ConfigManager.ATTACKER))
+			return ConfigManager.ATTACKER_REQ;
+		else if (optionType.equals(ConfigManager.DEFENDER))
+			return ConfigManager.DEFENDER_REQ;
+		else if (optionType.equals(ConfigManager.WEAPONS))
+			return ConfigManager.WEAPON_REQ;
 		
 		return -1;
 		
 		
 	}
+	
+private void setupSpinner(Spinner newSpinner, AttackProperty newProperty){
+	
+	  String[] from = new String[] { "Name" };
+	  int[] to = new int[] { android.R.id.text1 };
+		
+	  SimpleAdapter simpleAdapter = new SimpleAdapter(this, optionsMap, android.R.layout.simple_spinner_item, from, to);
+	  
+	  simpleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		newSpinner.setAdapter(simpleAdapter);
+		
+	addPropertyToSpinner(newSpinner, newProperty);
+	
+	newSpinner.setOnItemSelectedListener(this);
+		
+		
+}
+
+private void setupValueSpinner(Spinner newSpinner, AttackProperty newProperty){
+	
+		
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+				R.array.list_item_array, android.R.layout.simple_spinner_item);
+		
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		newSpinner.setAdapter(adapter);
+		
+		newSpinner.setSelection(findValue(newProperty, R.array.list_item_array));
+		
+
+}
+
+private int findValue(AttackProperty newProperty, int listItemArrayId){
+	
+	String[] listItemArray = getResources().getStringArray(listItemArrayId);
+	System.out.println("array: " + listItemArray.toString());
+	
+	int zeroMarker = 0;
+	
+	
+	for (int i = 0; i < listItemArray.length; i++){
+		
+		if (newProperty != null) {
+		if (newProperty.getValue().equals(listItemArray[i]))
+			return i;
+		}
+		if (listItemArray[i].equals(AttackProperty.DEFAULT_VALUE))
+			zeroMarker = i;
+		
+	}
+	
+	return zeroMarker;
+}
+
+private List<AttackProperty> getAttackProperties(){
+	
+	List<AttackProperty> properties = new ArrayList<AttackProperty>();
+	
+	//loop through entire group of weapons and add each one
+	for (int i = 0; i < mContainerView.getChildCount(); i++){
+	
+		ViewGroup curView = (ViewGroup) mContainerView.getChildAt(i);
+		
+		Spinner optionsSpinner = (Spinner) curView.findViewById(R.id.options_selection_spinner);
+		Map<String, AttackProperty> mappedProperty = (Map<String, AttackProperty>) optionsSpinner.getSelectedItem();
+		
+		AttackProperty property = mappedProperty.get("Name");
+		
+		if (property.hasValues()){
+			Spinner valueSpinner = (Spinner) curView.findViewById(R.id.values_selection_spinner);
+			property.setValue(findValueFromValueSpinner(valueSpinner.getSelectedItemPosition()));
+		}else{
+			property.setValue(AttackProperty.DEFAULT_VALUE);
+		}
+		
+		properties.add(property);
+	    
+	}
+	
+	return properties;
+	
+}
+
+private String findValueFromValueSpinner(int curPosition){
+	
+	String[] listItemArray = getResources().getStringArray(R.array.list_item_array);
+	
+	
+	return Integer.toString(Integer.parseInt(listItemArray[0]) + curPosition);
+	
+	
+}
+
+	private void setupOldSet(List<AttackProperty> prevSet){
+		
+		for (int i = prevSet.size()-1; i >= 0; i--)
+			addItem(prevSet.get(i));
+		
+		
+	}
+
 	
 	
 	/**
@@ -368,30 +353,17 @@ public class OptionsActivity extends Activity {
 		
 		setResult(0);
 		finish();
-
-	    
-		
-	}
-	
-	/**
-     * Reads what has been filled in and returns it as an arraylist of atkvars
-    */
-	private ArrayList<AtkVar> readOptions(){
-		
-		ArrayList<AtkVar> holder = new ArrayList<AtkVar>();
-		holder.add(new AtkVar(AtkVar.FREE_CHARGE));
-
-		
-		return holder;
+  
 		
 	}
 	
 	
-	public void onBackPressed(){
-	// Return to main and close activity.
-	setResult(-1);
-	finish();
-	return ;
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+	         finish();
+	    }
+	    return super.onKeyDown(keyCode, event);
 	}
 	
 

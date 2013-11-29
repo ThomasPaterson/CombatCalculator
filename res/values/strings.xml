@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
+    
 
     <string name="app_name">CombatCalculator</string>
     <string name="hello_world">Hello world!</string>
@@ -39,6 +41,36 @@
     <string name="go_back">Close</string>
     <string name="attack_text">Attack: </string>
     <string name="damage_text">Damage: </string>
+    <string name="add_a_special_rule">Add a special rule</string>
+    <string name="action_add_item">Add a special rule</string>
+    
+    
+    <!-- Display Overview option strings -->
+    <string name="crit_on">Crits On </string>
+    <string name="num_attacks_hit"># of Attacks Hitting:</string>
+    <string name="expected_damage">Expected Damage:</string>
+    <string name="expected_damage_all_hit">Expected Damage if all hit:</string>
+    <string name="num_crits"># of Crits</string>
+    
+    <!-- Display Specific option strings -->
+    
+    <string name="specific_hit_chance_string">Hit %</string>
+    <string name="specific_damage_string">Damage</string>
+    <string name="specific_expected_damage_string">Avg Dam</string>
+    <string name="specific_crit_chance_string">Crit %</string>
+    <string name="weapon">Weapon:</string>
+    <string name="attack_values">Info:</string>
+
+    
+    
+    
+    <!-- color strings -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="grey">#888888</color>
+    
+    <!-- generic menu option strings -->
+    <string name="no_special_rules">No additional options added yet</string>
     
     <!-- Attacker option strings -->
     <string name="free_charge">Free Charge: </string>
@@ -63,6 +95,9 @@
     <string name="discard_dice">Discard Lowest Dice</string>
     
     <!-- End Attacker option strings -->
+    
+    <!-- Defender option strings -->
+    
     <string name="shield_value">Amount of Arm \nfrom Shields: </string>
     <string name="add_def">Add/Minus Def: </string>
     <string name="add_arm">Add/Minus Arm: </string>
@@ -70,10 +105,38 @@
     <string name="set_defense">Set Defense: </string>
     <string name="camoflauge">Camoflauge: </string>
     
-    <!-- Defender option strings -->
-    
     
     <!-- End of Defender option strings -->
+    
+    <!-- Weapon option strings -->
+    <string name="crit_options">Crit options </string>
+    <string name="star_actions">* Actions and Attacks </string>
+    <string name="shred">Shred: </string>
+    <string name="add_die">Damage Die: </string>
+    <string name="knockdown_attack">Knockdown: </string>
+    <string name="sustained_attack">Sustained Attack: </string>
+    <string name="combo_strike">Combo Strike: </string>
+    <string name="arm_pierce">Armor Piercing: </string>
+    <string name="auto_hit">Auto Hit: </string>
+    <string name="auto_damage">Auto Damage: </string>
+    <string name="chain_weapon">Chain Weapon: </string>
+    <string name="chain_attack_attack">Chain Attack: Extra Attack: </string>
+    <string name="brutal_charge">Brutal Charge: </string>
+    <string name="powerful_attack">Powerful Attack: </string>
+    <string name="powerful_charge">Powerful Charge: </string>
+    <string name="double_damage">Double Damage: </string>
+    <string name="weapon_master">Weaponmaster: </string>
+    <string name="back_swing">Back Swing: </string>
+    <string name="damage_title">Damage Modifiers</string>
+    <string name="attack_title">Attack Modifiers</string>
+    <string name="misc_title">Misc Modifiers</string>
+    <string name="add_flat_damage">Add Flat Damage: </string>
+    <string name="add_dice_dam_weapon">"Additional Damage Dice: "</string>
+    <string name="discard_low_die">Discard Lowest Dice: </string>
+    <string name="add_flat_attack">Add Flat Attack: </string>
+    <string name="add_dice_atk_weapon">"Additional Attack Dice: "</string>
+    
+    <!-- End of Weapon option strings -->
     
     <string-array name="rof_array">
         <item>Infinite</item>
@@ -228,6 +291,18 @@
         <item>10</item>
     </string-array>
     
+    <string-array name="list_item_array">
+        <item>-4</item>
+        <item>-3</item>
+        <item>-2</item>
+        <item>-1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+    
     <string-array name="shield_array">
         <item>0</item>
         <item>1</item>
@@ -239,5 +314,8 @@
         <item>7</item>
         <item>8</item>
     </string-array>
+        
+        
+        
         
 </resources>

@@ -34,20 +34,16 @@ public class MainActivity extends FragmentActivity {
 	public final static String ATK_CALC = "com.example.myfirstapp.ATK_CALC";
 	public final static String OPTIMIZATION = "com.example.myfirstapp.OPTIMIZATION";
 	
-	//codes for starting activities for their advanced options screens
-	public final static int ATTACKER_REQ = 1;
-	public final static int DEFENDER_REQ = 2;
-	public final static int WEAPON_REQ = 3;
-	public final static int SITUATION_REQ = 4;
+	
 	
 	//initialized at the beginning of the program because it has to read xml to initialize
 	private AttackCalculator atkCalc;
 	
 	//variable lists for the atkvar users
 	private ArrayList<AtkVar> situation;
-	private ArrayList<AtkVar> attackerVars;
-	private ArrayList<AtkVar> defenderVars;
-	private ArrayList<ArrayList<AtkVar>> weaponsVars;
+	private ArrayList<AttackProperty> attackerVars;
+	private ArrayList<AttackProperty> defenderVars;
+	private ArrayList<ArrayList<AttackProperty>> weaponsVars;
 	
 	private ViewGroup mWeaponGroup;
 
@@ -71,7 +67,7 @@ public class MainActivity extends FragmentActivity {
 	    	situation = savedInstanceState.getParcelableArrayList(SITUATION_VARS);
 	    	attackerVars = savedInstanceState.getParcelableArrayList(ATTACKER_VARS);
 	    	defenderVars = savedInstanceState.getParcelableArrayList(DEFENDER_VARS);
-	    	weaponsVars = (ArrayList<ArrayList<AtkVar>>) savedInstanceState.getSerializable(WEAPONS_VARS);
+	    	weaponsVars = (ArrayList<ArrayList<AttackProperty>>) savedInstanceState.getSerializable(WEAPONS_VARS);
 	    	atkCalc = savedInstanceState.getParcelable(ATK_CALC);
 	    	ArrayList<Weapon> weapons = savedInstanceState.getParcelableArrayList(WEAPONS);
 	    	
@@ -87,9 +83,9 @@ public class MainActivity extends FragmentActivity {
 	        //otherwise create new ones when a new activity is created
 	    	mWeaponGroup.removeAllViews();
 	    	situation = new ArrayList<AtkVar>();
-	    	attackerVars = new ArrayList<AtkVar>();
-	    	defenderVars = new ArrayList<AtkVar>();
-	    	weaponsVars = new ArrayList<ArrayList<AtkVar>>();
+	    	attackerVars = new ArrayList<AttackProperty>();
+	    	defenderVars = new ArrayList<AttackProperty>();
+	    	weaponsVars = new ArrayList<ArrayList<AttackProperty>>();
 	    	saved = false;
 	    	
 	    	
@@ -244,10 +240,10 @@ public class MainActivity extends FragmentActivity {
 		Intent intent = new Intent(this, OptionsActivity.class);
 		
 		intent.putParcelableArrayListExtra(OptionsActivity.PREV_CHOICE, attackerVars);
-		intent.putExtra(OptionsActivity.TYPE_CHOSEN, ATTACKER);
+		intent.putExtra(OptionsActivity.TYPE_CHOSEN, ConfigManager.ATTACKER);
 		
-	    startActivityForResult(intent, ATTACKER_REQ);
-		
+	    startActivityForResult(intent, ConfigManager.ATTACKER_REQ);
+
 	}
 	
 	/**
@@ -258,33 +254,63 @@ public class MainActivity extends FragmentActivity {
 		Intent intent = new Intent(this, OptionsActivity.class);
 		
 		intent.putParcelableArrayListExtra(OptionsActivity.PREV_CHOICE, defenderVars);
-		intent.putExtra(OptionsActivity.TYPE_CHOSEN, DEFENDER);
+		intent.putExtra(OptionsActivity.TYPE_CHOSEN, ConfigManager.DEFENDER);
 		
-	    startActivityForResult(intent, DEFENDER_REQ);
+	    startActivityForResult(intent, ConfigManager.DEFENDER_REQ);
 		
 	}
 	
+	/**
+     * Sends the current data on the defender to the options dialog, requests an defender response
+    */
+	public void sendToWeaponOptions(View view){
+		
+		Intent intent = new Intent(this, OptionsActivity.class);
+		
+		int currentWeapon = mWeaponGroup.indexOfChild((ViewGroup)view.getParent().getParent().getParent());
+		
+		intent.putParcelableArrayListExtra(OptionsActivity.PREV_CHOICE, weaponsVars.get(currentWeapon));
+		
+		intent.putExtra(OptionsActivity.TYPE_CHOSEN, ConfigManager.WEAPONS);
+		
+		intent.putExtra(OptionsActivity.NUM_CHOSEN, currentWeapon);
+		
+	    startActivityForResult(intent, ConfigManager.WEAPON_REQ);
+		
+	}
 	
-	
+		
 
 	@Override
     protected void onActivityResult(int pRequestCode, int resultCode, Intent data){
+		
+		System.out.println("Returned: " + resultCode);
 	
 		if (resultCode == -1)
 			finish();
-		else if (resultCode == ATTACKER_REQ){
+		else if (resultCode == ConfigManager.ATTACKER_REQ){
 			
-			ArrayList<AtkVar> newList = data.getParcelableArrayListExtra(OptionsActivity.CHANGED);
-			
-			if (newList != null)
-				attackerVars = new ArrayList<AtkVar>(newList);
-			
-		}else if (resultCode == DEFENDER_REQ){
-			
-			ArrayList<AtkVar> newList = data.getParcelableArrayListExtra(OptionsActivity.CHANGED);
+			ArrayList<AttackProperty> newList = data.getParcelableArrayListExtra(OptionsActivity.CHANGED);
+			for (AttackProperty atk : newList)
+				System.out.println("Returned: " + atk.toString());
 			
 			if (newList != null)
-				defenderVars = new ArrayList<AtkVar>(newList);
+				attackerVars = new ArrayList<AttackProperty>(newList);
+			
+		}else if (resultCode == ConfigManager.DEFENDER_REQ){
+			
+			ArrayList<AttackProperty> newList = data.getParcelableArrayListExtra(OptionsActivity.CHANGED);
+			
+			if (newList != null)
+				defenderVars = new ArrayList<AttackProperty>(newList);
+			
+		}else if (resultCode == ConfigManager.WEAPON_REQ){
+			
+			ArrayList<AttackProperty> newList = data.getParcelableArrayListExtra(OptionsActivity.CHANGED);
+			int location = data.getIntExtra(OptionsActivity.NUM_CHOSEN, 0);
+			
+			if (newList != null)
+				weaponsVars.set(location, newList);
 			
 		}
 			
@@ -316,9 +342,11 @@ public class MainActivity extends FragmentActivity {
 	    //if (numAtkText.getText().toString() != "")
 	    //	attacker.setFocus(Integer.parseInt(numAtkText.getText().toString()));
 	    
-	    attacker.setVariables(attackerVars);
+	    //attacker.setVariables(attackerVars);
 	    
 	    prepWeapons(attacker);
+	    
+	    attacker.addVariables(AttackProperty.convertAttackProperties(attackerVars));
 	    
 	    intent.putExtra(ATTACKER, attacker);
 	    
@@ -347,7 +375,7 @@ public class MainActivity extends FragmentActivity {
 	    if (healthText.getText().toString() != "")
 	    	defender.setHealth(Integer.parseInt(healthText.getText().toString()));
 	    
-	    defender.setVariables(defenderVars);
+	    //defender.setVariables(defenderVars);
 	    
 	    intent.putExtra(DEFENDER, defender);
 	    
@@ -367,7 +395,12 @@ public class MainActivity extends FragmentActivity {
 		if (checkCharging.isChecked()){
 			situation.add(new AtkVar(AtkVar.CHARGING));
 			situation.add(new AtkVar(AtkVar.CHARGE_DAMAGE));
-			//AtkVar.removeVariable(situation, AtkVar.CHARGING);
+		}
+		
+		CheckBox checkRanged = (CheckBox) findViewById(R.id.ranged_situation_entry);
+		
+		if (checkRanged.isChecked()){
+			situation.add(new AtkVar(AtkVar.RANGED));
 		}
 		
 		intent.putParcelableArrayListExtra(SITUATION, situation);
@@ -393,6 +426,7 @@ public class MainActivity extends FragmentActivity {
 			ArrayList<AtkVar> weaponVars = new ArrayList<AtkVar>();
 			
 			CheckBox checkRanged = (CheckBox) curView.findViewById(R.id.ranged_entry);
+			
 			Spinner rofText = (Spinner) curView.findViewById(R.id.rof_entry);
 			Spinner powText = (Spinner) curView.findViewById(R.id.pow_entry);
 			
@@ -409,6 +443,8 @@ public class MainActivity extends FragmentActivity {
 								  weaponVars);
 		    
 		   weapons.add(w);
+		   
+		   System.out.println("weapon: " + i + " is ranged=" + w.getRanged());
 		    
 		}
 		
@@ -469,15 +505,17 @@ public class MainActivity extends FragmentActivity {
         
         setupSpinner((Spinner)newView.findViewById(R.id.pow_entry), R.array.pow_array, false, true);
         setupSpinner((Spinner)newView.findViewById(R.id.rof_entry), R.array.rof_array, false, false);
+        
+        weaponsVars.add(0, new ArrayList<AttackProperty>());
 
         // Set a click listener for the "X" button in the row that will remove the row.
         newView.findViewById(R.id.delete_button).setOnClickListener(new View.OnClickListener() {
            
-        	@Override
-            public void onClick(View view) {
+        	public void onClick(View view) {
                 // Remove the row from its parent (the container view).
                 // Because mContainerView has android:animateLayoutChanges set to true,
                 // this removal is automatically animated.
+        		weaponsVars.remove(findIndexOfWeapon(newView, mWeaponGroup));
             	mWeaponGroup.removeView(newView);
 
                 // If there are no rows remaining, show the empty view.
@@ -504,7 +542,7 @@ public class MainActivity extends FragmentActivity {
 			
 			addWeapons(findViewById(R.id.Button20));
 			
-			ViewGroup curView = (ViewGroup) mWeaponGroup.getChildAt(0);
+			ViewGroup curView = (ViewGroup) mWeaponGroup.getChildAt(i);
 			
 			
 			CheckBox checkRanged = (CheckBox) curView.findViewById(R.id.ranged_entry);
@@ -526,6 +564,22 @@ public class MainActivity extends FragmentActivity {
 		
 		
 	}
+	
+	private int findIndexOfWeapon(View weaponView, ViewGroup weaponGroup){
+		
+		for (int i = 0; i < weaponGroup.getChildCount(); i++){
+			
+			View view = weaponGroup.getChildAt(i);
+			
+			if (view.equals(weaponView))
+				return i;
+		
+			
+		}
+		
+		return -1;
+	}
+	
 	
 
 }

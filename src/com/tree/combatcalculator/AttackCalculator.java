@@ -563,6 +563,8 @@ public class AttackCalculator {
 			isMelee = false;
 		else
 			isMelee = true;
+		
+		System.out.println("a Attack is melee: " + isMelee);
 
 		//default value, if not set to another value attack is invalid
     	int curAttack = -1;
@@ -593,7 +595,10 @@ public class AttackCalculator {
     			curAttack = a.getMat();
 
     	}
-
+    	
+    	System.out.println("a Attack is from a melee weapon: " + !w.getRanged());
+    	
+    	System.out.println("a Attack is : " + curAttack);
 
 		return curAttack;
 
@@ -643,6 +648,7 @@ public class AttackCalculator {
 
     	}
 
+    	System.out.println("legal attack: " + legal);
 
 		return legal;
 

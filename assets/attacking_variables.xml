@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+
+<Options>
+	<Variable>
+		<Name>CMA</Name>
+		<Display>Combined Melee Attack</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>CRA</Name>
+		<Display>Combined Ranged Attack</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>GUNFIGHTER</Name>
+		<Display>Gunfighter</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>POINT_BLANK</Name>
+		<Display>Point Blank</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>ASSAULT</Name>
+		<Display>Assault</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>FREE_CHARGE</Name>
+		<Display>Free Charge</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>REROLL_ATK</Name>
+		<Display>Reroll Attack Rolls</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>REROLL_DAM</Name>
+		<Display>Reroll Damage Rolls</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>BOOSTED_HIT</Name>
+		<Display>Attack Rolls Boosted</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>BOOSTED_DAM</Name>
+		<Display>Damage Rolls Boosted</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>MOD_ATK</Name>
+		<Display>Flat Attack Change</Display>
+		<Type>value</Type>
+	</Variable>
+	<Variable>
+		<Name>MOD_POW</Name>
+		<Display>Flat Damage Change</Display>
+		<Type>value</Type>
+	</Variable>
+	<Variable>
+		<Name>ADD_HIT</Name>
+		<Display>Additional Attack Dice</Display>
+		<Type>value</Type>
+	</Variable>
+	<Variable>
+		<Name>ADD_DAM</Name>
+		<Display>Additional Damage Dice</Display>
+		<Type>value</Type>
+	</Variable>
+	<Variable>
+		<Name>DISCARD_ATK</Name>
+		<Display>Lowest Attack Dice to Discard</Display>
+		<Type>value</Type>
+	</Variable>
+	<Variable>
+		<Name>DISCARD_DAM</Name>
+		<Display>Lowest Damage Dice to Discard</Display>
+		<Type>value</Type>
+	</Variable>
+</Options>
+

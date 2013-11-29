@@ -125,13 +125,11 @@ public class Weapon extends AtkVarUser implements Parcelable{
     }
     
   //parcel stuff
-  	@Override
   	public int describeContents() {
   		return 0;
   	}
 
   	
-  	@Override
   	public void writeToParcel(Parcel dest, int flags) {
 
   		dest.writeInt(pow);

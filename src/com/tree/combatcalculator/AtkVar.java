@@ -9,6 +9,7 @@ package com.tree.combatcalculator;
  * @version 1.00 2012/9/12
  */
 import java.util.ArrayList;
+import java.util.List;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -51,55 +52,57 @@ public class AtkVar implements Parcelable {
 	public static String FOCUS = "focus";
 
 	//names
-	public static String AIM = "aiming";
+	public static String AIM = "AIM";
 	public static String COVER = "COVER";
 	public static String CONCEALMENT = "CONCEALMENT";
 	public static String ELEVATION = "ELEVATION";
-	public static String AUTO_HIT = "auto_hit";
-	public static String AUTO_CRIT = "auto_CRIT";
-	public static String FREE_CHARGE = "free_charge";
-	public static String CHARGING = "charging";
-	public static String CHARGE_DAMAGE = "charge_damage";
-	public static String BOOSTED_HIT = "boosted_hit";
-	public static String BOOSTED_DAM = "boosted_damage";
-	public static String BOOSTED_HIT_FOCUS = "boosted_hit_focus";
-	public static String BOOSTED_DAM_FOCUS = "boosted_damage_focus";
-	public static String ADD_HIT = "add_hit";
-	public static String ADD_DAM = "add_dam";
-	public static String MOD_ATK = "mod_attack";
-	public static String MOD_POW = "mod_pow";
-	public static String MOD_DEF = "mod_def";
-	public static String MOD_ARM = "mod_arm";
-	public static String CRIT_KNOCKDOWN = "crit_k";
-	public static String CRIT_DAM = "crit_d";
-	public static String CRIT_ATK = "crit_a";
-	public static String DISCARD_ATK = "discard_atk";
-	public static String DISCARD_DAM = "discard_dam";
-	public static String REROLL_ATK = "REROLL_atk";
-	public static String REROLL_DAM = "REROLL_dam";
+	public static String AUTO_HIT = "AUTO_HIT";
+	public static String AUTO_CRIT = "AUTO_CRIT";
+	public static String FREE_CHARGE = "FREE_CHARGE";
+	public static String CHARGING = "CHARGING";
+	public static String CHARGE_DAMAGE = "CHARGE_DAMAGE";
+	public static String BOOSTED_HIT = "BOOSTED_HIT";
+	public static String BOOSTED_DAM = "BOOSTED_DAM";
+	public static String BOOSTED_HIT_FOCUS = "BOOSTED_HIT_FOCUS";
+	public static String BOOSTED_DAM_FOCUS = "BOOSTED_DAM_FOCUS";
+	public static String ADD_HIT = "ADD_HIT";
+	public static String ADD_DAM = "ADD_DAM";
+	public static String MOD_ATK = "MOD_ATK";
+	public static String MOD_POW = "MOD_POW";
+	public static String MOD_DEF = "MOD_DEF";
+	public static String MOD_ARM = "MOD_ARM";
+	public static String CRIT_KNOCKDOWN = "CRIT_KNOCKDOWN";
+	public static String CRIT_DAM = "CRIT_DAM";
+	public static String CRIT_ATK = "CRIT_ATK";
+	public static String DISCARD_ATK = "DISCARD_ATK";
+	public static String DISCARD_DAM = "DISCARD_DAM";
+	public static String REROLL_ATK = "REROLL_ATK";
+	public static String REROLL_DAM = "REROLL_DAM";
 	public static String ARM_PIERCING = "ARM_PIERCING";
-	public static String HAS_FOCUS = "has_focus";
+	public static String HAS_FOCUS = "HAS_FOCUS";
 	public static String GUNFIGHTER = "GUNFIGHTER";
 	public static String POINT_BLANK = "POINT_BLANK";
-	public static String FIRST_ATTACK = "first_attack";
-	public static String KNOCKED_DOWN = "knocked_down";
-	public static String SHIELD = "shield";
-	public static String SHIELD_BONUS = "shield_bonus";
-	public static String SHIELD_WALL = "shield";
-	public static String BUCKLER = "buckler";
+	public static String FIRST_ATTACK = "FIRST_ATTACK";
+	public static String KNOCKED_DOWN = "KNOCKED_DOWN";
+	public static String SHIELD = "SHIELD";
+	public static String SHIELD_BONUS = "SHIELD_BONUS";
+	public static String SHIELD_WALL = "SHIELD_WALL";
+	public static String BUCKLER = "BUCKLER";
 	public static String DOUBLE_DAMAGE = "DOUBLE_DAMAGE";
 	public static String WEAPON_MASTER = "WEAPON_MASTER";
 	public static String POWERFUL_ATK_AB = "POWERFUL_ATK_AB";
 	public static String POWERFUL_ATK = "POWERFUL_ATK";
 	public static String SUSTAINED_ATK = "SUSTAINED_ATK";
 	public static String SUSTAINED_ATK_AB = "SUSTAINED_ATK_AB";
+	public static String POWERFUL_CHARGE = "POWERFUL_CHARGE";
+	public static String BRUTAL_CHARGE = "BRUTAL_CHARGE";
 	public static String MULT_ATKERS = "MULT_ATKERS";
-	public static String COMBINED = "combined";
-	public static String CRA = "cra";
-	public static String CMA = "cma";
-	public static String ASSAULT = "assault";
-	public static String SET_DEFENSE = "set_defense";
-	public static String CAMOFLAUGE = "camoflauge";
+	public static String COMBINED = "COMBINED";
+	public static String CRA = "CRA";
+	public static String CMA = "CMA";
+	public static String ASSAULT = "ASSAULT";
+	public static String SET_DEFENSE = "SET_DEFENSE";
+	public static String CAMOFLAUGE = "CAMOFLAUGE";
 
 
 	//conditions
@@ -494,7 +497,7 @@ public class AtkVar implements Parcelable {
 
 
 	//checks to see if an arraylist of atkvars contains one of a specific variable
-    public static boolean checkContainsName(ArrayList<AtkVar> variables, String nameToCheck){
+    public static boolean checkContainsName(List<AtkVar> variables, String nameToCheck){
 
     	for (int i = 0; i < variables.size(); i++)
     		if (variables.get(i).getName().equals(nameToCheck))
@@ -654,7 +657,6 @@ public class AtkVar implements Parcelable {
   	}
 
 	
-	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 
 		dest.writeString(name);

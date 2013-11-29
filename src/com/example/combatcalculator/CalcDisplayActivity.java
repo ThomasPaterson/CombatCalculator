@@ -1,6 +1,9 @@
 package com.example.combatcalculator;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
@@ -10,12 +13,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.tree.combatcalculator.AtkVar;
 import com.tree.combatcalculator.AttackCalculator;
 import com.tree.combatcalculator.AttackModel;
+import com.tree.combatcalculator.AttackResult;
 import com.tree.combatcalculator.DefendModel;
 import com.tree.combatcalculator.DiceReader;
 import com.tree.combatcalculator.Node;
@@ -26,8 +29,7 @@ public class CalcDisplayActivity extends FragmentActivity implements
 	
 	public final static String OPTIMAL_PATH = "com.example.myfirstapp.OPTIMAL_PATH";
 	public final static String PATH_STATE = "com.example.myfirstapp.PATH_STATE";
-	public final static String OVERVIEW = "com.example.myfirstapp.OVERVIEW";
-	public final static String ATTACKS_OVERVIEW = "com.example.myfirstapp.ATTACKS_OVERVIEW";
+	public final static String RESULTS = "com.example.myfirstapp.RESULTS";
 	public final static String FRAG_TYPE = "com.example.myfirstapp.FRAG_TYPE";
 	
 	AttackModel attacker;
@@ -37,8 +39,12 @@ public class CalcDisplayActivity extends FragmentActivity implements
 	int optimization;
 	ArrayList<Node> optimalPath;
 	boolean pathSet;
-	String overview;
-	String attacksOverview;
+	List<AttackResult> attackResults;
+	
+	float totalNumHit;
+	float totalExpDam;
+	float totalExpDamAllHit;
+	float numberOfCrits;
 
 
 	/**
@@ -69,8 +75,7 @@ public class CalcDisplayActivity extends FragmentActivity implements
 	    	
 	    	if (pathSet){
 	    		//optimalPath = savedInstanceState.getParcelableArrayList(OPTIMAL_PATH);
-	    		overview = savedInstanceState.getString(OVERVIEW);
-	    		attacksOverview = savedInstanceState.getString(ATTACKS_OVERVIEW);
+	    		attackResults = (List<AttackResult>) savedInstanceState.get(RESULTS);
 	    		
 	    	}
 
@@ -140,24 +145,21 @@ public class CalcDisplayActivity extends FragmentActivity implements
 	}
 	
 	
-	/**
-	 * sets the variables calculated by the background thread, passes it to the current fragment as well
-	 */
-	private void setResults(String overall, String specific){
+	
+private void setResults(List<AttackResult> attackResults){
 		
-		overview = overall;
-		attacksOverview = specific;
+		this.attackResults = attackResults;
 		
 		pathSet = true;
 		
 		DisplayFragment details = (DisplayFragment)
                 getSupportFragmentManager().findFragmentById(R.id.container);
 		
-		details.setResults(overall, specific);
 		
+		setDetailsFragmentData(details);
 		
-		//TextView helloText = (TextView) findViewById(R.id.hello_world);
-		//helloText.setText(attacksOverview);
+		details.displayResults();
+
 		
 	}
 
@@ -187,8 +189,7 @@ public class CalcDisplayActivity extends FragmentActivity implements
 	    //if the path has been found, save the strings representing data as well
 	    if (pathSet){
 	    	//savedInstanceState.putParcelableArrayList(OPTIMAL_PATH, optimalPath);
-	    	outState.putString(OVERVIEW, overview);
-	    	outState.putString(ATTACKS_OVERVIEW, attacksOverview);
+	    	outState.putSerializable(RESULTS, (Serializable) attackResults);
 	    	
 	    }
 	}
@@ -199,18 +200,30 @@ public class CalcDisplayActivity extends FragmentActivity implements
 		getMenuInflater().inflate(R.menu.activity_calc_display, menu);
 		return true;
 	}
+	
+	
+	private void setDetailsFragmentData(DisplayFragment details) {
+		
+		details.setData(
+				getActionBar().getSelectedNavigationIndex(),
+				pathSet,
+				attackResults
+				);
+		
+		
+	}
+	
 
-	@Override
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 		// When the given tab is selected, show the tab contents in the
 		// container view.
-		Fragment fragment = new DisplayFragment();
+		
+		DisplayFragment fragment = DisplayFragment.createFragment(tab.getPosition());
 		Bundle args = new Bundle();
 
 		if (pathSet){
-			args.putString(OVERVIEW, overview);
-			args.putString(ATTACKS_OVERVIEW, attacksOverview);
+			args.putSerializable(RESULTS, (Serializable) attackResults);
 		}
 		
 		args.putInt(FRAG_TYPE, tab.getPosition());
@@ -219,14 +232,16 @@ public class CalcDisplayActivity extends FragmentActivity implements
 		fragment.setArguments(args);
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.container, fragment).commit();
+		
+		fragment.displayResults();
+		
+		
 	}
 
-	@Override
 	public void onTabUnselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 	}
 
-	@Override
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 		
@@ -244,16 +259,17 @@ public class CalcDisplayActivity extends FragmentActivity implements
 	/**
 	 * Calculates and returns the best decisions a user should make, given the input of the previous screen
 	 */
-	private class SearchTreeTask extends AsyncTask<AttackHolder, Void, String[]> {
+	private class SearchTreeTask extends AsyncTask<AttackHolder, Void, List<AttackResult>> {
 		
 
 		@Override
-		protected String[] doInBackground(AttackHolder... holders) {
+		protected List<AttackResult> doInBackground(AttackHolder... holders) {
 			System.out.println("starting asynch");
 			AttackHolder holder = holders[0];
 			System.out.println(holder.situation.toString());
 			ArrayList<Node> bestPath = null;
 			String[] resultStrings = {"error", "error"};
+			ArrayList<AttackResult> attackResults = null;
 			
 			try {
 				
@@ -265,6 +281,7 @@ public class CalcDisplayActivity extends FragmentActivity implements
 			
 				bestPath = tree.makeTree(holder.focus);
 				resultStrings = tree.printResults(bestPath, holder.focus);
+				attackResults = tree.setAttackResults(bestPath, holder.focus);
 				
 	        } catch (Exception e) {
 	            System.out.println(e.getMessage());
@@ -274,14 +291,14 @@ public class CalcDisplayActivity extends FragmentActivity implements
 			
 			System.out.println("finished tree");
 			
-	        return resultStrings;
+	        return attackResults;
 	    }
 		
 		@Override
-		protected void onPostExecute(String[] result) {
+		protected void onPostExecute(List<AttackResult> results) {
 			System.out.println("setting results");
 			
-	        setResults(result[1], result[0]);
+	        setResults(results);
 	        System.out.println("finished results");
 
 	    }

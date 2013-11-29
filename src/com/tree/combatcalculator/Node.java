@@ -200,7 +200,6 @@ public abstract class Node implements Parcelable{
   		
 
 	
-	@Override
 	abstract public void writeToParcel(Parcel dest, int flags);
 	
 	
@@ -226,6 +225,12 @@ public abstract class Node implements Parcelable{
 			               return new Node[size];
 			           }
 			       };
+
+
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
   	
   	//end parcel stuff

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<Options>
+	<Variable>
+		<Name>SET_DEFENSE</Name>
+		<Display>Set Defense</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>KNOCKED_DOWN</Name>
+		<Display>Knocked Down</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>SHIELD_BONUS</Name>
+		<Display>Shield Armor</Display>
+		<Type>value</Type>
+	</Variable>
+	<Variable>
+		<Name>MOD_DEF</Name>
+		<Display>Modify Armor</Display>
+		<Type>value</Type>
+	</Variable>
+	<Variable>
+		<Name>MOD_ARM</Name>
+		<Display>Modify Defense</Display>
+		<Type>value</Type>
+	</Variable>
+</Options>

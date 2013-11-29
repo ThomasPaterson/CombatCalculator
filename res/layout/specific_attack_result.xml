@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tableLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:shrinkColumns="*"  
+    android:stretchColumns="*" >
+ 
+ 
+
+    <!-- 3 columns -->
+   <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+ 
+        <TextView
+           android:id="@+id/entry_1"
+           android:text="@string/weapon"
+           android:textAppearance="@color/black" />
+       
+       <TextView
+            android:id="@+id/weapon_name"
+            android:text="@string/attacker" />
+       
+       <TextView
+            android:id="@+id/entry_2"
+            android:text="@string/attack_values" />
+       
+       <TextView
+            android:id="@+id/attack_values"
+            android:text="@string/attacker" />
+
+ 
+
+    </TableRow>
+ 
+    <!-- 3 columns -->
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+ 
+        <TextView
+           android:id="@+id/entry_1"
+           android:text="@string/specific_hit_chance_string"
+           android:textAppearance="@color/black" />
+       
+       <TextView
+            android:id="@+id/specific_hit_chance"
+            android:text="@string/attacker" />
+       
+       <TextView
+            android:id="@+id/entry_2"
+            android:text="@string/specific_damage_string" />
+       
+       <TextView
+            android:id="@+id/specific_damage"
+            android:text="@string/attacker" />
+       
+       <TextView
+            android:id="@+id/entry_3"
+            android:text="@string/specific_expected_damage_string" />
+       
+       <TextView
+            android:id="@+id/specific_expected_damage"
+            android:text="@string/attacker" />
+       
+ 
+
+    </TableRow>
+    
+    <TableRow
+        android:id="@+id/crit_row"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+ 
+        <TextView
+           android:id="@+id/entry_4"
+           android:text="@string/specific_crit_chance_string"
+           android:textAppearance="@color/black" />
+       
+       <TextView
+            android:id="@+id/specific_hit_chance_crit"
+            android:text="@string/attacker" />
+       
+       <TextView
+            android:id="@+id/entry_5"
+            android:text="@string/specific_damage_string" />
+       
+       <TextView
+            android:id="@+id/specific_damage_crit"
+            android:text="@string/attacker" />
+       
+       <TextView
+            android:id="@+id/entry_6"
+            android:text="@string/specific_expected_damage_string" />
+       
+       <TextView
+            android:id="@+id/specific_expected_damage_crit"
+            android:text="@string/attacker" />
+       
+ 
+
+    </TableRow>
+ 
+
+    <View
+        android:layout_height="2dip"
+        android:background="#000000" />
+ 
+</TableLayout>

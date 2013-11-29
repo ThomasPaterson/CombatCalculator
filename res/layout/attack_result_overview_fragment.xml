@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tableLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:shrinkColumns="*"  
+    android:stretchColumns="*" >
+    
+   <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+ 
+
+        
+        <Button
+            android:id="@+id/button2"
+            android:layout_column="1"
+            android:text="@string/crit_on" />
+
+    </TableRow>
+ 
+
+    
+   <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dip" >
+ 
+        <TextView
+            android:id="@+id/textView1"
+            android:text="@string/num_attacks_hit"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+        
+        <TextView
+            android:id="@+id/num_attacks_hit_entry"
+            android:text="@string/attacker" />
+
+    </TableRow>
+    
+   <TableRow
+        android:id="@+id/tableRow3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dip" >
+ 
+        <TextView
+            android:id="@+id/textView3"
+            android:text="@string/expected_damage"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+        
+        <TextView
+            android:id="@+id/expected_damage_entry"
+            android:text="@string/attacker" />
+
+    </TableRow>
+    
+   <TableRow
+        android:id="@+id/tableRow4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dip" >
+ 
+        <TextView
+            android:id="@+id/textView5"
+            android:text="@string/expected_damage_all_hit"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+        
+        <TextView
+            android:id="@+id/expected_damage_all_hit_entry"
+            android:text="@string/attacker" />
+
+    </TableRow>
+    
+   <TableRow
+        android:id="@+id/tableRow5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dip" >
+ 
+        <TextView
+            android:id="@+id/textView7"
+            android:text="@string/num_crits"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+        
+        <TextView
+            android:id="@+id/num_crits_entry"
+            android:text="@string/attacker" />
+
+    </TableRow>
+    
+   
+    
+   
+ 
+   
+ 
+</TableLayout>

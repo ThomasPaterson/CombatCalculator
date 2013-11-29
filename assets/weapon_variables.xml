@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+
+<Options>
+	<Variable>
+		<Name>AUTO_HIT</Name>
+		<Display>Automatically Hit</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>AUTO_CRIT</Name>
+		<Display>Automatically Crit</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>BOOSTED_HIT</Name>
+		<Display>Boosted Attack</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>BOOSTED_DAM</Name>
+		<Display>Boosted Damage</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>POWERFUL_ATK</Name>
+		<Display>Powerful Attack</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>CRIT_KNOCKDOWN</Name>
+		<Display>Critical: Knockdown</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>CRIT_DAM</Name>
+		<Display>Critial: Brutal</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>CRIT_ATK</Name>
+		<Display>Critial: Shred</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>REROLL_ATK</Name>
+		<Display>Reroll: Attack</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>REROLL_DAM</Name>
+		<Display>Reroll: Damage</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>ARM_PIERCING</Name>
+		<Display>Armor Piercing</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>DOUBLE_DAMAGE</Name>
+		<Display>2X Damage After Armor</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>WEAPON_MASTER</Name>
+		<Display>Weaponmaster</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>SUSTAINED_ATK_AB</Name>
+		<Display>Sustained Attack</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>POWERFUL_CHARGE</Name>
+		<Display>Powerful Charge</Display>
+		<Type>binary</Type>
+	</Variable>
+	<Variable>
+		<Name>BRUTAL_CHARGE</Name>
+		<Display>Brutal Charge</Display>
+		<Type>binary</Type>
+	</Variable>
+</Options>
