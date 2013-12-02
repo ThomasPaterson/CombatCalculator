@@ -137,16 +137,16 @@ public class AttackResult implements Serializable{
 		String values = "";
 		
 		if (isCharge)
-			values += "Charge";
+			values += "C=> ";
 		
 		if (boughtAttackBoost)
-			values += "boost Attack";
+			values += "+A ";
 		
 		if (boughtDamageBoost)
-			values += "boost Damage";
+			values += "+D ";
 		
 		if (boughtAttack)
-			values += "Add Attack";
+			values += "$B ";
 
 			
 		return values;

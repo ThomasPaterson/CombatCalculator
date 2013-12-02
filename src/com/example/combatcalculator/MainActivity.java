@@ -375,7 +375,7 @@ public class MainActivity extends FragmentActivity {
 	    if (healthText.getText().toString() != "")
 	    	defender.setHealth(Integer.parseInt(healthText.getText().toString()));
 	    
-	    //defender.setVariables(defenderVars);
+	    defender.addVariables(AttackProperty.convertAttackProperties(defenderVars));
 	    
 	    intent.putExtra(DEFENDER, defender);
 	    
