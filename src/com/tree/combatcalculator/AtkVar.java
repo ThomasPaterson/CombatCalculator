@@ -468,7 +468,7 @@ public class AtkVar implements Parcelable {
     }//end removeVariable
 
     //removes a variable from an arraylist, using the variable to remove
-    public static void removeVariable(ArrayList<AtkVar> variables, String reName){
+    public static void removeVariable(List<AtkVar> variables, String reName){
 
     	for (int i = 0; i < variables.size(); i++){
 
@@ -511,8 +511,8 @@ public class AtkVar implements Parcelable {
 
 
     //checks to see if an arraylist of atkvars contains one of a specific variable
-    public static boolean checkContainsName(ArrayList<AtkVar> variables1, ArrayList<AtkVar> variables2,
-    	ArrayList<AtkVar> variables3, String nameToCheck){
+    public static boolean checkContainsName(List<AtkVar> variables1, List<AtkVar> variables2,
+    		List<AtkVar> variables3, String nameToCheck){
 
 
     	for (int i = 0; i < variables1.size(); i++)
@@ -535,7 +535,7 @@ public class AtkVar implements Parcelable {
 
 
     //checks all the conditions to see if there is one that is invalid
-    public boolean meetsConditions(ArrayList<AtkVar> variables){
+    public boolean meetsConditions(List<AtkVar> variables){
 
 		ArrayList<String> targetString = new ArrayList<String>();
 
@@ -633,6 +633,10 @@ public class AtkVar implements Parcelable {
   	public ArrayList<String> getConditions(){
    		return conditions;
    	}
+  	
+  	public boolean checkCrit(){
+  		return conditions.contains(GET_CRIT);
+  	}
   	
   	//parcel stuff
   	

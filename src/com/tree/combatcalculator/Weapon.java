@@ -11,6 +11,7 @@ package com.tree.combatcalculator;
  */
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -29,7 +30,7 @@ public class Weapon extends AtkVarUser implements Parcelable{
 
 
 	//manually set all variables
-    public Weapon(int newPow, boolean isRanged, ArrayList<AtkVar> newVariables) {
+    public Weapon(int newPow, boolean isRanged, List<AtkVar> newVariables) {
 
     	pow = newPow;
     	is_ranged = isRanged;
@@ -38,17 +39,18 @@ public class Weapon extends AtkVarUser implements Parcelable{
     }
     
   //manually set all variables
-    public Weapon(int newPow, boolean isRanged, int rof, ArrayList<AtkVar> newVariables) {
+    public Weapon(int newPow, boolean isRanged, int rof, List<AtkVar> newVariables) {
 
     	pow = newPow;
     	is_ranged = isRanged;
     	variables = newVariables;
     	ROF = rof;
+    	hasCrit = checkCrits(newVariables);
 
     }
 
     //manually set all variables
-    public Weapon(int newPow, boolean isRanged, ArrayList<AtkVar> newVariables, boolean canCrit) {
+    public Weapon(int newPow, boolean isRanged, List<AtkVar> newVariables, boolean canCrit) {
 
     	pow = newPow;
     	is_ranged = isRanged;
@@ -122,6 +124,16 @@ public class Weapon extends AtkVarUser implements Parcelable{
 
     public int getNumAtks(){
     	return numAtks;
+    }
+    
+    private boolean checkCrits(List<AtkVar> newVariables){
+    	
+    	for (AtkVar variable : newVariables)
+    		if (variable.checkCrit())
+    			return true;
+    	
+		return false;
+    	
     }
     
   //parcel stuff

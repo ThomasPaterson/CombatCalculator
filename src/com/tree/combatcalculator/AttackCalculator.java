@@ -12,6 +12,7 @@ package com.tree.combatcalculator;
  */
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AttackCalculator {
 
@@ -383,8 +384,8 @@ public class AttackCalculator {
 		hitChance = new double[3];
 
 
-		ArrayList<AtkVar> attackVars = a.getVariables();
-    	ArrayList<AtkVar> defendVars = d.getVariables();
+		List<AtkVar> attackVars = a.getVariables();
+		List<AtkVar> defendVars = d.getVariables();
 
     	baseAtk = setBaseAttack(w, sit, a);
 
@@ -411,10 +412,10 @@ public class AttackCalculator {
 
 
     //goes through all the variables and handles testing conditions, adding values
-    private void parseVariables(ArrayList<AtkVar> atk, ArrayList<AtkVar> def, ArrayList<AtkVar> sit, Weapon w, boolean checkCrit){
+    private void parseVariables(List<AtkVar> atk, List<AtkVar> def, List<AtkVar> sit, Weapon w, boolean checkCrit){
 
 
-		ArrayList<AtkVar> weapon = w.getVariables();
+    	List<AtkVar> weapon = w.getVariables();
 
     	for (AtkVar a : atk)
     		handleVariable(a, atk, def, sit, w, checkCrit);
@@ -435,7 +436,7 @@ public class AttackCalculator {
 
 
     //handles specific variables
-    private void handleVariable(AtkVar n, ArrayList<AtkVar> atk, ArrayList<AtkVar> def, ArrayList<AtkVar> sit, Weapon w, boolean checkCrit){
+    private void handleVariable(AtkVar n, List<AtkVar> atk, List<AtkVar> def, List<AtkVar> sit, Weapon w, boolean checkCrit){
 
 		int val = n.getValue();
 
@@ -554,9 +555,9 @@ public class AttackCalculator {
 
     //handles setting the base attack based on if it is a ranged attack, or melee attack with guns, or normal
     //returns -1 if it is an invalid attack
-    public int setBaseAttack(Weapon w, ArrayList<AtkVar> sit, AttackModel a){
+    public int setBaseAttack(Weapon w, List<AtkVar> sit, AttackModel a){
 
-    	ArrayList<AtkVar> attackVars = a.getVariables();
+    	List<AtkVar> attackVars = a.getVariables();
 
 		//set if it is a ranged attack or not
 		if (AtkVar.checkContainsName(sit, AtkVar.RANGED))
@@ -605,10 +606,10 @@ public class AttackCalculator {
 	}//end setBaseAttack
 
 	//determines if a weapon/model in a specific situation is a legal attack
-	static public boolean legalAttack(Weapon w, ArrayList<AtkVar> sit, AttackModel a){
+	static public boolean legalAttack(Weapon w, List<AtkVar> sit, AttackModel a){
 
 
-		ArrayList<AtkVar> attackVars = a.getVariables();
+		List<AtkVar> attackVars = a.getVariables();
 		boolean melee;
 
 		//default value, if not set to another value attack is invalid

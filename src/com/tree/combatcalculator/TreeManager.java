@@ -312,7 +312,7 @@ public class TreeManager {
 
 
     //checks to see if an attack roll should be normal or not
-    private boolean checkAttackNormal(int weaponToUse, boolean doneInits, int curFocus, ArrayList<AtkVar> modSit){
+    private boolean checkAttackNormal(int weaponToUse, boolean doneInits, int curFocus, List<AtkVar> modSit){
 
     	//check to see if already boosted
 		boolean alreadyBoosted = AtkVar.checkContainsName(modSit, weapons.get(weaponToUse).getVariables(),

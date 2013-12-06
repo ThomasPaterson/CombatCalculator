@@ -10,11 +10,12 @@ package com.tree.combatcalculator;
  * @version 1.00 2012/9/13
  */
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class AtkVarUser {
 
-	protected ArrayList<AtkVar> variables = new ArrayList<AtkVar>();
+	protected List<AtkVar> variables = new ArrayList<AtkVar>();
 	//default name
 	protected String name = "default";
 
@@ -25,7 +26,7 @@ public class AtkVarUser {
 	//variable stuff
 
 	//add a variable to the user
-    public void addVariables(ArrayList<AtkVar> newVariables){
+    public void addVariables(List<AtkVar> newVariables){
     	variables.addAll(newVariables);
     }
 
@@ -35,7 +36,7 @@ public class AtkVarUser {
     }
 
 	//get the variables
-    public ArrayList<AtkVar> getVariables(){
+    public List<AtkVar> getVariables(){
     	return variables;
     }
 

@@ -1,6 +1,7 @@
 package com.example.combatcalculator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -416,38 +417,8 @@ public class MainActivity extends FragmentActivity {
     */
 	private void prepWeapons(AttackModel attacker){
 		
-		ArrayList<Weapon> weapons = new ArrayList<Weapon>();
-		
-		//loop through entire group of weapons and add each one
-		for (int i = 0; i < mWeaponGroup.getChildCount(); i++){
-		
-			ViewGroup curView = (ViewGroup) mWeaponGroup.getChildAt(i);
-			
-			ArrayList<AtkVar> weaponVars = new ArrayList<AtkVar>();
-			
-			CheckBox checkRanged = (CheckBox) curView.findViewById(R.id.ranged_entry);
-			
-			Spinner rofText = (Spinner) curView.findViewById(R.id.rof_entry);
-			Spinner powText = (Spinner) curView.findViewById(R.id.pow_entry);
-			
-			int rof;
-			
-			if (rofText.getSelectedItem().toString().equals("Infinite"))
-				rof = -1;
-			else
-				rof = Integer.parseInt(rofText.getSelectedItem().toString());
-			
-			Weapon w = new Weapon(Integer.parseInt(powText.getSelectedItem().toString()),
-								  checkRanged.isChecked(),
-								  rof,
-								  weaponVars);
-		    
-		   weapons.add(w);
-		   
-		   System.out.println("weapon: " + i + " is ranged=" + w.getRanged());
-		    
-		}
-		
+		ArrayList<Weapon> weapons = getWeapons(mWeaponGroup);
+
 		attacker.setWeapons(weapons);
 		
 	}
@@ -465,8 +436,7 @@ public class MainActivity extends FragmentActivity {
 		
 			ViewGroup curView = (ViewGroup) mWeaponGroup.getChildAt(i);
 			
-			ArrayList<AtkVar> weaponVars = new ArrayList<AtkVar>();
-			
+			List<AtkVar> weaponVars = AttackProperty.convertAttackProperties(weaponsVars.get(i));
 			//get the correct view for the given weapon
 			CheckBox checkRanged = (CheckBox) curView.findViewById(R.id.ranged_entry);
 			Spinner rofText = (Spinner) curView.findViewById(R.id.rof_entry);
