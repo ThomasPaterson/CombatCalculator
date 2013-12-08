@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.tree.combatcalculator.AtkVar;
@@ -40,6 +42,7 @@ public class CalcDisplayActivity extends FragmentActivity implements
 	ArrayList<Node> optimalPath;
 	boolean pathSet;
 	List<AttackResult> attackResults;
+	private boolean critsOn = true;
 	
 	float totalNumHit;
 	float totalExpDam;
@@ -158,7 +161,7 @@ private void setResults(List<AttackResult> attackResults){
 		
 		setDetailsFragmentData(details);
 		
-		details.displayResults();
+		details.displayResults(critsOn);
 
 		
 	}
@@ -233,7 +236,7 @@ private void setResults(List<AttackResult> attackResults){
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.container, fragment).commit();
 		
-		fragment.displayResults();
+		fragment.displayResults(critsOn);
 		
 		
 	}
@@ -248,9 +251,26 @@ private void setResults(List<AttackResult> attackResults){
 		DisplayFragment details = (DisplayFragment)
                 getSupportFragmentManager().findFragmentById(R.id.container);
 		
-		details.displayResults();
+		details.displayResults(critsOn);
 
 				
+	}
+	
+	public void toggleCrit(View view){
+		
+		critsOn = critsOn == true ? false : true;
+		
+		if (critsOn)
+			((Button) view).setText(R.string.crit_on);
+		else
+			((Button) view).setText(R.string.crit_off);
+		
+		DisplayFragment details = (DisplayFragment)
+                getSupportFragmentManager().findFragmentById(R.id.container);
+		
+		details.displayResults(critsOn);
+		
+		
 	}
 
 

@@ -20,64 +20,62 @@ public class SpecificDisplayFragment extends DisplayFragment{
 	@Override
 	void display() {
 		
-		if (!setup) {
-			setupAttacks();
+		try {
+			
+		if (results != null){
+			deleteOldAttacks();
+			for (AttackResult result : results)
+				setupAttack(result);
 		}
-		 
-		 //TODO: get crits set and working
-		 try {
-		 TextView numAttacks = (TextView)displayView.findViewById(R.id.num_attacks_hit_entry);
-		 numAttacks.setText(AttackResult.totalHits(results, true));
-		 
-		 TextView expDam = (TextView)displayView.findViewById(R.id.expected_damage_entry);
-		 expDam.setText(AttackResult.expDamage(results, true));
-		 
-		 TextView expDamAllHit = (TextView)displayView.findViewById(R.id.expected_damage_all_hit_entry);
-		 expDamAllHit.setText(AttackResult.expDamageAllHit(results, true));
-		 
-		 TextView numCrits = (TextView)displayView.findViewById(R.id.num_crits_entry);
-		 numCrits.setText(AttackResult.totalCrits(results, true));
-		 
 		 
 		 }catch (Exception e) {
 			 Log.e("error setting up specfic attacks", "testing");
-		
 		 }
 	}
 	
 	
-	private void setupAttacks(){
+
+
+	private void deleteOldAttacks() {
 		
-		if (results != null){
-			for (AttackResult result : results)
-				setupAttack(result);
+		for (int i = mAttackGroup.getChildCount()-1; i >= 0 ; i--){
 			
-			setup = true;
+			ViewGroup curView = (ViewGroup) mAttackGroup.getChildAt(i);
+			mAttackGroup.removeView(curView);
+			
 		}
 		
+		
 	}
+
+
+
 
 	private void setupAttack(AttackResult result) {
 		final ViewGroup newView = (ViewGroup) LayoutInflater.from(this.getActivity()).inflate(
                 R.layout.specific_attack_result, mAttackGroup, false);
 
 		TextView hitChance = (TextView)newView.findViewById(R.id.specific_hit_chance);
-		hitChance.setText(result.hitChancePer);
+		if (critsOn)
+			hitChance.setText(result.hitChancePer);
+		else
+			hitChance.setText(result.hitAndCritChancePer);
 		
 		TextView damage = (TextView)newView.findViewById(R.id.specific_damage);
 		damage.setText(AttackResult.formatResult(result.hitDamage));
 
 		TextView expDamage = (TextView)newView.findViewById(R.id.specific_expected_damage);
-		expDamage.setText(AttackResult.formatResult(result.getTotalExpectedDamageWithHitChance()));
+		expDamage.setText(AttackResult.formatResult(result.getTotalExpectedDamageWithHitChance(critsOn)));
 		
 		TextView attackValues = (TextView)newView.findViewById(R.id.attack_values);
 		attackValues.setText(result.constructAttackValues());
 		
-		System.out.println("Setting up info: " + result.constructAttackValues());
 		
-		if (!result.hasCrit){
-			TableRow critRow = (TableRow)newView.findViewById(R.id.crit_row);
+		TableRow critRow = (TableRow)newView.findViewById(R.id.crit_row);
+		if (!result.hasCrit || !critsOn){	
 			critRow.setVisibility(View.GONE);
+		}else{
+			critRow.setVisibility(View.VISIBLE);
 		}
 			
 		
@@ -90,7 +88,7 @@ public class SpecificDisplayFragment extends DisplayFragment{
 	View createLayout(LayoutInflater inflater, ViewGroup container) {
 		View specificView = inflater.inflate(R.layout.attack_result_specific_fragment, container, false);
 		mAttackGroup = (ViewGroup) specificView.findViewById(R.id.container);
-		setupAttacks();
+		display();
 		return specificView;
 	}
 

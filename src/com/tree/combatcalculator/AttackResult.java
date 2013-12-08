@@ -16,6 +16,7 @@ public class AttackResult implements Serializable{
 	public float hitDamage;
 	public float hitChance;
 	public String hitChancePer;
+	public String hitAndCritChancePer;
 	//crit damage stores CMA leftovers for combined attacks
 	public boolean hasCrit;
 	public float critChance;
@@ -40,6 +41,7 @@ public class AttackResult implements Serializable{
 		this.critDamage = critDamage;
 		this.weapon = weapon;
 		this.hitChancePer = f.format(hitChance*100);
+		this.hitAndCritChancePer = f.format((hitChance + critChance) * 100);
 		this.critChancePer = f.format(critChance*100);
 	}
 	
@@ -52,6 +54,7 @@ public class AttackResult implements Serializable{
 		this.critDamage = critDamage;
 		this.weapon = weapon;
 		this.hitChancePer = f.format(hitChance*100);
+		this.hitAndCritChancePer = f.format((hitChance + critChance) * 100);
 		this.critChancePer = f.format(critChance*100);
 		this.isCMA = isCMA;
 		this.cmaGroup = cmaNum;
@@ -66,8 +69,11 @@ public class AttackResult implements Serializable{
 		return f.format(critDamage*critChance);
 	}
 	
-	public float getTotalExpectedDamageWithHitChance(){
-		return hitChance*hitDamage + critChance*critDamage;
+	public float getTotalExpectedDamageWithHitChance(boolean usingCrits){
+		if (usingCrits)
+			return hitChance*hitDamage + critChance*critDamage;
+		else
+			return (hitChance + critChance)*hitDamage;
 	}
 	
 	public float getTotalExpectedDamageAssumeHit(){
@@ -99,7 +105,7 @@ public class AttackResult implements Serializable{
 		
 		if (usingCrits)
 			for (AttackResult a : attackResults)
-				total += a.getTotalExpectedDamageWithHitChance();
+				total += a.getTotalExpectedDamageWithHitChance(usingCrits);
 		else
 			for (AttackResult a : attackResults)
 				total += (a.hitChance + a.critChance) * a.hitDamage;

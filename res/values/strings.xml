@@ -47,6 +47,7 @@
     
     <!-- Display Overview option strings -->
     <string name="crit_on">Crits On </string>
+    <string name="crit_off">Crits Off </string>
     <string name="num_attacks_hit"># of Attacks Hitting:</string>
     <string name="expected_damage">Expected Damage:</string>
     <string name="expected_damage_all_hit">Expected Damage if all hit:</string>

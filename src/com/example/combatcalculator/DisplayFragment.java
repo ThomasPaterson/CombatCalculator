@@ -27,6 +27,7 @@ public abstract class DisplayFragment extends Fragment {
 	protected View displayView;
 	protected List<AttackResult> results;
 	protected int type = 0;
+	protected boolean critsOn = true;
 	
 	public DisplayFragment() {
 		
@@ -41,7 +42,7 @@ public abstract class DisplayFragment extends Fragment {
 	        System.out.println("on start");
 	        checkParent();
 	        
-	        displayResults();
+	        displayResults(critsOn);
 	    }
 	 
 	 private void checkParent(){
@@ -56,7 +57,7 @@ public abstract class DisplayFragment extends Fragment {
 	        	if (finished){
 		        	results = (List<AttackResult>)args.get(CalcDisplayActivity.RESULTS);
 	        	}
-	        	displayResults();
+	        	displayResults(critsOn);
 	        } 
 	 }
 	 
@@ -73,7 +74,9 @@ public abstract class DisplayFragment extends Fragment {
 	 /**
 	  * Displays the results when switched to 
 	 */
-	 public void displayResults(){
+	 public void displayResults(boolean critsOn){
+		 
+		 this.critsOn = critsOn;
 
 		 if (finished){
 			 display();
@@ -124,6 +127,8 @@ public abstract class DisplayFragment extends Fragment {
 		else
 			return null;
 	}
+
+
 }
 
 

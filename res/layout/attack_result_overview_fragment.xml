@@ -10,14 +10,8 @@
         android:id="@+id/tableRow1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dip" >
- 
+        android:padding="5dip" > 
 
-        
-        <Button
-            android:id="@+id/button2"
-            android:layout_column="1"
-            android:text="@string/crit_on" />
 
     </TableRow>
  
@@ -75,13 +69,13 @@
     </TableRow>
     
    <TableRow
-        android:id="@+id/tableRow5"
+        android:id="@+id/crit_row"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dip" >
  
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/crit_text"
             android:text="@string/num_crits"
             android:textAppearance="?android:attr/textAppearanceLarge" />
         
