@@ -455,6 +455,8 @@ public class MainActivity extends FragmentActivity {
 								  checkRanged.isChecked(),
 								  rof,
 								  weaponVars);
+			
+			w.setName(Integer.toString(i+1));
 		    
 		   weapons.add(w);
 		    

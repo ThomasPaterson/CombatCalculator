@@ -54,6 +54,9 @@ public class SpecificDisplayFragment extends DisplayFragment{
 	private void setupAttack(AttackResult result) {
 		final ViewGroup newView = (ViewGroup) LayoutInflater.from(this.getActivity()).inflate(
                 R.layout.specific_attack_result, mAttackGroup, false);
+		
+		TextView weaponName = (TextView)newView.findViewById(R.id.weapon_name);
+		weaponName.setText(result.weapon.getName());
 
 		TextView hitChance = (TextView)newView.findViewById(R.id.specific_hit_chance);
 		if (critsOn)
@@ -65,17 +68,44 @@ public class SpecificDisplayFragment extends DisplayFragment{
 		damage.setText(AttackResult.formatResult(result.hitDamage));
 
 		TextView expDamage = (TextView)newView.findViewById(R.id.specific_expected_damage);
-		expDamage.setText(AttackResult.formatResult(result.getTotalExpectedDamageWithHitChance(critsOn)));
+		if (!result.hasCrit || !critsOn)
+			expDamage.setText(AttackResult.formatResult(result.getTotalExpectedDamageWithHitChance(false)));
+		else
+			expDamage.setText(result.getTruncExpectedHitDamage());
 		
 		TextView attackValues = (TextView)newView.findViewById(R.id.attack_values);
 		attackValues.setText(result.constructAttackValues());
 		
 		
 		TableRow critRow = (TableRow)newView.findViewById(R.id.crit_row);
+		TableRow critAndNormalRow = (TableRow)newView.findViewById(R.id.crit_and_normal_row);
 		if (!result.hasCrit || !critsOn){	
 			critRow.setVisibility(View.GONE);
+			critAndNormalRow.setVisibility(View.GONE);
 		}else{
 			critRow.setVisibility(View.VISIBLE);
+			critAndNormalRow.setVisibility(View.VISIBLE);
+			
+			//crit row
+			TextView critChance = (TextView)newView.findViewById(R.id.specific_hit_chance_crit);
+			critChance.setText(result.critChancePer);
+			
+			TextView critDamage = (TextView)newView.findViewById(R.id.specific_damage_crit);
+			critDamage.setText(AttackResult.formatResult(result.critDamage));
+
+			TextView critExpDamage = (TextView)newView.findViewById(R.id.specific_expected_damage_crit);
+			critExpDamage.setText(result.getTruncExpectedCritDamage());
+			
+			//crit and normal row
+			TextView critAndNormalChance = (TextView)newView.findViewById(R.id.specific_hit_chance_crit_and_normal);
+			critAndNormalChance.setText(result.hitAndCritChancePer);
+			
+			TextView critAndNormalDamage = (TextView)newView.findViewById(R.id.specific_damage_crit_and_normal);
+			critAndNormalDamage.setText(AttackResult.formatResult(result.getTotalExpectedDamageAssumeHit()));
+
+			TextView critAndNormalExpDamage = (TextView)newView.findViewById(R.id.specific_expected_damage_crit_and_normal);
+			critAndNormalExpDamage.setText(AttackResult.formatResult(result.getTotalExpectedDamageWithHitChance(true)));
+			
 		}
 			
 		

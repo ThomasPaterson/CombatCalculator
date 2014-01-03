@@ -18,6 +18,7 @@ import android.os.Parcelable;
 
 public class Weapon extends AtkVarUser implements Parcelable{
 
+	private String name = "";
 	private int pow;
 	private int ROF = -1;
 	private int numAtks = 1;
@@ -126,6 +127,15 @@ public class Weapon extends AtkVarUser implements Parcelable{
     	return numAtks;
     }
     
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+    
     private boolean checkCrits(List<AtkVar> newVariables){
     	
     	for (AtkVar variable : newVariables)
@@ -150,6 +160,8 @@ public class Weapon extends AtkVarUser implements Parcelable{
   		boolean[] temp = {is_ranged, hasCrit, hasCA};
   		dest.writeBooleanArray(temp);
   		dest.writeTypedList(variables);
+  		dest.writeString(name);
+  		
   	}
   	
   	private void readFromParcel(Parcel in){
@@ -164,6 +176,7 @@ public class Weapon extends AtkVarUser implements Parcelable{
   		hasCA = temp[2];
   		variables = new ArrayList<AtkVar>();
   		in.readTypedList(variables, AtkVar.CREATOR);
+  		name = in.readString();
   	}
   	
   	

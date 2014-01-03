@@ -106,6 +106,41 @@
  
 
     </TableRow>
+    
+    <TableRow
+        android:id="@+id/crit_and_normal_row"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+ 
+        <TextView
+           android:id="@+id/entry_8"
+           android:text="@string/specific_crit_chance_string"
+           android:textAppearance="@color/black" />
+       
+       <TextView
+            android:id="@+id/specific_hit_chance_crit_and_normal"
+            android:text="@string/attacker" />
+       
+       <TextView
+            android:id="@+id/entry_9"
+            android:text="@string/specific_damage_string" />
+       
+       <TextView
+            android:id="@+id/specific_damage_crit_and_normal"
+            android:text="@string/attacker" />
+       
+       <TextView
+            android:id="@+id/entry_10"
+            android:text="@string/specific_expected_damage_string" />
+       
+       <TextView
+            android:id="@+id/specific_expected_damage_crit_and_normal"
+            android:text="@string/attacker" />
+       
+ 
+
+    </TableRow>
  
 
     <View
