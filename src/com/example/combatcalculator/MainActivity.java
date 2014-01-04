@@ -75,6 +75,9 @@ public class MainActivity extends FragmentActivity {
 	    	if (weapons.size() >= mWeaponGroup.getChildCount()){
 	    		mWeaponGroup.removeAllViews();
 	    		initWeapons(weapons);
+	    	
+	    	}else if (weapons.size() == 0){
+	    		addWeapons(findViewById(R.id.Button20));
 	    	}
 	    	
 	    	saved = true;
@@ -88,6 +91,7 @@ public class MainActivity extends FragmentActivity {
 	    	defenderVars = new ArrayList<AttackProperty>();
 	    	weaponsVars = new ArrayList<ArrayList<AttackProperty>>();
 	    	saved = false;
+	    	addWeapons(findViewById(R.id.Button20));
 	    	
 	    	
 	    	
@@ -366,15 +370,16 @@ public class MainActivity extends FragmentActivity {
 		
 	    Spinner defText = (Spinner) findViewById(R.id.def_entry);
 	    Spinner ArmText = (Spinner) findViewById(R.id.arm_entry);
-	    EditText healthText = (EditText) findViewById(R.id.health_entry);
+	    //TODO: add health in
+	    //EditText healthText = (EditText) findViewById(R.id.health_entry);
 
 	    
 	    defender.setDef(Integer.parseInt(defText.getSelectedItem().toString()));
 	    
 	    defender.setArm(Integer.parseInt(ArmText.getSelectedItem().toString()));
 	    
-	    if (healthText.getText().toString() != "")
-	    	defender.setHealth(Integer.parseInt(healthText.getText().toString()));
+	    //if (healthText.getText().toString() != "")
+	    	//defender.setHealth(Integer.parseInt(healthText.getText().toString()));
 	    
 	    defender.addVariables(AttackProperty.convertAttackProperties(defenderVars));
 	    

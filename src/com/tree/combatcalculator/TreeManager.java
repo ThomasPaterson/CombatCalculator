@@ -507,7 +507,7 @@ public class TreeManager {
 
 
 		//add nodes
-		DecisionNode buyNode = addDecisionNode(Node.BUY, prevNode, false, index, index, modSit);
+		DecisionNode buyNode = addDecisionNode(Node.BUY, prevNode, true, index, index, modSit);
 
 		//value set to 1 to tell that this node is from a resolve path
 		DecisionNode atkNode = addDecisionNode(Node.ATTACK, buyNode, boostHit, 1, index, modSit);

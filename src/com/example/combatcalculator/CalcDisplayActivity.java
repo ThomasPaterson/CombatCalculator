@@ -131,13 +131,13 @@ public class CalcDisplayActivity extends FragmentActivity implements
 	 * Puts down the data for the general information on the attack
 	 */
 	private void setAttackOverview(){
-		
-		TextView attackerText = (TextView) findViewById(R.id.attacker_name);
-		TextView defenderText = (TextView) findViewById(R.id.defender_name);
+		//TODO: add attacker and defender names
+		//TextView attackerText = (TextView) findViewById(R.id.attacker_name);
+		//TextView defenderText = (TextView) findViewById(R.id.defender_name);
 		TextView focusText = (TextView) findViewById(R.id.focus_amount);
 		
-		attackerText.setText("Attacker: " + attacker.getName());
-		defenderText.setText("Defender: " + defender.getName());
+		//attackerText.setText("Attacker: " + attacker.getName());
+		//defenderText.setText("Defender: " + defender.getName());
 		
 		if (focus > 0)
 			focusText.setText("Focus Used: " + focus);
@@ -189,12 +189,6 @@ private void setResults(List<AttackResult> attackResults){
 		outState.putInt(MainActivity.OPTIMIZATION, optimization);
 		outState.putBoolean(PATH_STATE, pathSet);
 	    
-	    //if the path has been found, save the strings representing data as well
-	    if (pathSet){
-	    	//savedInstanceState.putParcelableArrayList(OPTIMAL_PATH, optimalPath);
-	    	outState.putSerializable(RESULTS, (Serializable) attackResults);
-	    	
-	    }
 	}
 
 	@Override
