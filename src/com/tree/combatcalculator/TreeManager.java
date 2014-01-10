@@ -103,9 +103,6 @@ public class TreeManager {
 		printNodePath(newPath, expDam);
 
 
-		//prints out the decisions and numbers
-		printResults(newPath, numFocus);
-		
 
 		return newPath;
 
@@ -1095,37 +1092,6 @@ public class TreeManager {
 
     }//end attacksLeft
 
-
-
-
-
-	//returns a string with the data of the specific attacks and the overall picture
-    public String[] printResults(ArrayList<Node> optimalPath, int curFocus){
-    	
-    	String[] results = new String[2];
-
-
-		//total expected damage, total expected dam if all hit, total expected hit, total expected crit
-		float[] dataForAll = new float[4];
-
-
-		results[0] = "";
-		
-		for (int i = 1; i < optimalPath.size(); i += 3)
-			results[0] += printSpecificResult(optimalPath, i, dataForAll);
-		
-		results[1] = "";
-
-
-		results[1] += "Total Expected Damage: " + dataForAll[0] + nl;
-		results[1] += "Total Expected Damage on All Hit: " + dataForAll[1] + nl;
-		results[1] += "Total Expected Number of Hits: " + dataForAll[2] + nl;
-		results[1] += "Total Expected Number of Crits: " + dataForAll[3] + nl;
-		
-		return results;
-
-
-    }//end printResults
     
   //returns a string with the data of the specific attacks and the overall picture
     public ArrayList<AttackResult> setAttackResults(ArrayList<Node> optimalPath, int curFocus){
@@ -1346,91 +1312,6 @@ public class TreeManager {
 	
 	
 
-
-	//goes through a single attack and calculates the values, then prints results, and stores overall values
-    private String printSpecificResult(ArrayList<Node> optimalPath, int index, float[] data){
-
-    	Node buyNode = optimalPath.get(index);
-    	int weaponIndex = (int)buyNode.getValue();
-    	
-    	String result = "";
-
-		if (weapons.get(weaponIndex).getHasCA())
-			result = printCAAttacks(optimalPath, index, data);
-		else{
-
-			//set nodes to null if they may not be initialized
-	    	Node hitNode = null;
-	    	Node damNode = optimalPath.get(index+2);
-
-			ArrayList<Node> hitNodes = optimalPath.get(index+1).getChildren();
-
-			//find hitNode and critNode
-	    	for (Node n : hitNodes)
-	    		if (((ResultNode)n).getHitType() == ResultNode.HIT)
-	    			hitNode = n;
-
-
-
-			//get the values for a normal attack
-			float hitChance = hitNode.getValue();
-			float hitDamage = damNode.getChild(0).getValue();
-
-
-			//figure out the crit values, and if there are crits
-			float[] critValues = new float[2];
-
-	    	boolean hasCrit = getCritValues(weaponIndex, hitNode, damNode, critValues);
-
-	    	float critChance = critValues[0];
-	    	float critDamage = critValues[1];
-
-
-	    	//if the hitNode is from a resolve path, it hasn't had the hit chance of the crit deducted, so do that her
-	    	if (hitNode.getParent().getValue() == 1 && weapons.get(weaponIndex).getCrit())
-				hitChance -= critChance;
-
-
-
-
-			//determine damage output
-	    	float expDam = hitChance*hitDamage + critChance*critDamage;
-
-	    	float expDamHit = hitDamage*hitChance/(hitChance+critChance)+critDamage*critChance/(hitChance+critChance);
-
-
-
-		    result += "Expected damage with weapon: " + weapons.get((int)buyNode.getValue()).getName() + "\n" + nl;
-		    result += "Expected Damage: " + expDam + nl;
-		    result += "Expected Damage if hit: " + expDamHit + nl;
-		    result += "Chance to Hit: " + (hitChance+critChance) + nl;
-
-		   	if (hasCrit)
-		   		result += "Chance to Crit: " + critChance + nl;
-
-		   	if (multAtkers){
-
-		   		result += "Expected number of hits: " + (hitChance+critChance)*atkModel.getNumAttackers() + nl;
-
-				if (hasCrit)
-					result += "Expected number of crits: " + (critChance)*atkModel.getNumAttackers() + nl;
-
-		   	}
-
-
-
-			data[0] += expDam;
-			data[1] += expDamHit;
-		   	data[2] += hitChance*atkModel.getNumAttackers();
-		   	data[3] += critChance*atkModel.getNumAttackers();
-
-		   	result += "\n";
-
-		}
-		
-		return result;
-
-    }//end printSpecificResult
 
 	//determines if a weapon has a crit, if it does determines damage from it
     private boolean getCritValues(int weaponIndex, Node hitNode, Node damNode, float[] critValues){
