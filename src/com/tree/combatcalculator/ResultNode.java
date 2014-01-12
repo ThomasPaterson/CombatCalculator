@@ -18,8 +18,6 @@ import android.os.Parcelable;
 public class ResultNode extends Node implements Parcelable{
 
 
-	private float value;
-
 	//for tracking types of result_attack nodes results
 	private int hitType;
 

@@ -12,6 +12,7 @@ package com.tree.combatcalculator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -199,6 +200,19 @@ public class Weapon extends AtkVarUser implements Parcelable{
                return new Weapon[size];
            }
        };
+
+
+	public static int[] prepareWeapons(AttackModel attacker,
+			List<Map<String, AtkVar>> permState) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public static boolean hasInits(int[] weaponCount) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 
 

@@ -11,13 +11,17 @@ package com.tree.combatcalculator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
+
+import com.tree.combatcalculator.AtkVarCopy.Id;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class DecisionNode extends Node implements Parcelable{
+public class DecisionNodeCopy extends Node implements Parcelable{
 
 	private boolean boost = false;
+	private float value;
 	private float total = 0;
 	private ArrayList<Node> pathTo = new ArrayList<Node>();
 	private int comboNum;
@@ -25,7 +29,7 @@ public class DecisionNode extends Node implements Parcelable{
 
 
 	//basic creator, will be created by the TreeCreator class
-    public DecisionNode(int newType, boolean isBoosted, float newValue) {
+    public DecisionNodeCopy(int newType, boolean isBoosted, float newValue) {
 
     	type = newType;
     	boost = isBoosted;
@@ -33,25 +37,32 @@ public class DecisionNode extends Node implements Parcelable{
     }
 
     //basic creator, will be created by the TreeCreator class
-    public DecisionNode(int newType) {
+    public DecisionNodeCopy(int newType) {
 
     	type = newType;
     	boost = false;
     	value = -1;
     }
     
-    public DecisionNode(Parcel in){
+    public DecisionNodeCopy(Parcel in){
     	super(in);
     	readFromParcel(in);
     }
 
-    public DecisionNode(int newType, int newFocus, ArrayList<AtkVar> newSit, int[] newWeapons) {
+    public DecisionNodeCopy(int newType, int newFocus, ArrayList<AtkVar> newSit, int[] newWeapons) {
     	type = newType;
     	value = -1;
     	focus = newFocus;
     	sit = new ArrayList<AtkVar>(newSit);
 		weaponCount = Arrays.copyOf(newWeapons, newWeapons.length);
     }
+
+
+
+	public DecisionNodeCopy(int eND, int numFocus,
+			Map<Id, AtkVarCopy> tempState, int[] usedWeapons) {
+		// TODO Auto-generated constructor stub
+	}
 
 	//finds the best path from this decision node by checking all children, then returning the result
 	//of the best one, and adding itself to the array
@@ -69,7 +80,7 @@ public class DecisionNode extends Node implements Parcelable{
 		int bestIndex = 0;
 
 		//if it has decision nodes as children, search for the best one
-		if (children.get(0) instanceof DecisionNode){
+		if (children.get(0) instanceof DecisionNodeCopy){
 
 			//search for the best path, send down the current path to be modified
 			for (int i = 0; i < children.size(); i++){
@@ -156,7 +167,7 @@ public class DecisionNode extends Node implements Parcelable{
 
 					//total them up for correct determination of the score for this attack
 					for (int j = 0; j < getChild(i).getChildren().size(); j++)
-						addDamage += getChild(i).getValue() * ((DecisionNode)getChild(i).getChild(j)).getTotal();
+						addDamage += getChild(i).getValue() * ((DecisionNodeCopy)getChild(i).getChild(j)).getTotal();
 
 				}
 
@@ -254,14 +265,14 @@ public class DecisionNode extends Node implements Parcelable{
     *
 
     */
-   public static final Parcelable.Creator<DecisionNode> CREATOR =
-   	new Parcelable.Creator<DecisionNode>() {
-           public DecisionNode createFromParcel(Parcel in) {
-               return new DecisionNode(in);
+   public static final Parcelable.Creator<DecisionNodeCopy> CREATOR =
+   	new Parcelable.Creator<DecisionNodeCopy>() {
+           public DecisionNodeCopy createFromParcel(Parcel in) {
+               return new DecisionNodeCopy(in);
            }
            
-           public DecisionNode[] newArray(int size) {
-               return new DecisionNode[size];
+           public DecisionNodeCopy[] newArray(int size) {
+               return new DecisionNodeCopy[size];
            }
        };
 

@@ -2,6 +2,8 @@ package com.tree.combatcalculator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class DecisionManager {
 	
@@ -309,9 +311,9 @@ public class DecisionManager {
     
 	//turn on heuristics if there is a large number of possibilities
 	//check to see if a lot of attacks can be generated
-	private boolean checkNeedHeuristics(int[] usedWeapons, int numFocus){
+	public static boolean checkNeedHeuristics(List<Map<String, AtkVar>> permState, int numFocus){
 
-		if (!(checkNumAttacks(usedWeapons)%ILLEGAL > 3)){
+		if (!(checkNumAttacks(permState)%ILLEGAL > 3)){
 
     	if (weapons.size() > 2 && numFocus > 2)
     		return true;
@@ -326,5 +328,10 @@ public class DecisionManager {
     		return true;
 
 	}//end checkNeedHeuristics
+
+	public boolean checkNeedHeuristics(int numFocus) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

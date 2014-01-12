@@ -529,6 +529,12 @@ public class AttackManager {
 		}//end addAttackRecord
 
 
+		public static void addAttack(Node n, PermanentTreeData permData) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
 
 }
 

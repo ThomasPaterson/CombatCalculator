@@ -17,7 +17,7 @@ import com.tree.combatcalculator.AtkVarCopy.Id;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class AtkVar implements Parcelable {
+public class AtkVarCopy implements Parcelable {
 	//name of the variable
 	private String name;
 	//type of variable
@@ -114,15 +114,19 @@ public class AtkVar implements Parcelable {
 	public static String IS_RANGED = "is_ranged";
 	public static String GET_CRIT = "get_crit";
 	public static String IS_FIRST_ATTACK = "is_first_attack";
+	
+	public enum Id {
+		 WHITE, BLACK, RED, YELLOW, BLUE;  //; is optional
+		}
 
 
-    public AtkVar(String newName) {
+    public AtkVarCopy(String newName) {
     	name = newName;
 
     	setValues();
     }
 
-    public AtkVar(String newName, int newValue) {
+    public AtkVarCopy(String newName, int newValue) {
     	name = newName;
     	value = newValue;
     	setValues();
@@ -133,7 +137,7 @@ public class AtkVar implements Parcelable {
 	 * Constructor to use when re-constructing object
 	 * from a parcel
 	 */
-    public AtkVar(Parcel in) {
+    public AtkVarCopy(Parcel in) {
 		readFromParcel(in);
 	}
 
@@ -456,7 +460,7 @@ public class AtkVar implements Parcelable {
 
 
 	//removes a variable from an arraylist, using the variable to remove
-    public static void removeVariable(ArrayList<AtkVar> variables, AtkVar remove){
+    public static void removeVariable(ArrayList<AtkVarCopy> variables, AtkVarCopy remove){
 
     	for (int i = 0; i < variables.size(); i++){
 
@@ -471,7 +475,7 @@ public class AtkVar implements Parcelable {
     }//end removeVariable
 
     //removes a variable from an arraylist, using the variable to remove
-    public static void removeVariable(List<AtkVar> variables, String reName){
+    public static void removeVariable(List<AtkVarCopy> variables, String reName){
 
     	for (int i = 0; i < variables.size(); i++){
 
@@ -486,7 +490,7 @@ public class AtkVar implements Parcelable {
     }//end removeVariable
     
   //returns either the atkvar requested, or null if nothing is there
-    public static AtkVar getAtkVarByName(ArrayList<AtkVar> variables, String nameToCheck){
+    public static AtkVarCopy getAtkVarByName(ArrayList<AtkVarCopy> variables, String nameToCheck){
     	
     	for (int i = 0; i < variables.size(); i++)
     		if (variables.get(i).getName().equals(nameToCheck))
@@ -500,7 +504,7 @@ public class AtkVar implements Parcelable {
 
 
 	//checks to see if an arraylist of atkvars contains one of a specific variable
-    public static boolean checkContainsName(List<AtkVar> variables, String nameToCheck){
+    public static boolean checkContainsName(List<AtkVarCopy> variables, String nameToCheck){
 
     	for (int i = 0; i < variables.size(); i++)
     		if (variables.get(i).getName().equals(nameToCheck))
@@ -514,8 +518,8 @@ public class AtkVar implements Parcelable {
 
 
     //checks to see if an arraylist of atkvars contains one of a specific variable
-    public static boolean checkContainsName(List<AtkVar> variables1, List<AtkVar> variables2,
-    		List<AtkVar> variables3, String nameToCheck){
+    public static boolean checkContainsName(List<AtkVarCopy> variables1, List<AtkVarCopy> variables2,
+    		List<AtkVarCopy> variables3, String nameToCheck){
 
 
     	for (int i = 0; i < variables1.size(); i++)
@@ -538,7 +542,7 @@ public class AtkVar implements Parcelable {
 
 
     //checks all the conditions to see if there is one that is invalid
-    public boolean meetsConditions(List<AtkVar> variables){
+    public boolean meetsConditions(List<AtkVarCopy> variables){
 
 		ArrayList<String> targetString = new ArrayList<String>();
 
@@ -566,7 +570,7 @@ public class AtkVar implements Parcelable {
 
 			//loop through all the variables provided, if it is in there, continue onto the next one
 			//otherwise break the loop
-    		for (AtkVar variable : variables){
+    		for (AtkVarCopy variable : variables){
     			
     			for (String s : targetString){
     				
@@ -595,14 +599,14 @@ public class AtkVar implements Parcelable {
     }//end meetsConditions
 
     //checks each atkvar in one list, to make sure there is the same one in the other
-    static public boolean equalAtkVarList(ArrayList<AtkVar> list1, ArrayList<AtkVar> list2){
+    static public boolean equalAtkVarList(ArrayList<AtkVarCopy> list1, ArrayList<AtkVarCopy> list2){
 
 
-		for (AtkVar l1 : list1)
+		for (AtkVarCopy l1 : list1)
 			if (!checkContainsName(list2, l1.getName()))
 				return false;
 
-		for (AtkVar l2 : list2)
+		for (AtkVarCopy l2 : list2)
 			if (!checkContainsName(list1, l2.getName()))
 				return false;
 
@@ -613,11 +617,11 @@ public class AtkVar implements Parcelable {
 
 
     //removes boosts, but only ones that are created by spending focus
-    static public ArrayList<AtkVar> removeFocusBoost(ArrayList<AtkVar> sit){
+    static public ArrayList<AtkVarCopy> removeFocusBoost(ArrayList<AtkVarCopy> sit){
 
-    	ArrayList<AtkVar> newSit = new ArrayList<AtkVar>();
+    	ArrayList<AtkVarCopy> newSit = new ArrayList<AtkVarCopy>();
 
-    	for (AtkVar a : sit){
+    	for (AtkVarCopy a : sit){
 
     		if (a.getName().equals(BOOSTED_HIT) || a.getName().equals(BOOSTED_DAM))
     			if (a.getValue() != -1)
@@ -684,16 +688,24 @@ public class AtkVar implements Parcelable {
     *
 
     */
-   public static final Parcelable.Creator<AtkVar> CREATOR =
-   	new Parcelable.Creator<AtkVar>() {
-           public AtkVar createFromParcel(Parcel in) {
-               return new AtkVar(in);
+   public static final Parcelable.Creator<AtkVarCopy> CREATOR =
+   	new Parcelable.Creator<AtkVarCopy>() {
+           public AtkVarCopy createFromParcel(Parcel in) {
+               return new AtkVarCopy(in);
            }
            
-           public AtkVar[] newArray(int size) {
-               return new AtkVar[size];
+           public AtkVarCopy[] newArray(int size) {
+               return new AtkVarCopy[size];
            }
        };
+
+
+
+	public static Map<Id, AtkVarCopy> setupTempState(
+			List<Map<String, AtkVar>> permState) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 

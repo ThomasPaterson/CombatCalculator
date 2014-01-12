@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public abstract class Node implements Parcelable{
+public abstract class Node implements Parcelable, Comparable<Node>{
 
 	protected Node parent;
 	protected ArrayList<Node> children;
@@ -23,6 +23,7 @@ public abstract class Node implements Parcelable{
 	protected int focus;
 	protected ArrayList<AtkVar> sit;
 	protected int[] weaponCount;
+	protected float value;
 
 	//types of nodes
 	static public int ATTACK = 1;
@@ -230,6 +231,16 @@ public abstract class Node implements Parcelable{
 	public int describeContents() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public Object getTempState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public int compareTo(Node compareNode) {
+		return Float.compare(this.value, compareNode.getValue());
+ 
 	}
 	
   	
