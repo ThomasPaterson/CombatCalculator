@@ -1,4 +1,4 @@
-package com.tree.combatcalculator;
+package com.tree.combatcalculator.nodes;
 
 /**
  * @(#)DecisionNode.java
@@ -10,12 +10,19 @@ package com.tree.combatcalculator;
  */
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class DecisionNode extends Node implements Parcelable{
+import com.tree.combatcalculator.AtkVarCopy;
+import com.tree.combatcalculator.AtkVarCopy.Id;
+import com.tree.combatcalculator.PermanentTreeData;
+import com.tree.combatcalculator.WeaponCountHolder;
+
+public  class DecisionNode extends Node implements Parcelable{
 
 	private boolean boost = false;
 	private float total = 0;
@@ -45,12 +52,12 @@ public class DecisionNode extends Node implements Parcelable{
     	readFromParcel(in);
     }
 
-    public DecisionNode(int newType, int newFocus, ArrayList<AtkVar> newSit, int[] newWeapons) {
+    public DecisionNode(int newType, int newFocus, Map<Id, AtkVarCopy> tempState, List<WeaponCountHolder> weaponCountHolder) {
     	type = newType;
     	value = -1;
     	focus = newFocus;
-    	sit = new ArrayList<AtkVar>(newSit);
-		weaponCount = Arrays.copyOf(newWeapons, newWeapons.length);
+    	sit = new HashMap<Id, AtkVarCopy>(tempState);
+		weaponCount = WeaponCountHolder.copy(weaponCountHolder);
     }
 
 	//finds the best path from this decision node by checking all children, then returning the result
@@ -221,21 +228,21 @@ public class DecisionNode extends Node implements Parcelable{
 		@Override
 		public void writeToParcel(Parcel dest, int flags){
 			
-			dest.writeInt(Node.DECISION_NODE);
-			dest.writeParcelable(parent, 0);
-			dest.writeTypedList(children);
-			dest.writeInt(type);
-			dest.writeInt(focus);
-			dest.writeTypedList(sit);
-			dest.writeIntArray(weaponCount);
-			boolean[] boostArr = new boolean[1];
-			boostArr[0] = boost;
-			dest.writeBooleanArray(boostArr);
-			dest.writeFloat(value);
-			dest.writeFloat(total);
-			dest.writeTypedList(pathTo);
-			dest.writeInt(comboNum);
-			
+//			dest.writeInt(Node.DECISION_NODE);
+//			dest.writeParcelable(parent, 0);
+//			dest.writeTypedList(children);
+//			dest.writeInt(type);
+//			dest.writeInt(focus);
+//			dest.writeTypedList(sit);
+//			//TODO: dest.writeIntArray(weaponCount);
+//			boolean[] boostArr = new boolean[1];
+//			boostArr[0] = boost;
+//			dest.writeBooleanArray(boostArr);
+//			dest.writeFloat(value);
+//			dest.writeFloat(total);
+//			dest.writeTypedList(pathTo);
+//			dest.writeInt(comboNum);
+//			
 		}
 
 		//parcel stuff
@@ -264,6 +271,21 @@ public class DecisionNode extends Node implements Parcelable{
                return new DecisionNode[size];
            }
        };
+
+
+
+	@Override
+	public List<Node> createChildren(PermanentTreeData permData){
+		
+		return children;
+		
+	}
+
+	@Override
+	public void calculateValue() {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 

@@ -1,4 +1,4 @@
-package com.tree.combatcalculator;
+package com.tree.combatcalculator.nodes;
 
 /**
  * @(#)DecisionNode.java
@@ -13,7 +13,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.example.combatcalculator.AttackHolder;
+import com.tree.combatcalculator.AtkVar;
+import com.tree.combatcalculator.AtkVarCopy;
 import com.tree.combatcalculator.AtkVarCopy.Id;
+import com.tree.combatcalculator.WeaponCountHolder;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -49,12 +53,12 @@ public class DecisionNodeCopy extends Node implements Parcelable{
     	readFromParcel(in);
     }
 
-    public DecisionNodeCopy(int newType, int newFocus, ArrayList<AtkVar> newSit, int[] newWeapons) {
+    public DecisionNodeCopy(int newType, int newFocus, Map<Id, AtkVarCopy> tempState, WeaponCountHolder usedWeapons) {
     	type = newType;
     	value = -1;
     	focus = newFocus;
-    	sit = new ArrayList<AtkVar>(newSit);
-		weaponCount = Arrays.copyOf(newWeapons, newWeapons.length);
+    	sit = new ArrayList<AtkVar>(tempState);
+		weaponCount = usedWeapons.copy();
     }
 
 
@@ -63,6 +67,8 @@ public class DecisionNodeCopy extends Node implements Parcelable{
 			Map<Id, AtkVarCopy> tempState, int[] usedWeapons) {
 		// TODO Auto-generated constructor stub
 	}
+
+
 
 	//finds the best path from this decision node by checking all children, then returning the result
 	//of the best one, and adding itself to the array

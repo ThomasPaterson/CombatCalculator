@@ -209,7 +209,7 @@ public class Weapon extends AtkVarUser implements Parcelable{
 	}
 
 
-	public static boolean hasInits(int[] weaponCount) {
+	public static boolean hasInits(WeaponCountHolder weaponCount) {
 		// TODO Auto-generated method stub
 		return false;
 	}

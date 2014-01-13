@@ -11,5 +11,12 @@ public class PermanentTreeData {
 	public int optimization;
 	public AttackCalculator atkCalc;
 	public boolean useHeuristics;
+	public List<Weapon> optimalWeapons;
+	
+	
+	public List<Weapon> getOptimalWeapons() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

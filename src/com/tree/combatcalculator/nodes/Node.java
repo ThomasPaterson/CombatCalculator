@@ -1,4 +1,4 @@
-package com.tree.combatcalculator;
+package com.tree.combatcalculator.nodes;
 
 /**
  * @(#)Node.java
@@ -11,9 +11,18 @@ package com.tree.combatcalculator;
  */
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.tree.combatcalculator.AtkVar;
+import com.tree.combatcalculator.AtkVarCopy;
+import com.tree.combatcalculator.AtkVarCopy.Id;
+import com.tree.combatcalculator.PermanentTreeData;
+import com.tree.combatcalculator.WeaponCountHolder;
 
 public abstract class Node implements Parcelable, Comparable<Node>{
 
@@ -21,9 +30,10 @@ public abstract class Node implements Parcelable, Comparable<Node>{
 	protected ArrayList<Node> children;
 	protected int type;
 	protected int focus;
-	protected ArrayList<AtkVar> sit;
-	protected int[] weaponCount;
+	protected Map<Id, AtkVarCopy> sit;
+	protected List<WeaponCountHolder> weaponCount;
 	protected float value;
+	protected Type nodeType;
 
 	//types of nodes
 	static public int ATTACK = 1;
@@ -35,7 +45,31 @@ public abstract class Node implements Parcelable, Comparable<Node>{
 	static public String[] TYPE_ARR= {"Attack", "Damage", "Buy", "End", "Result_Attack", "Result_Damage"};
 	static public int DECISION_NODE = 7;
 	static public int RESULT_NODE = 8;
-
+	
+	public enum Type {
+		 END("END", "BUY"), 
+		 BUY("BUY", "ATTACK_DEC"), 
+		 ATTACK_DEC("ATTACK_DEC", "ATTACK_RES"), 
+		 ATTACK_RES("ATTACK_RES", "DAMAGE_DEC"), 
+		 DAMAGE_DEC("DAMAGE_DEC", "DAMAGE_RES"), 
+		 DAMAGE_RES("DAMAGE_RES", null);
+		 
+		 private String name;
+		 private String next;
+		 
+		 private Type(String name, String next) {
+		   this.name = name;
+		   this.next = next;
+		 }
+		 
+		 public String getName() {
+		   return name;
+		 }
+		 
+		 public String getNext() {
+			   return next;
+		 }
+	}
 
 	//parent node constructor
     public Node() {
@@ -104,12 +138,11 @@ public abstract class Node implements Parcelable, Comparable<Node>{
     	return children.size();
     }
 
-    public ArrayList<AtkVar> getSit(){
+    public Map<Id, AtkVarCopy> getSit(){
 		return sit;
 	}
 
-	//returns weaponCount, a which tracks how many attacks each weapon has made
-	public int[] getWeaponCount(){
+	public List<WeaponCountHolder> getWeaponCount(){
 		return weaponCount;
 	}
 
@@ -118,16 +151,16 @@ public abstract class Node implements Parcelable, Comparable<Node>{
 	}
 
 	//creates a new copy of the situation the node is in
-	public void setSit(ArrayList<AtkVar> newSit){
-		sit = new ArrayList<AtkVar>(newSit);
+	public void setSit(Map<Id, AtkVarCopy> newSit){
+		sit = new HashMap<Id, AtkVarCopy>(newSit);
 	}
 
 	public void setFocus(int newFocus){
 		focus = newFocus;
 	}
 
-	public void setWeaponCount(int[] curWeapons){
-		weaponCount = curWeapons;
+	public void setWeaponCount(List<WeaponCountHolder> atkHolder){
+		weaponCount = atkHolder;
 	}
 
 
@@ -187,15 +220,15 @@ public abstract class Node implements Parcelable, Comparable<Node>{
   	private void readFromParcel(Parcel in){
   		
 
-  		parent = in.readParcelable(null);
-		children = new ArrayList<Node>();
-		in.readTypedList(children, Node.CREATOR);
-		type = in.readInt();
-		focus = in.readInt();
-		sit = new ArrayList<AtkVar>();
-		in.readTypedList(sit, AtkVar.CREATOR);
-		weaponCount = new int[10];
-		in.readIntArray(weaponCount);
+//  		parent = in.readParcelable(null);
+//		children = new ArrayList<Node>();
+//		in.readTypedList(children, Node.CREATOR);
+//		type = in.readInt();
+//		focus = in.readInt();
+//		sit = new Map<Id, AtkVarCopy>();
+//		in.readTypedList(sit, AtkVar.CREATOR);
+//		//TODO: weaponCount = new int[10];
+//		//TODO: in.readTypedList(weaponCount);
   		
   	}
   		
@@ -242,6 +275,15 @@ public abstract class Node implements Parcelable, Comparable<Node>{
 		return Float.compare(this.value, compareNode.getValue());
  
 	}
+
+	public Type getNodeType() {
+		// TODO Auto-generated method stub
+		return nodeType;
+	}
+
+	public abstract List<Node> createChildren(PermanentTreeData permData);
+
+	public abstract void calculateValue();
 	
   	
   	//end parcel stuff

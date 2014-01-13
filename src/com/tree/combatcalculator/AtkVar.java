@@ -696,6 +696,12 @@ public class AtkVar implements Parcelable {
        };
 
 
+	public static boolean checkContains(String rANGED2) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
 
 
 

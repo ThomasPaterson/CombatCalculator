@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.tree.combatcalculator.nodes.DecisionNodeCopy;
+import com.tree.combatcalculator.nodes.EndNode;
+import com.tree.combatcalculator.nodes.Node;
+
 /**
  * @(#)TreeManager.java
  *
@@ -19,7 +23,7 @@ import java.util.Set;
 public class TreeManagerCopy {
 	
 private PermanentTreeData permData;
-private DecisionNodeCopy parent;
+private Node parent;
 private List<Node> optimalNodes;
 	
 
@@ -34,6 +38,7 @@ private List<Node> optimalNodes;
     	permData.attacker = attacker;
     	permData.defender = defender;
     	permData.permState = permState;
+    	permData.optimalWeapons = permData.getOptimalWeapons();
 
     }//end constructor
 
@@ -42,11 +47,11 @@ private List<Node> optimalNodes;
     public boolean makeTree(int numFocus) throws NullPointerException{
 
     	permData.useHeuristics = DecisionManager.checkNeedHeuristics(permData.permState,numFocus);
-    	int[] usedWeapons = Weapon.prepareWeapons(permData.attacker, permData.permState);
+    	WeaponCountHolder usedWeapons = new WeaponCountHolder(permData.attacker.getWeapons(), permData);
     	
     	Map<AtkVarCopy.Id, AtkVarCopy> tempState = AtkVarCopy.setupTempState(permData.permState);
     	
-    	parent = new DecisionNodeCopy(Node.END, numFocus, tempState, usedWeapons);
+    	parent = new EndNode(Node.END, numFocus, tempState, usedWeapons);
     	
     	optimalNodes = new ArrayList<Node>();
     	optimalNodes.add(parent);
@@ -65,8 +70,8 @@ private List<Node> optimalNodes;
 		
 		for (Node n : optimalNodes){
 			
-			if (n.getFocus() != 0 || Weapon.hasInits(n.getWeaponCount())){
-				AttackManager.addAttack(n, permData);
+			if (n.getFocus() != 0 || n.getWeaponCount().hasAttacks()){
+				AttackManagerCopy.addAttack(n, permData);
 				done = false;
 			}		
 		}

@@ -1,4 +1,4 @@
-package com.tree.combatcalculator;
+package com.tree.combatcalculator.nodes;
 
 /**
  * @(#)ResultNode.java
@@ -10,10 +10,18 @@ package com.tree.combatcalculator;
  */
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.tree.combatcalculator.AtkVar;
+import com.tree.combatcalculator.AtkVarCopy;
+import com.tree.combatcalculator.AtkVarCopy.Id;
+import com.tree.combatcalculator.PermanentTreeData;
+import com.tree.combatcalculator.WeaponCountHolder;
 
 public class ResultNode extends Node implements Parcelable{
 
@@ -38,12 +46,13 @@ public class ResultNode extends Node implements Parcelable{
     	
     }
 
-    public ResultNode(int newType, float newValue, int newFocus, ArrayList<AtkVar> newSit, int[] newWeapons) {
+    public ResultNode(int newType, float newValue, int newFocus, Map<Id, AtkVarCopy> newSit, 
+    		List<WeaponCountHolder> weaponCountHolder) {
     	type = newType;
     	value = newValue;
     	focus = newFocus;
-    	sit = new ArrayList<AtkVar>(newSit);
-		weaponCount = Arrays.copyOf(newWeapons, newWeapons.length);
+    	sit = new HashMap<Id, AtkVarCopy>(newSit);
+		weaponCount = WeaponCountHolder.copy(weaponCountHolder);
     }
 
     public ResultNode(int newType, float newValue, int newHitType) {
@@ -147,15 +156,15 @@ public class ResultNode extends Node implements Parcelable{
 	@Override
 	public void writeToParcel(Parcel dest, int flags){
 		
-		dest.writeInt(Node.RESULT_NODE);
-		dest.writeParcelable(parent, 0);
-		dest.writeTypedList(children);
-		dest.writeInt(type);
-		dest.writeInt(focus);
-		dest.writeTypedList(sit);
-		dest.writeIntArray(weaponCount);
-		dest.writeFloat(value);
-		dest.writeInt(hitType);
+//		dest.writeInt(Node.RESULT_NODE);
+//		dest.writeParcelable(parent, 0);
+//		dest.writeTypedList(children);
+//		dest.writeInt(type);
+//		dest.writeInt(focus);
+//		dest.writeTypedList(sit);
+//		//TODO: dest.writeIntArray(weaponCount);
+//		dest.writeFloat(value);
+//		dest.writeInt(hitType);
 	}
 
 	//parcel stuff
@@ -184,6 +193,19 @@ public static final Parcelable.Creator<ResultNode> CREATOR =
            return new ResultNode[size];
        }
    };
+
+@Override
+public List<Node> createChildren(PermanentTreeData permData) {
+	
+	return children;
+	
+}
+
+@Override
+public void calculateValue() {
+	// TODO Auto-generated method stub
+	
+}
 
 
 
