@@ -19,15 +19,17 @@ public class AttackManagerCopy {
 		
 		addChildNodes(n);
 		
-		computeScores(bottomRow);
+		computeScores();
 		
 	}
 
 
 
-	private static void computeScores(List<Node> bottomRow2) {
-		// TODO Auto-generated method stub
+	private static void computeScores() {
 		
+		for (Node n : bottomRow){
+			n.calculateValue();
+		}
 	}
 
 
@@ -42,7 +44,7 @@ public class AttackManagerCopy {
 				addChildNodes(child);
 			}
 		}else{
-			
+			bottomRow.add(n);
 		}
 		
 	}

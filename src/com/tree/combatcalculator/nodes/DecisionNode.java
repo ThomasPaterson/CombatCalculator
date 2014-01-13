@@ -20,9 +20,10 @@ import android.os.Parcelable;
 import com.tree.combatcalculator.AtkVarCopy;
 import com.tree.combatcalculator.AtkVarCopy.Id;
 import com.tree.combatcalculator.PermanentTreeData;
+import com.tree.combatcalculator.TemporaryTreeData;
 import com.tree.combatcalculator.WeaponCountHolder;
 
-public  class DecisionNode extends Node implements Parcelable{
+public  abstract class DecisionNode extends Node implements Parcelable{
 
 	private boolean boost = false;
 	private float total = 0;
@@ -32,11 +33,8 @@ public  class DecisionNode extends Node implements Parcelable{
 
 
 	//basic creator, will be created by the TreeCreator class
-    public DecisionNode(int newType, boolean isBoosted, float newValue) {
+    public DecisionNode() {
 
-    	type = newType;
-    	boost = isBoosted;
-    	value = newValue;
     }
 
     //basic creator, will be created by the TreeCreator class
@@ -52,12 +50,13 @@ public  class DecisionNode extends Node implements Parcelable{
     	readFromParcel(in);
     }
 
-    public DecisionNode(int newType, int newFocus, Map<Id, AtkVarCopy> tempState, List<WeaponCountHolder> weaponCountHolder) {
-    	type = newType;
-    	value = -1;
-    	focus = newFocus;
-    	sit = new HashMap<Id, AtkVarCopy>(tempState);
-		weaponCount = WeaponCountHolder.copy(weaponCountHolder);
+
+
+	
+	public DecisionNode(Node parent){
+		
+    	super(parent);
+
     }
 
 	//finds the best path from this decision node by checking all children, then returning the result
@@ -264,7 +263,8 @@ public  class DecisionNode extends Node implements Parcelable{
    public static final Parcelable.Creator<DecisionNode> CREATOR =
    	new Parcelable.Creator<DecisionNode>() {
            public DecisionNode createFromParcel(Parcel in) {
-               return new DecisionNode(in);
+               //TODO: return new DecisionNode(in);
+               return null;
            }
            
            public DecisionNode[] newArray(int size) {
@@ -275,18 +275,11 @@ public  class DecisionNode extends Node implements Parcelable{
 
 
 	@Override
-	public List<Node> createChildren(PermanentTreeData permData){
-		
-		return children;
-		
-	}
+	public abstract List<Node> createChildren(PermanentTreeData permData);
 
 	@Override
-	public void calculateValue() {
-		// TODO Auto-generated method stub
-		
-	}
-
+	public abstract void calculateValue();
+	
 
 
 }

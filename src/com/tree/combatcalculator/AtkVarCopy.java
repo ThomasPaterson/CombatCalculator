@@ -116,7 +116,7 @@ public class AtkVarCopy implements Parcelable {
 	public static String IS_FIRST_ATTACK = "is_first_attack";
 	
 	public enum Id {
-		 WHITE, BLACK, RED, YELLOW, BLUE;  //; is optional
+		 STAR_ATTACK;  //; is optional
 		}
 
 
@@ -139,6 +139,10 @@ public class AtkVarCopy implements Parcelable {
 	 */
     public AtkVarCopy(Parcel in) {
 		readFromParcel(in);
+	}
+
+	public AtkVarCopy(Id starAttack) {
+		// TODO Auto-generated constructor stub
 	}
 
 	//adds a new condition
@@ -705,6 +709,11 @@ public class AtkVarCopy implements Parcelable {
 			List<Map<String, AtkVar>> permState) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public static boolean contains(Id starAttack, PermanentTreeData permData) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 

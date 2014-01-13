@@ -23,7 +23,7 @@ import com.tree.combatcalculator.AtkVarCopy.Id;
 import com.tree.combatcalculator.PermanentTreeData;
 import com.tree.combatcalculator.WeaponCountHolder;
 
-public class ResultNode extends Node implements Parcelable{
+public abstract class ResultNode extends Node implements Parcelable{
 
 
 	//for tracking types of result_attack nodes results
@@ -46,14 +46,6 @@ public class ResultNode extends Node implements Parcelable{
     	
     }
 
-    public ResultNode(int newType, float newValue, int newFocus, Map<Id, AtkVarCopy> newSit, 
-    		List<WeaponCountHolder> weaponCountHolder) {
-    	type = newType;
-    	value = newValue;
-    	focus = newFocus;
-    	sit = new HashMap<Id, AtkVarCopy>(newSit);
-		weaponCount = WeaponCountHolder.copy(weaponCountHolder);
-    }
 
     public ResultNode(int newType, float newValue, int newHitType) {
     	type = newType;
@@ -186,7 +178,9 @@ public class ResultNode extends Node implements Parcelable{
 public static final Parcelable.Creator<ResultNode> CREATOR =
 	new Parcelable.Creator<ResultNode>() {
        public ResultNode createFromParcel(Parcel in) {
-           return new ResultNode(in);
+           //return new ResultNode(in);
+    	   //TODO
+    	   return null;
        }
        
        public ResultNode[] newArray(int size) {

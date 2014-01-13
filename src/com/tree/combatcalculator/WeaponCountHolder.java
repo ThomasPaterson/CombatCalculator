@@ -43,7 +43,7 @@ public class WeaponCountHolder {
 			
 			WeaponCountHolder holder = new WeaponCountHolder();
 			
-			holder.initials = w.getNumAtks();
+			holder.initials = 0;
 			holder.maxInitials = w.getNumAtks();
 			holder.boughtAttacks = 0;
 			holder.maxROF = w.getROF();
@@ -121,6 +121,38 @@ public class WeaponCountHolder {
 		
 		return hasInit() || hasAttackToBuy();
 	}
+
+	public static void buyAttack(int index,
+			List<WeaponCountHolder> holders) {
+		
+		WeaponCountHolder holder = holders.get(index);
+		holder.boughtAttacks++;
+	}
+	
+	public static void makeAttack(int index, List<WeaponCountHolder> holders) {
+		
+		WeaponCountHolder holder = holders.get(index);
+		holder.initials++;	
+	}
+	
+	public static boolean hasAllInitials(List<WeaponCountHolder> holders){
+		
+		int numAttacksMade = 0;
+		
+		for (WeaponCountHolder holder : holders)
+			numAttacksMade += holder.initials;
+		
+		return (numAttacksMade == 0);
+		
+	}
+	
+public static void useAllInitials(List<WeaponCountHolder> holders){
+		
+		for (WeaponCountHolder holder : holders)
+			holder.initials = holder.maxInitials;
+		
+	}
+
 
 
 

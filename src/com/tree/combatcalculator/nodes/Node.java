@@ -18,10 +18,10 @@ import java.util.Map;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.tree.combatcalculator.AtkVar;
 import com.tree.combatcalculator.AtkVarCopy;
 import com.tree.combatcalculator.AtkVarCopy.Id;
 import com.tree.combatcalculator.PermanentTreeData;
+import com.tree.combatcalculator.TemporaryTreeData;
 import com.tree.combatcalculator.WeaponCountHolder;
 
 public abstract class Node implements Parcelable, Comparable<Node>{
@@ -29,9 +29,7 @@ public abstract class Node implements Parcelable, Comparable<Node>{
 	protected Node parent;
 	protected ArrayList<Node> children;
 	protected int type;
-	protected int focus;
-	protected Map<Id, AtkVarCopy> sit;
-	protected List<WeaponCountHolder> weaponCount;
+	TemporaryTreeData tempData;
 	protected float value;
 	protected Type nodeType;
 
@@ -83,9 +81,9 @@ public abstract class Node implements Parcelable, Comparable<Node>{
     }
 
 	//child node constructor
-    public Node(Node newParent) {
-    	parent = newParent;
-    	children = new ArrayList<Node>();
+    public Node(Node parent) {
+    	this.parent = parent;
+    	this.tempData = new TemporaryTreeData(parent.getTempData());
     }
 
     //constructor for nodes when we already know the children
@@ -93,6 +91,13 @@ public abstract class Node implements Parcelable, Comparable<Node>{
 
     	parent = newParent;
     	children = newChildren;
+
+    }
+    
+    public Node(Node parent, TemporaryTreeData tempData){
+
+    	this.parent = parent;
+    	this.tempData = tempData;
 
     }
 
@@ -122,6 +127,14 @@ public abstract class Node implements Parcelable, Comparable<Node>{
     public ArrayList<Node> getChildren(){
     	return children;
     }
+    
+    public TemporaryTreeData getTempData(){
+    	return tempData;
+    }
+    
+    public void setTempData(TemporaryTreeData tempData){
+    	this.tempData = new TemporaryTreeData(tempData);
+    }
 
     public Node getChild(int index){
     	return children.get(index);
@@ -138,30 +151,6 @@ public abstract class Node implements Parcelable, Comparable<Node>{
     	return children.size();
     }
 
-    public Map<Id, AtkVarCopy> getSit(){
-		return sit;
-	}
-
-	public List<WeaponCountHolder> getWeaponCount(){
-		return weaponCount;
-	}
-
-	public int getFocus(){
-		return focus;
-	}
-
-	//creates a new copy of the situation the node is in
-	public void setSit(Map<Id, AtkVarCopy> newSit){
-		sit = new HashMap<Id, AtkVarCopy>(newSit);
-	}
-
-	public void setFocus(int newFocus){
-		focus = newFocus;
-	}
-
-	public void setWeaponCount(List<WeaponCountHolder> atkHolder){
-		weaponCount = atkHolder;
-	}
 
 
 
@@ -244,12 +233,16 @@ public abstract class Node implements Parcelable, Comparable<Node>{
 			        	   int curType = in.readInt();
 			        	   
 			        	   if (curType == DECISION_NODE){
-			        		   DecisionNode newD = new DecisionNode(in);
-			        		   return (Node) newD;
+			        		   //DecisionNode newD = new DecisionNode(in);
+			        		   //return (Node) newD;
+			        		   //TODO
+			        		   return null;
 			        	   }else{
 			        		   
-			        		   ResultNode newR = new ResultNode(in);
-			        		   return (Node) newR;
+			        		   //ResultNode newR = new ResultNode(in);
+			        		   //return (Node) newR;
+			        		   //TODO
+			        		   return null;
 			        		   
 			        	   }
 			        	   		
@@ -266,10 +259,6 @@ public abstract class Node implements Parcelable, Comparable<Node>{
 		return 0;
 	}
 
-	public Object getTempState() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	public int compareTo(Node compareNode) {
 		return Float.compare(this.value, compareNode.getValue());
@@ -284,6 +273,7 @@ public abstract class Node implements Parcelable, Comparable<Node>{
 	public abstract List<Node> createChildren(PermanentTreeData permData);
 
 	public abstract void calculateValue();
+
 	
   	
   	//end parcel stuff

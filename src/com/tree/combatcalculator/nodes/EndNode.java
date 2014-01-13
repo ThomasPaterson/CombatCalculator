@@ -11,18 +11,22 @@ import com.tree.combatcalculator.WeaponCountHolder;
 
 public class EndNode extends DecisionNode {
 
-	public EndNode(int eND, int numFocus, Map<Id, AtkVarCopy> tempState,
-			List<WeaponCountHolder> weaponCountHolder) {
-		
-		super(eND, numFocus, tempState, weaponCountHolder);
+	public EndNode() {
+	
+		super();
 		nodeType = Node.Type.END;
 		
 	}
 	
 	@Override
-	public List<Node> createChildren(PermanentTreeData permData) {
+	public List<Node> createChildren(PermanentTreeData permData) {	
+		return BuyNode.createBuyNodes(this, permData);
+	}
+
+	@Override
+	public void calculateValue() {
+		// TODO Auto-generated method stub
 		
-		return children;
 	}
 
 }
