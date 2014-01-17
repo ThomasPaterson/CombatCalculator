@@ -153,6 +153,16 @@ public static void useAllInitials(List<WeaponCountHolder> holders){
 		
 	}
 
+public static boolean outOfInits(List<WeaponCountHolder> holders) {
+
+	
+	for (WeaponCountHolder holder : holders)
+		if (holder.initials < holder.maxInitials)
+			return true;
+	
+	return false;
+}
+
 
 
 

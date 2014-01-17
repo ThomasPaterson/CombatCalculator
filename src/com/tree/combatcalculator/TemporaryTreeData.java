@@ -20,4 +20,14 @@ public class TemporaryTreeData {
 		this.variables = new HashMap<Id, AtkVarCopy>(tempData.variables);
 	}
 
+	public TemporaryTreeData(int numFocus,
+			List<WeaponCountHolder> weaponHolders,
+			Map<Id, AtkVarCopy> variables) {
+		
+		this.focus = numFocus;
+		this.weaponHolders = weaponHolders;
+		this.variables = variables;
+		
+	}
+
 }

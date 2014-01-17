@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.tree.combatcalculator.AtkVarCopy.Group;
 import com.tree.combatcalculator.AtkVarCopy.Id;
 
 import android.os.Parcel;
@@ -116,8 +117,20 @@ public class AtkVarCopy implements Parcelable {
 	public static String IS_FIRST_ATTACK = "is_first_attack";
 	
 	public enum Id {
-		 STAR_ATTACK;  //; is optional
+		 STAR_ATTACK, BOOSTED_ATTACK, CRIT, CRIT_PATH, BOOSTED_DAMAGE; 
 		}
+	
+	
+	public enum Group {
+		 ATTACKER, 
+		 DEFENDER, 
+		 WEAPON, 
+		 SITUATION; 
+		 
+		 private Group() {
+		 }
+		 
+	}
 
 
     public AtkVarCopy(String newName) {
@@ -712,6 +725,17 @@ public class AtkVarCopy implements Parcelable {
 	}
 
 	public static boolean contains(Id starAttack, PermanentTreeData permData) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public static boolean checkGroup(Group attacker, Id boostedAttack) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public static boolean checkWeaponGroup(Group weapon, int weaponIndex,
+			Id boostedAttack) {
 		// TODO Auto-generated method stub
 		return false;
 	}

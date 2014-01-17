@@ -32,6 +32,7 @@ public abstract class Node implements Parcelable, Comparable<Node>{
 	TemporaryTreeData tempData;
 	protected float value;
 	protected Type nodeType;
+	protected int weaponIndex;
 
 	//types of nodes
 	static public int ATTACK = 1;
@@ -50,7 +51,8 @@ public abstract class Node implements Parcelable, Comparable<Node>{
 		 ATTACK_DEC("ATTACK_DEC", "ATTACK_RES"), 
 		 ATTACK_RES("ATTACK_RES", "DAMAGE_DEC"), 
 		 DAMAGE_DEC("DAMAGE_DEC", "DAMAGE_RES"), 
-		 DAMAGE_RES("DAMAGE_RES", null);
+		 DAMAGE_RES("DAMAGE_RES", "FINAL_RES"),
+		 FINAL_RES("FINAL_RES", null);
 		 
 		 private String name;
 		 private String next;
@@ -84,9 +86,15 @@ public abstract class Node implements Parcelable, Comparable<Node>{
     public Node(Node parent) {
     	this.parent = parent;
     	this.tempData = new TemporaryTreeData(parent.getTempData());
+    	this.weaponIndex = parent.getWeaponIndex();
     }
 
-    //constructor for nodes when we already know the children
+    protected int getWeaponIndex() {
+		// TODO Auto-generated method stub
+		return weaponIndex;
+	}
+
+	//constructor for nodes when we already know the children
     public Node(Node newParent, ArrayList<Node> newChildren){
 
     	parent = newParent;
@@ -112,6 +120,11 @@ public abstract class Node implements Parcelable, Comparable<Node>{
 
 	//returns value of the node, as defined by children
 	abstract public float getValue();
+	
+	//returns value of the node, as defined by children
+	public void setValue(float value){
+		this.value = value;
+	}
 
 
     //get/set functions
@@ -273,6 +286,7 @@ public abstract class Node implements Parcelable, Comparable<Node>{
 	public abstract List<Node> createChildren(PermanentTreeData permData);
 
 	public abstract void calculateValue();
+
 
 	
   	

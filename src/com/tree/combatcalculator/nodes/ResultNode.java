@@ -40,6 +40,11 @@ public abstract class ResultNode extends Node implements Parcelable{
     	value = newValue;
     }
     
+    public ResultNode(Node parent) {
+    	super(parent);
+    }
+    
+    
     public ResultNode(Parcel in){
     	super(in);
     	readFromParcel(in);

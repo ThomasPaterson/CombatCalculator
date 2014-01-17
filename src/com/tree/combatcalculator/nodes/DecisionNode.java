@@ -25,10 +25,10 @@ import com.tree.combatcalculator.WeaponCountHolder;
 
 public  abstract class DecisionNode extends Node implements Parcelable{
 
-	private boolean boost = false;
 	private float total = 0;
 	private ArrayList<Node> pathTo = new ArrayList<Node>();
 	private int comboNum;
+	private boolean boughtBoost = false;
 
 
 
@@ -41,7 +41,7 @@ public  abstract class DecisionNode extends Node implements Parcelable{
     public DecisionNode(int newType) {
 
     	type = newType;
-    	boost = false;
+    	boughtBoost = false;
     	value = -1;
     }
     
@@ -181,8 +181,8 @@ public  abstract class DecisionNode extends Node implements Parcelable{
 	}
 
 	//returns the type of decision
-	public boolean getBoost(){
-		return boost;
+	public boolean getBoughtBoost(){
+		return boughtBoost;
 	}
 
 	public float getValue(){
@@ -200,6 +200,10 @@ public  abstract class DecisionNode extends Node implements Parcelable{
 	public void setComboNum(int newComboNum){
 		comboNum = newComboNum;
 	}
+	
+	public void setBoughtBoost(boolean boughtBoost){
+		this.boughtBoost = boughtBoost;
+	}
 
 	public ArrayList<Node> getPathTo(){
 		return pathTo;
@@ -213,7 +217,7 @@ public  abstract class DecisionNode extends Node implements Parcelable{
 			
 			boolean[] boostArr = new boolean[1];
 			in.readBooleanArray(boostArr);
-			boost = boostArr[0];
+			boughtBoost = boostArr[0];
 			value = in.readFloat();
 			total = in.readFloat();
 			pathTo = new ArrayList<Node>();

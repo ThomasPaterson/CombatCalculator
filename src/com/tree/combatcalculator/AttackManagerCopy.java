@@ -12,7 +12,7 @@ public class AttackManagerCopy {
 
 	
 	
-	public static void addAttack(Node n, PermanentTreeData permanentData) {
+	public static List<Node> addAttack(Node n, PermanentTreeData permanentData) {
 		
 		permData = permanentData;
 		bottomRow = new ArrayList<Node>();
@@ -20,6 +20,8 @@ public class AttackManagerCopy {
 		addChildNodes(n);
 		
 		computeScores();
+		
+		return bottomRow;
 		
 	}
 

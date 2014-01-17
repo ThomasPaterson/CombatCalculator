@@ -22,23 +22,32 @@ public class BuyNode extends DecisionNode {
 		List<Node> buyNodes = new ArrayList<Node>();
 		List<WeaponCountHolder> holders = parent.getTempData().weaponHolders;
 		
-		for (WeaponCountHolder holder :  parent.getTempData().weaponHolders){
+		for (WeaponCountHolder holder :  holders){
 			
 			if (holder.hasInit()){
 				
 				buyNodes.addAll(makeInitial(parent, holders.indexOf(holder), permData));
 				
-			}else if (holder.hasAttackToBuy() && parent.getTempData().focus > 0){
-				
+			}else if (canBuyAttacks(holder, parent, holders)){
+				//TODO: add in optimal weapon
 				Node buyNode = buyAttack(parent, holders.indexOf(holder));
 				buyNodes.add(buyNode);
 			}
 			
 		}
 		
-		return buyNodes;
+		return buyNodes;	
+	}
+
+	private static boolean canBuyAttacks(WeaponCountHolder holder,
+			Node parent, List<WeaponCountHolder> holders) {
 		
+		if (holder.hasAttackToBuy())
+			if (parent.getTempData().focus > 0)
+				if (WeaponCountHolder.outOfInits(holders))
+					return true;
 		
+		return false;
 	}
 
 	private static Node buyAttack(Node parent, int index) {
@@ -46,6 +55,7 @@ public class BuyNode extends DecisionNode {
 		Node buyNode = new BuyNode(parent);
 		buyNode.getTempData().focus--;
 		WeaponCountHolder.buyAttack(index, buyNode.getTempData().weaponHolders);
+		buyNode.weaponIndex = index;
 		
 		return buyNode;
 	
@@ -85,8 +95,7 @@ public class BuyNode extends DecisionNode {
 
 	@Override
 	public List<Node> createChildren(PermanentTreeData permData) {
-		// TODO Auto-generated method stub
-		return null;
+		return AttackDecNode.createAttackDecNodes(this, permData);
 	}
 
 

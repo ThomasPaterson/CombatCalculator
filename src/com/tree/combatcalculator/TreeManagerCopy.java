@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.tree.combatcalculator.nodes.DecisionNodeCopy;
 import com.tree.combatcalculator.nodes.EndNode;
 import com.tree.combatcalculator.nodes.Node;
 
@@ -47,11 +46,15 @@ private List<Node> optimalNodes;
     public boolean makeTree(int numFocus) throws NullPointerException{
 
     	permData.useHeuristics = DecisionManager.checkNeedHeuristics(permData.permState,numFocus);
-    	WeaponCountHolder usedWeapons = new WeaponCountHolder(permData.attacker.getWeapons(), permData);
+    	
+    	List<WeaponCountHolder> weaponHolders = WeaponCountHolder.createWeaponCountHolders(
+    			permData.attacker.getWeapons(), permData);
     	
     	Map<AtkVarCopy.Id, AtkVarCopy> tempState = AtkVarCopy.setupTempState(permData.permState);
     	
-    	parent = new EndNode(Node.END, numFocus, tempState, usedWeapons);
+    	TemporaryTreeData tempData = new TemporaryTreeData(numFocus,weaponHolders, tempState);
+    	
+    	parent = new EndNode(tempData);
     	
     	optimalNodes = new ArrayList<Node>();
     	optimalNodes.add(parent);
@@ -68,15 +71,19 @@ private List<Node> optimalNodes;
 		
 		boolean done = true;
 		
+		List<Node> currentLevel = new ArrayList<Node>();
+		
 		for (Node n : optimalNodes){
 			
-			if (n.getFocus() != 0 || n.getWeaponCount().hasAttacks()){
-				AttackManagerCopy.addAttack(n, permData);
+			TemporaryTreeData temp = n.getTempData();
+			
+			if (temp.focus != 0 || WeaponCountHolder.hasAttacks(temp.weaponHolders)){
+				currentLevel.addAll(AttackManagerCopy.addAttack(n, permData));
 				done = false;
 			}		
 		}
 		
-		pruneTree();
+		pruneTree(currentLevel);
 
 		if (!done)
 			expandTree();
@@ -86,11 +93,11 @@ private List<Node> optimalNodes;
 
 
 	//checks each terminating node, and chooses 1 for each state
-    private void pruneTree(){
+    private void pruneTree(List<Node> currentLevel){
     	
     	List<Node> replacements = new ArrayList<Node>();
     	
-    	Map<Integer, List<Node>> stateBucket = createStateBucket();
+    	Map<Integer, List<Node>> stateBucket = createStateBucket(currentLevel);
     	
     	Set<Integer> keys = stateBucket.keySet();
     	
@@ -104,15 +111,15 @@ private List<Node> optimalNodes;
     }//end pruneTree
     
     
-    private Map<Integer, List<Node>> createStateBucket(){
+    private Map<Integer, List<Node>> createStateBucket(List<Node> currentLevel){
     	
     	Map<Integer, List<Node>> stateBucket = new HashMap<Integer, List<Node>>();
     	
     	//split the nodes up into a number of buckets, for each possible state
-    	for (Node n : optimalNodes){
+    	for (Node n : currentLevel){
     		
-    		Object[] holder = {n.getFocus(), n.getWeaponCount(), n.getTempState()};
-    		int nodeHash = holder.hashCode();
+    		
+    		int nodeHash = n.getTempData().hashCode();
     		
     		List<Node> bucket = stateBucket.get(nodeHash);
     		

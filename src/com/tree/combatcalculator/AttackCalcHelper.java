@@ -2,6 +2,8 @@ package com.tree.combatcalculator;
 
 import java.util.ArrayList;
 
+import com.tree.combatcalculator.nodes.Node;
+
 public class AttackCalcHelper {
 	
 	//gets the damage that will result from the resolved attack, includes the crit damage
@@ -420,5 +422,22 @@ public class AttackCalcHelper {
   		return totalDam;
 
   	}//end calcAttackCA
+
+	public static float calcHitProbability(Node attackResNode,
+			PermanentTreeData permData) {
+		return 0.0f;
+	}
+
+	public static float calcDamage(Node damageResNode,
+			PermanentTreeData permData) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public static float calcFullAttack(Node finalResNode,
+			PermanentTreeData permData) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }

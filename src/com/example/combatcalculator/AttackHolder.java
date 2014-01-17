@@ -27,4 +27,5 @@ public class AttackHolder {
         this.atkCalc = atkCalc;
         this.optimization = optimization;
     }
+
 }
