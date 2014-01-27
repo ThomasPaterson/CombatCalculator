@@ -42,7 +42,8 @@ public class DamageDecNode extends DecisionNode {
 		if (boughtBoost){
 			attackDecNode.getTempData().focus--;
 			attackDecNode.getTempData().variables.put(
-					AtkVarCopy.Id.BOOSTED_DAMAGE, new AtkVarCopy(AtkVarCopy.Id.BOOSTED_DAMAGE));
+					AtkVarCopy.Id.BOOSTED_DAMAGE, 
+					AtkVarCopy.createAtkVar(AtkVarCopy.Id.BOOSTED_DAMAGE));
 		}
 		
 		attackDecNode.setBoughtBoost(boughtBoost);

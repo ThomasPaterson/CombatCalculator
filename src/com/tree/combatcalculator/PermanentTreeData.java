@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class PermanentTreeData {
 	
-	public List<Map<String, AtkVar>> permState;
+	public Map<Integer, AtkVarCopy> permState;
 	public DefendModel defender;
 	public AttackModel attacker;
 	public int optimization;

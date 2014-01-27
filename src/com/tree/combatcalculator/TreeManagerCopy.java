@@ -28,7 +28,7 @@ private List<Node> optimalNodes;
 
 	//set up the initial values
     public TreeManagerCopy(AttackCalculator atkCalc, int optimization, AttackModel attacker,
-    	DefendModel defender, List< Map<String, AtkVar> > permState) {
+    	DefendModel defender, List< Map<AtkVarCopy.Id, AtkVarCopy> > permState) {
     	
     	permData = new PermanentTreeData();
 
@@ -36,7 +36,7 @@ private List<Node> optimalNodes;
     	permData.optimization = optimization;
     	permData.attacker = attacker;
     	permData.defender = defender;
-    	permData.permState = permState;
+    	permData.permState = AtkVarCopy.setupPermState(permState);
     	permData.optimalWeapons = permData.getOptimalWeapons();
 
     }//end constructor
@@ -45,12 +45,12 @@ private List<Node> optimalNodes;
     //function starts making the tree
     public boolean makeTree(int numFocus) throws NullPointerException{
 
-    	permData.useHeuristics = DecisionManager.checkNeedHeuristics(permData.permState,numFocus);
+    	//permData.useHeuristics = DecisionManager.checkNeedHeuristics(permData.permState,numFocus);
     	
     	List<WeaponCountHolder> weaponHolders = WeaponCountHolder.createWeaponCountHolders(
     			permData.attacker.getWeapons(), permData);
     	
-    	Map<AtkVarCopy.Id, AtkVarCopy> tempState = AtkVarCopy.setupTempState(permData.permState);
+    	Map<AtkVarCopy.Id, AtkVarCopy> tempState = new HashMap<AtkVarCopy.Id, AtkVarCopy>();
     	
     	TemporaryTreeData tempData = new TemporaryTreeData(numFocus,weaponHolders, tempState);
     	

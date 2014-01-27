@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.tree.combatcalculator.AtkVarCopy.GroupFlag;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -210,6 +212,12 @@ public class Weapon extends AtkVarUser implements Parcelable{
 
 
 	public static boolean hasInits(WeaponCountHolder weaponCount) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public static boolean checkWeaponVariables(GroupFlag starAttack,
+			PermanentTreeData permData) {
 		// TODO Auto-generated method stub
 		return false;
 	}

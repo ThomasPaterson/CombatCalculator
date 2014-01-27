@@ -17,6 +17,8 @@ public class AttackManagerCopy {
 		permData = permanentData;
 		bottomRow = new ArrayList<Node>();
 		
+		AtkVarCopy.clearTempValues(n);
+		
 		addChildNodes(n);
 		
 		computeScores();
@@ -24,6 +26,8 @@ public class AttackManagerCopy {
 		return bottomRow;
 		
 	}
+
+
 
 
 

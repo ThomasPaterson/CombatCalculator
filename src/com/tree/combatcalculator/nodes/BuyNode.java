@@ -6,6 +6,7 @@ import java.util.List;
 import com.tree.combatcalculator.AtkVar;
 import com.tree.combatcalculator.AtkVarCopy;
 import com.tree.combatcalculator.PermanentTreeData;
+import com.tree.combatcalculator.Weapon;
 import com.tree.combatcalculator.WeaponCountHolder;
 
 public class BuyNode extends DecisionNode {
@@ -67,14 +68,14 @@ public class BuyNode extends DecisionNode {
 		List<WeaponCountHolder> holders = parent.getTempData().weaponHolders;
 		
 		//if there is a star attack, make it a seperate attack
-		if (AtkVarCopy.contains(AtkVarCopy.Id.STAR_ATTACK, permData) && 
+		if (Weapon.checkWeaponVariables(AtkVarCopy.GroupFlag.STAR_ATTACK, permData) && 
 				WeaponCountHolder.hasAllInitials(holders)){
 
 			Node starNode = new BuyNode(parent);
 			
 			WeaponCountHolder.useAllInitials(starNode.getTempData().weaponHolders);
 			starNode.getTempData().variables.put(AtkVarCopy.Id.STAR_ATTACK, 
-					new AtkVarCopy(AtkVarCopy.Id.STAR_ATTACK));
+					AtkVarCopy.createAtkVar(AtkVarCopy.Id.STAR_ATTACK));
 			
 			buyNodes.add(starNode);
 		}
