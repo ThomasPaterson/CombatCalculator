@@ -87,6 +87,7 @@ public abstract class Node implements Parcelable, Comparable<Node>{
     	this.parent = parent;
     	this.tempData = new TemporaryTreeData(parent.getTempData());
     	this.weaponIndex = parent.getWeaponIndex();
+    	parent.addChild(this);
     }
 
     protected int getWeaponIndex() {
@@ -155,13 +156,24 @@ public abstract class Node implements Parcelable, Comparable<Node>{
 
     public void addChild(Node child){
 
+    	if (children == null)
+    		children = new ArrayList<Node>();
+    	
     	children.add(child);
-    	child.setParent(this);
     }
 
     public int getNumChildren(){
 
     	return children.size();
+    }
+    
+    public Node findParent(Type type){
+    	
+    	if (!nodeType.equals(type))
+    		return parent.findParent(type);
+    	else
+    		return this;
+    	
     }
 
 
@@ -285,7 +297,10 @@ public abstract class Node implements Parcelable, Comparable<Node>{
 
 	public abstract List<Node> createChildren(PermanentTreeData permData);
 
-	public abstract void calculateValue();
+
+	public abstract float calculateValue(PermanentTreeData permData);
+
+
 
 
 	

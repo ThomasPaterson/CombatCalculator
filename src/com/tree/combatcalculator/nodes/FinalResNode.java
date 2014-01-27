@@ -25,29 +25,27 @@ public class FinalResNode extends ResultNode {
 		
 		List<Node> finalResNodes = new ArrayList<Node>();
 
-		finalResNodes.add(calcFullAttack(parent, permData));
+		finalResNodes.add(new FinalResNode(parent));
 
 		return finalResNodes;	
 	}
 
 
-	private static Node calcFullAttack(Node parent, PermanentTreeData permData) {
-
-		Node finalResNode = new FinalResNode(parent);
-		
-		finalResNode.setValue(AttackCalcHelper.calcFullAttack(finalResNode, permData));
-
-		return finalResNode;
-	}
-
 
 
 
 	@Override
-	public void calculateValue() {
-		// TODO Auto-generated method stub
+	public float calculateValue(PermanentTreeData permData) {
+		
+		
+		value = AttackCalcHelper.calculateValue(permData, this);
+		
+		return value;
+		
 		
 	}
+	
+	
 
 
 	@Override
@@ -55,6 +53,8 @@ public class FinalResNode extends ResultNode {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 	
 

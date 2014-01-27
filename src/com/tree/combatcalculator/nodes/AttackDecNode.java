@@ -71,17 +71,21 @@ public class AttackDecNode extends DecisionNode {
 	}
 	
 
-	@Override
-	public void calculateValue() {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 	@Override
 	public List<Node> createChildren(PermanentTreeData permData) {
 		// TODO Auto-generated method stub
 		return AttackResNode.createAttackResNodes(this, permData);
+	}
+
+
+
+
+	@Override
+	public float calculateValue(PermanentTreeData permData) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	

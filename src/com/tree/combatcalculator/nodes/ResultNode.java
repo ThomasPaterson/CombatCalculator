@@ -200,11 +200,6 @@ public List<Node> createChildren(PermanentTreeData permData) {
 	
 }
 
-@Override
-public void calculateValue() {
-	// TODO Auto-generated method stub
-	
-}
 
 
 

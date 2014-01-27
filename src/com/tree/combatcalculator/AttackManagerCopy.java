@@ -30,7 +30,7 @@ public class AttackManagerCopy {
 	private static void computeScores() {
 		
 		for (Node n : bottomRow){
-			n.calculateValue();
+			n.calculateValue(permData);
 		}
 	}
 
@@ -40,7 +40,7 @@ public class AttackManagerCopy {
 		
 		List<Node> children = n.createChildren(permData);
 		
-		if (n.getNodeType().getNext() != null){
+		if (children != null){
 			
 			for (Node child : children){
 				addChildNodes(child);

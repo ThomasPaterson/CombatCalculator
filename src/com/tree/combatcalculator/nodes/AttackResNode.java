@@ -11,9 +11,6 @@ import com.tree.combatcalculator.Weapon;
 import com.tree.combatcalculator.WeaponCountHolder;
 
 public class AttackResNode extends ResultNode {
-	
-	public static boolean CRIT = true;
-	public static boolean NORMAL = false;
 
 	public AttackResNode(Node parent) {
 		
@@ -27,13 +24,7 @@ public class AttackResNode extends ResultNode {
 		
 		List<Node> attackResNodes = new ArrayList<Node>();
 		
-		
-		
-		if (hasCrit(parent, permData)){
-			attackResNodes.add(makeAttackResult(parent, CRIT, permData));
-		}
-		
-		attackResNodes.add(makeAttackResult(parent, NORMAL, permData));
+		attackResNodes.add(makeAttackResult(parent, permData));
 		
 		
 		return attackResNodes;	
@@ -47,19 +38,13 @@ public class AttackResNode extends ResultNode {
 	}
 
 
-	private static Node makeAttackResult(Node parent, boolean hasCritical, PermanentTreeData permData) {
+	private static Node makeAttackResult(Node parent, PermanentTreeData permData) {
 
 		Node attackResNode = new AttackResNode(parent);
 		
-		if (hasCritical){
-			attackResNode.getTempData().variables.put(
-					AtkVarCopy.Id.CRIT, new AtkVarCopy(AtkVarCopy.Id.CRIT));
-			attackResNode.getTempData().variables.put(
-					AtkVarCopy.Id.CRIT_PATH, new AtkVarCopy(AtkVarCopy.Id.CRIT_PATH));
-		}
 		
-		attackResNode.setValue(AttackCalcHelper.calcHitProbability(attackResNode, permData));
-		
+		AtkVarCopy.putCrits(attackResNode.getTempData().variables);
+			
 		
 		return attackResNode;
 	}
@@ -67,9 +52,9 @@ public class AttackResNode extends ResultNode {
 
 
 
-	@Override
-	public void calculateValue() {
-		// TODO Auto-generated method stub
+	public float calculateValue() {
+
+		return value;
 		
 	}
 
@@ -79,6 +64,18 @@ public class AttackResNode extends ResultNode {
 		// TODO Auto-generated method stub
 		return DamageDecNode.createDamageDecNodes(this, permData);
 	}
+
+
+
+	@Override
+	public float calculateValue(PermanentTreeData permData) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+
+
 
 	
 

@@ -34,8 +34,6 @@ public class DamageResNode extends ResultNode {
 	private static Node makeDamageResult(Node parent, PermanentTreeData permData) {
 
 		Node damageResNode = new DamageResNode(parent);
-		
-		damageResNode.setValue(AttackCalcHelper.calcDamage(damageResNode, permData));
 
 		return damageResNode;
 	}
@@ -43,11 +41,6 @@ public class DamageResNode extends ResultNode {
 
 
 
-	@Override
-	public void calculateValue() {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 	@Override
@@ -55,6 +48,15 @@ public class DamageResNode extends ResultNode {
 		// TODO Auto-generated method stub
 		return FinalResNode.createFinalResNodes(this, permData);
 	}
+
+
+	@Override
+	public float calculateValue(PermanentTreeData permData) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
 
 	
 

@@ -440,4 +440,11 @@ public class AttackCalcHelper {
 		return 0;
 	}
 
+	public static float calculateValue(PermanentTreeData permData,
+			Node finalResNode) {
+		// TODO Auto-generated method stub
+		return 0.0f;
+		
+	}
+
 }

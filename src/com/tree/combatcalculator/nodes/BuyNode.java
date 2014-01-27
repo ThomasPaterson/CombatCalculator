@@ -86,16 +86,18 @@ public class BuyNode extends DecisionNode {
 		return buyNodes;
 	}
 
-	@Override
-	public void calculateValue() {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 
 	@Override
 	public List<Node> createChildren(PermanentTreeData permData) {
 		return AttackDecNode.createAttackDecNodes(this, permData);
+	}
+
+	@Override
+	public float calculateValue(PermanentTreeData permData) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 

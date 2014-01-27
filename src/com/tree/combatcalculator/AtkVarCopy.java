@@ -14,6 +14,7 @@ import java.util.Map;
 
 import com.tree.combatcalculator.AtkVarCopy.Group;
 import com.tree.combatcalculator.AtkVarCopy.Id;
+import com.tree.combatcalculator.nodes.Node;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -738,6 +739,16 @@ public class AtkVarCopy implements Parcelable {
 			Id boostedAttack) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public static void putCrits(Map<Id, AtkVarCopy> variables) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public static void clearTempValues(Node n) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

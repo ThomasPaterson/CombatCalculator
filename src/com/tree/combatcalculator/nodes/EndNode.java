@@ -25,10 +25,13 @@ public class EndNode extends DecisionNode {
 		return BuyNode.createBuyNodes(this, permData);
 	}
 
+
 	@Override
-	public void calculateValue() {
+	public float calculateValue(PermanentTreeData permData) {
 		// TODO Auto-generated method stub
-		
+		return 0;
 	}
+
+
 
 }

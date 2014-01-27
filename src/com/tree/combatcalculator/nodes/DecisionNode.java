@@ -28,7 +28,7 @@ public  abstract class DecisionNode extends Node implements Parcelable{
 	private float total = 0;
 	private ArrayList<Node> pathTo = new ArrayList<Node>();
 	private int comboNum;
-	private boolean boughtBoost = false;
+	protected boolean boughtBoost = false;
 
 
 
@@ -280,9 +280,8 @@ public  abstract class DecisionNode extends Node implements Parcelable{
 
 	@Override
 	public abstract List<Node> createChildren(PermanentTreeData permData);
+	
 
-	@Override
-	public abstract void calculateValue();
 	
 
 
