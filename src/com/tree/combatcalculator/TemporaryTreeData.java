@@ -2,8 +2,10 @@ package com.tree.combatcalculator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.tree.combatcalculator.AtkVarCopy.Id;
 
@@ -29,5 +31,21 @@ public class TemporaryTreeData {
 		this.variables = variables;
 		
 	}
+
+
+
+	public void clearTempValues() {
+		
+		Iterator<Entry<Id, AtkVarCopy>> entries = variables.entrySet().iterator();
+		
+		while (entries.hasNext()) {
+		    Map.Entry entry = (Map.Entry) entries.next();
+		    AtkVarCopy value = (AtkVarCopy)entry.getValue();
+		    
+		    if (value.getDuration().equals(AtkVarCopy.Duration.TEMPORARY_STATE))
+		    	entries.remove();
+		}
+	}
+
 
 }

@@ -50,8 +50,7 @@ public class FinalResNode extends ResultNode {
 
 	@Override
 	public List<Node> createChildren(PermanentTreeData permData) {
-		// TODO Auto-generated method stub
-		return null;
+		return BuyNode.createBuyNodes(this, permData);
 	}
 
 

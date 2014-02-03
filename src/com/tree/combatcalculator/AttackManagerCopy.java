@@ -17,8 +17,6 @@ public class AttackManagerCopy {
 		permData = permanentData;
 		bottomRow = new ArrayList<Node>();
 		
-		AtkVarCopy.clearTempValues(n);
-		
 		addChildNodes(n);
 		
 		computeScores();
@@ -44,7 +42,7 @@ public class AttackManagerCopy {
 		
 		List<Node> children = n.createChildren(permData);
 		
-		if (children != null){
+		if (!finishedAttack(children)){
 			
 			for (Node child : children){
 				addChildNodes(child);
@@ -53,6 +51,22 @@ public class AttackManagerCopy {
 			bottomRow.add(n);
 		}
 		
+	}
+
+
+
+
+
+	private static boolean finishedAttack(List<Node> children) {
+		
+		if (children == null)
+			return true;
+		else if (children.size() == 0)
+			return true;
+		else if (children.get(0).getNodeType().equals(Node.TERMINUS_TYPE))
+			return true;
+		
+		return false;
 	}
 
 }

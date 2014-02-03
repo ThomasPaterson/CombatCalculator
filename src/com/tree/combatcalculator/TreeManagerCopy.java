@@ -36,7 +36,7 @@ private List<Node> optimalNodes;
     	permData.optimization = optimization;
     	permData.attacker = attacker;
     	permData.defender = defender;
-    	permData.permState = AtkVarCopy.setupPermState(permState);
+    	//permData.permState = AtkVarCopy.setupPermState(permState);
     	permData.optimalWeapons = permData.getOptimalWeapons();
 
     }//end constructor

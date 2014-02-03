@@ -17,13 +17,15 @@ import org.apache.commons.lang3.Validate;
 
 import android.util.Log;
 
+import com.tree.combatcalculator.AtkVarCopy.Group;
+import com.tree.combatcalculator.AtkVarCopy.Id;
 import com.tree.combatcalculator.nodes.Node;
 
 public class AtkVarCopy {
 
 
 	public enum Id {
-		 STAR_ATTACK, BOOSTED_ATTACK, CRIT, CRIT_PATH, BOOSTED_DAMAGE; 
+		 STAR_ATTACK, BOOSTED_ATTACK, CRIT, CRIT_PATH, BOOSTED_DAMAGE, CHARGE, FREE_CHARGE; 
 		}
 	
 	
@@ -55,9 +57,12 @@ public class AtkVarCopy {
 		 ALL_INITIALS; 
 	}
 	
-	public enum GroupFlag {
+	public enum Modifier {
 		STAR_ATTACK,
-		CRIT,
+		CRIT;
+	}
+	
+	public enum Duration {
 		CONTINUOUS_STATE,
 		TEMPORARY_STATE;
 	}
@@ -68,7 +73,8 @@ public class AtkVarCopy {
 	private State state;
 	private ValueType valueType;
 	private List<Conditional> conditions;
-	private List<GroupFlag> groupFlags;
+	private List<Modifier> modifiers;
+	private Duration duration;
 	private int weaponIndex;
 	static private Map<AtkVarCopy.Id, AtkVarCopy> atkVarCopyCache = null;
 	
@@ -81,7 +87,7 @@ public class AtkVarCopy {
 		state = atkVarCopy.getState();
 		valueType = atkVarCopy.getValueType();
 		conditions = new ArrayList<Conditional>(atkVarCopy.getConditions());
-		groupFlags = new ArrayList<GroupFlag>(atkVarCopy.getGroupFlags());
+		modifiers = new ArrayList<Modifier>(atkVarCopy.getModifiers());
 		
 	}
 
@@ -128,15 +134,11 @@ public AtkVarCopy createAtkVar(Id id, float newValue){
 	}
 	
 	public static Map<Integer, AtkVarCopy> setupPermState(
-			List<Map<AtkVarCopy.Id, AtkVarCopy>> permState) {
+			Map<Group, List<AtkVarCopy>> permState) {
 		
-		Map<Integer, AtkVarCopy> newPermState = new HashMap<Integer, AtkVarCopy>();
-		
-		for (Map<AtkVarCopy.Id, AtkVarCopy> map : permState)
-			for (AtkVarCopy value : map.values()) 
-			    newPermState.put(value.getHash(), value);
-		
-		return newPermState;
+		//TODO: Determine how the interface is going to pass in variables
+
+		return null;
 		
 	}
 
@@ -157,11 +159,6 @@ public AtkVarCopy createAtkVar(Id id, float newValue){
 	}
 
 	public static void putCrits(Map<Id, AtkVarCopy> variables) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public static void clearTempValues(Node n) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -240,14 +237,22 @@ public AtkVarCopy createAtkVar(Id id, float newValue){
 
 
 
-	public List<GroupFlag> getGroupFlags() {
-		return groupFlags;
+	public List<Modifier> getModifiers() {
+		return modifiers;
 	}
 
 
 
-	public void setGroupFlags(List<GroupFlag> groupFlags) {
-		this.groupFlags = groupFlags;
+	public void setModifier(List<Modifier> groupFlags) {
+		this.modifiers = modifiers;
+	}
+	
+	public Duration getDuration() {
+		return duration;
+	}
+
+	public void setDuration(Duration duration) {
+		this.duration = duration;
 	}
 
 	public int getWeaponIndex() {
@@ -273,6 +278,19 @@ public AtkVarCopy createAtkVar(Id id, float newValue){
 		
 		return identifier.hashCode();
 	}
+
+	public static Boolean contains(Map<Group, List<AtkVarCopy>> variables,
+			Group group, Id id) {
+		
+		List<AtkVarCopy> targetGroup = variables.get(group);
+		
+		for (AtkVarCopy t : targetGroup)
+			if (t.getId().equals(id))
+				return true;
+		
+		return false;
+	}
+
 
 
 

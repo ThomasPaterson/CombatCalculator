@@ -6,14 +6,16 @@ import java.util.List;
 import com.tree.combatcalculator.AtkVar;
 import com.tree.combatcalculator.AtkVarCopy;
 import com.tree.combatcalculator.PermanentTreeData;
+import com.tree.combatcalculator.TemporaryTreeData;
 import com.tree.combatcalculator.Weapon;
 import com.tree.combatcalculator.WeaponCountHolder;
 
 public class BuyNode extends DecisionNode {
 
-	public BuyNode(Node parent) {
+	public BuyNode(Node parent, TemporaryTreeData tempData) {
 		
 		super(parent);
+		tempData = new TemporaryTreeData(tempData);
 		nodeType = Node.Type.BUY;
 
 	}
@@ -21,17 +23,20 @@ public class BuyNode extends DecisionNode {
 	public static List<Node> createBuyNodes(Node parent, PermanentTreeData permData) {
 		
 		List<Node> buyNodes = new ArrayList<Node>();
-		List<WeaponCountHolder> holders = parent.getTempData().weaponHolders;
+		TemporaryTreeData tempData = new TemporaryTreeData(parent.getTempData());
+		tempData.clearTempValues();
+		List<WeaponCountHolder> holders = tempData.weaponHolders;
+		
 		
 		for (WeaponCountHolder holder :  holders){
 			
 			if (holder.hasInit()){
 				
-				buyNodes.addAll(makeInitial(parent, holders.indexOf(holder), permData));
+				buyNodes.addAll(makeInitial(parent, holders.indexOf(holder), permData, tempData));
 				
 			}else if (canBuyAttacks(holder, parent, holders)){
 				//TODO: add in optimal weapon
-				Node buyNode = buyAttack(parent, holders.indexOf(holder));
+				Node buyNode = buyAttack(parent, holders.indexOf(holder), tempData);
 				buyNodes.add(buyNode);
 			}
 			
@@ -51,9 +56,9 @@ public class BuyNode extends DecisionNode {
 		return false;
 	}
 
-	private static Node buyAttack(Node parent, int index) {
+	private static Node buyAttack(Node parent, int index, TemporaryTreeData tempData) {
 		
-		Node buyNode = new BuyNode(parent);
+		Node buyNode = new BuyNode(parent, tempData);
 		buyNode.getTempData().focus--;
 		WeaponCountHolder.buyAttack(index, buyNode.getTempData().weaponHolders);
 		buyNode.weaponIndex = index;
@@ -62,25 +67,24 @@ public class BuyNode extends DecisionNode {
 	
 	}
 
-	private static List<Node> makeInitial(Node parent, int index, PermanentTreeData permData) {
+	private static List<Node> makeInitial(Node parent, int index, PermanentTreeData permData, 
+			TemporaryTreeData tempData) {
 		
 		List<Node> buyNodes = new ArrayList<Node>();
 		List<WeaponCountHolder> holders = parent.getTempData().weaponHolders;
 		
-		//if there is a star attack, make it a seperate attack
-		if (Weapon.checkWeaponVariables(AtkVarCopy.GroupFlag.STAR_ATTACK, permData) && 
-				WeaponCountHolder.hasAllInitials(holders)){
-
-			Node starNode = new BuyNode(parent);
-			
-			WeaponCountHolder.useAllInitials(starNode.getTempData().weaponHolders);
-			starNode.getTempData().variables.put(AtkVarCopy.Id.STAR_ATTACK, 
-					AtkVarCopy.createAtkVar(AtkVarCopy.Id.STAR_ATTACK));
-			
+		Node starNode = addStarAttacks(parent, index, permData, holders, tempData);
+		if (starNode != null)
 			buyNodes.add(starNode);
+		
+		
+		Node buyNode = new BuyNode(parent, tempData);
+		
+		if (isCharging(parent, permData)){
+			buyNode.getTempData().variables.put(AtkVarCopy.Id.CHARGE, 
+					AtkVarCopy.createAtkVar(AtkVarCopy.Id.CHARGE));
 		}
 		
-		Node buyNode = new BuyNode(parent);
 		WeaponCountHolder.makeAttack(index, buyNode.getTempData().weaponHolders);
 		buyNodes.add(buyNode);
 		
@@ -89,6 +93,35 @@ public class BuyNode extends DecisionNode {
 
 
 
+
+	private static boolean isCharging(Node parent, PermanentTreeData permData) {
+
+		Boolean hasCharge = AtkVarCopy.contains(permData.variables, 
+				AtkVarCopy.Group.SITUATION, AtkVarCopy.Id.CHARGE);
+		Boolean firstAttack = WeaponCountHolder.hasAllInitials(parent.getTempData().weaponHolders);
+		
+		return (hasCharge && firstAttack);
+	}
+	
+	
+
+	private static Node addStarAttacks(Node parent, int index, PermanentTreeData permData, 
+			List<WeaponCountHolder> holders, TemporaryTreeData tempData) {
+		
+		//if there is a star attack, make it a seperate attack
+		if (Weapon.checkWeaponVariables(AtkVarCopy.Modifier.STAR_ATTACK, permData) && 
+				WeaponCountHolder.hasAllInitials(holders)){
+
+			Node starNode = new BuyNode(parent, tempData);
+			
+			WeaponCountHolder.useAllInitials(starNode.getTempData().weaponHolders);
+			starNode.getTempData().variables.put(AtkVarCopy.Id.STAR_ATTACK, 
+					AtkVarCopy.createAtkVar(AtkVarCopy.Id.STAR_ATTACK));
+			
+			return starNode;
+		}
+		return null;
+	}
 
 	@Override
 	public List<Node> createChildren(PermanentTreeData permData) {

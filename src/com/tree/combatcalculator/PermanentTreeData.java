@@ -3,9 +3,12 @@ package com.tree.combatcalculator;
 import java.util.List;
 import java.util.Map;
 
+import com.tree.combatcalculator.AtkVarCopy.Group;
+import com.tree.combatcalculator.AtkVarCopy.Id;
+
 public class PermanentTreeData {
 	
-	public Map<Integer, AtkVarCopy> permState;
+	public Map<AtkVarCopy.Group, List<AtkVarCopy> > variables;
 	public DefendModel defender;
 	public AttackModel attacker;
 	public int optimization;
@@ -18,5 +21,7 @@ public class PermanentTreeData {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 }
