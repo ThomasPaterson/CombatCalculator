@@ -52,13 +52,12 @@ public class AttackDecNode extends DecisionNode {
 
 
 	private static boolean notBoosted(Node parent, PermanentTreeData permData) {
-		
-		if (AtkVarCopy.checkGroup(AtkVarCopy.Group.ATTACKER, AtkVarCopy.Id.BOOSTED_ATTACK))
-			return true;
-		else if (AtkVarCopy.checkWeaponGroup(AtkVarCopy.Group.WEAPON, parent.getWeaponIndex(), AtkVarCopy.Id.BOOSTED_ATTACK))
-			return true;
 
-		return false;
+		return permData.checkGroupsContains(AtkVarCopy.Id.BOOSTED_ATTACK, 
+				parent.getWeaponIndex(), 
+				AtkVarCopy.Group.ATTACKER, 
+				AtkVarCopy.Group.WEAPON
+				);
 	}
 
 

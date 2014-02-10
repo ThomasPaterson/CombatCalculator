@@ -21,6 +21,34 @@ public class PermanentTreeData {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	public boolean contains(Id starAttack, PermanentTreeData permData) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
+	public boolean checkGroupsContains(Id id, int weaponIndex, Group ... groups) {
+	
+		for (Group g : groups){
+			
+			for (AtkVarCopy atkVar : variables.get(g)){
+				
+				if (atkVar.getId().equals(id)){
+					if (g.equals(Group.WEAPON)){
+						if (atkVar.getWeaponIndex() == weaponIndex)
+							return true;
+					}else{
+						return true;
+					}
+				}
+			}
+			
+		}
+		
+		return false;
+	}
 
 
 

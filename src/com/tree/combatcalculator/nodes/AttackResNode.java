@@ -43,7 +43,7 @@ public class AttackResNode extends ResultNode {
 		Node attackResNode = new AttackResNode(parent);
 		
 		
-		AtkVarCopy.putCrits(attackResNode.getTempData().variables);
+		attackResNode.getTempData().putCrits(attackResNode, permData);
 			
 		
 		return attackResNode;

@@ -33,6 +33,7 @@ public abstract class Node implements Parcelable, Comparable<Node>{
 	protected float value;
 	protected Type nodeType;
 	protected int weaponIndex;
+	static public Type TERMINUS_TYPE = Type.FINAL_RES;
 
 	//types of nodes
 	static public int ATTACK = 1;
@@ -90,7 +91,7 @@ public abstract class Node implements Parcelable, Comparable<Node>{
     	parent.addChild(this);
     }
 
-    protected int getWeaponIndex() {
+    public int getWeaponIndex() {
 		// TODO Auto-generated method stub
 		return weaponIndex;
 	}

@@ -133,19 +133,7 @@ public AtkVarCopy createAtkVar(Id id, float newValue){
 		
 	}
 	
-	public static Map<Integer, AtkVarCopy> setupPermState(
-			Map<Group, List<AtkVarCopy>> permState) {
-		
-		//TODO: Determine how the interface is going to pass in variables
 
-		return null;
-		
-	}
-
-	public static boolean contains(Id starAttack, PermanentTreeData permData) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	public static boolean checkGroup(Group attacker, Id boostedAttack) {
 		// TODO Auto-generated method stub

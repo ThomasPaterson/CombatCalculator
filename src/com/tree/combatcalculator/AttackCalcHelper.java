@@ -422,6 +422,11 @@ public class AttackCalcHelper {
   		return totalDam;
 
   	}//end calcAttackCA
+  	
+  	public static float calcCritProbability(Node attackResNode,
+			PermanentTreeData permData) {
+		return 0.0f;
+	}
 
 	public static float calcHitProbability(Node attackResNode,
 			PermanentTreeData permData) {
@@ -445,6 +450,12 @@ public class AttackCalcHelper {
 		// TODO Auto-generated method stub
 		return 0.0f;
 		
+	}
+
+	public static float calcCritWithoutCritProbability(Node attackNode,
+			PermanentTreeData permData) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

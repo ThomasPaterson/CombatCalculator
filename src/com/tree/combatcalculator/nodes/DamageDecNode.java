@@ -2,11 +2,14 @@ package com.tree.combatcalculator.nodes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.tree.combatcalculator.AtkVar;
 import com.tree.combatcalculator.AtkVarCopy;
 import com.tree.combatcalculator.PermanentTreeData;
 import com.tree.combatcalculator.WeaponCountHolder;
+import com.tree.combatcalculator.AtkVarCopy.Group;
+import com.tree.combatcalculator.AtkVarCopy.Id;
 
 public class DamageDecNode extends DecisionNode {
 	
@@ -25,26 +28,42 @@ public class DamageDecNode extends DecisionNode {
 		
 		List<Node> damageNodes = new ArrayList<Node>();
 		
-		if (canBoost(parent) && notBoosted(parent, permData)){
+		if (isCharging(parent)){
 			damageNodes.add(makeDamage(parent, BOUGHT_BOOSTED_DAMAGE));
+		}else{
+			if (canBoost(parent) && notBoosted(parent, permData)){
+				damageNodes.add(makeDamage(parent, BOUGHT_BOOSTED_DAMAGE));
+			}
+			damageNodes.add(makeDamage(parent, BOUGHT_UNBOOSTED_DAMAGE));	
 		}
-		
-		damageNodes.add(makeDamage(parent, BOUGHT_UNBOOSTED_DAMAGE));
-		
-		
+
 		return damageNodes;	
 	}
 
+	private static boolean isCharging(Node parent) {
+		return parent.getTempData().variables.containsKey(AtkVarCopy.Id.CHARGE);
+	}
+
+
 	private static Node makeDamage(Node parent, boolean boughtBoost) {
+		return makeDamage(parent, boughtBoost, null);
+	}
+	
+	private static Node makeDamage(Node parent, boolean boughtBoost, PermanentTreeData permData) {
 		
 		DecisionNode attackDecNode = new DamageDecNode(parent);
 		
 		if (boughtBoost){
-			attackDecNode.getTempData().focus--;
+			
+			if (!freeCharge(parent, permData))
+				attackDecNode.getTempData().focus--;
+			
 			attackDecNode.getTempData().variables.put(
 					AtkVarCopy.Id.BOOSTED_DAMAGE, 
 					AtkVarCopy.createAtkVar(AtkVarCopy.Id.BOOSTED_DAMAGE));
 		}
+		
+		
 		
 		attackDecNode.setBoughtBoost(boughtBoost);
 		
@@ -52,16 +71,30 @@ public class DamageDecNode extends DecisionNode {
 	}
 
 
+	private static boolean freeCharge(Node parent,
+			PermanentTreeData permData) {
+		
+		if (permData == null)
+			return false;
+		else
+			return (isCharging(parent) && AtkVarCopy.contains(permData.variables,
+					AtkVarCopy.Group.ATTACKER, AtkVarCopy.Id.FREE_CHARGE));
+		
+	}
+
+
 	private static boolean notBoosted(Node parent, PermanentTreeData permData) {
 		
-		if (AtkVarCopy.checkGroup(AtkVarCopy.Group.ATTACKER, AtkVarCopy.Id.BOOSTED_DAMAGE))
-			return true;
-		else if (AtkVarCopy.checkWeaponGroup(AtkVarCopy.Group.WEAPON, parent.getWeaponIndex(), AtkVarCopy.Id.BOOSTED_DAMAGE))
-			return true;
-		else if (AtkVarCopy.checkWeaponGroup(AtkVarCopy.Group.SITUATION, parent.getWeaponIndex(), AtkVarCopy.Id.BOOSTED_DAMAGE))
-			return true;
+		boolean permDataContains = permData.checkGroupsContains(AtkVarCopy.Id.BOOSTED_DAMAGE, 
+				parent.getWeaponIndex(), 
+				AtkVarCopy.Group.ATTACKER, 
+				AtkVarCopy.Group.WEAPON,
+				AtkVarCopy.Group.SITUATION
+				);
+		
+		boolean tempDataContains = parent.getTempData().contains(AtkVarCopy.Id.BOOSTED_DAMAGE);
 
-		return false;
+		return permDataContains || tempDataContains;
 	}
 
 

@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.tree.combatcalculator.AtkVarCopy.Modifier;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -220,6 +218,17 @@ public class Weapon extends AtkVarUser implements Parcelable{
 			PermanentTreeData permData) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public List<AtkVarCopy.Id> getAtkVarIdsWithPermState() {
+		
+		List<AtkVarCopy.Id> atkVarsWithState = new ArrayList<AtkVarCopy.Id>();
+		
+		for (AtkVarCopy a: variables)
+			if (a.getValueType().equals(AtkVarCopy.ValueType.PROB))
+				atkVarsWithState.add(a.getId());
+		
+		return atkVarsWithState;
 	}
 
 

@@ -15,7 +15,7 @@ import java.util.List;
 
 public class AtkVarUser {
 
-	protected List<AtkVar> variables = new ArrayList<AtkVar>();
+	protected List<AtkVarCopy> variables = new ArrayList<AtkVarCopy>();
 	//default name
 	protected String name = "default";
 
