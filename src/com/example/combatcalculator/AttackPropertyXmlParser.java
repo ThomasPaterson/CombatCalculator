@@ -10,22 +10,32 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import android.util.Xml;
 
-public class AttackPropertyXmlParser {
+public class AttackPropertyXmlParser extends XmlParser {
+	
+	private static AttackPropertyXmlParser instance = null;
+	
+	public AttackPropertyXmlParser(){
+	}
+
+	public static AttackPropertyXmlParser getInstance() {
+		
+		if (instance == null)
+			return createInstance();
+		
+		return instance;
+	}
+	
+	private static AttackPropertyXmlParser createInstance() {
+		
+		instance = new AttackPropertyXmlParser();
+		return instance;
+	
+	}
 	
 	
-	public static List<AttackProperty> parse(InputStream in) throws XmlPullParserException, IOException {
-        try {
-            XmlPullParser parser = Xml.newPullParser();
-            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-            parser.setInput(in, null);
-            parser.nextTag();
-            return readFeed(parser);
-        } finally {
-            in.close();
-        }
-    }
-	
-	private static List<AttackProperty> readFeed(XmlPullParser parser) throws XmlPullParserException, IOException {
+
+	@Override
+	protected List<AttackProperty> readFeed(XmlPullParser parser) throws XmlPullParserException, IOException {
 	    List<AttackProperty> entries = new ArrayList<AttackProperty>();
 
 	    parser.require(XmlPullParser.START_TAG, null, "Options");
@@ -44,7 +54,7 @@ public class AttackPropertyXmlParser {
 	    return entries;
 	}
 	
-	private static AttackProperty readVariable(XmlPullParser parser) throws XmlPullParserException, IOException {
+	protected AttackProperty readVariable(XmlPullParser parser) throws XmlPullParserException, IOException {
 	    parser.require(XmlPullParser.START_TAG, null, "Variable");
 	    String Name = null;
 	    String Display = null;
@@ -70,45 +80,6 @@ public class AttackPropertyXmlParser {
 	    
 	    return new AttackProperty(Name, Display, Type);
 	}
-	
-
-	private static String readEntry(XmlPullParser parser, String variableName) throws IOException, XmlPullParserException {
-	    parser.require(XmlPullParser.START_TAG, null, variableName);
-	    String entry = readText(parser);
-	    parser.require(XmlPullParser.END_TAG, null, variableName);
-	    return entry;
-	}
-
-	
-	private static String readText(XmlPullParser parser) throws IOException, XmlPullParserException {
-	    String result = "";
-	    if (parser.next() == XmlPullParser.TEXT) {
-	        result = parser.getText();
-	        parser.nextTag();
-	    }
-	    return result;
-	}
-
-
-	
-	private static void skip(XmlPullParser parser) throws XmlPullParserException, IOException {
-	    if (parser.getEventType() != XmlPullParser.START_TAG) {
-	        throw new IllegalStateException();
-	    }
-	    int depth = 1;
-	    while (depth != 0) {
-	        switch (parser.next()) {
-	        case XmlPullParser.END_TAG:
-	            depth--;
-	            break;
-	        case XmlPullParser.START_TAG:
-	            depth++;
-	            break;
-	        }
-	    }
-	 }
-
-	
-	
+		
 
 }

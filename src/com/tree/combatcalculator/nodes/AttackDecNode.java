@@ -53,11 +53,15 @@ public class AttackDecNode extends DecisionNode {
 
 	private static boolean notBoosted(Node parent, PermanentTreeData permData) {
 
-		return permData.checkGroupsContains(AtkVarCopy.Id.BOOSTED_ATTACK, 
+		boolean permDataContains = permData.checkGroupsContains(AtkVarCopy.Id.BOOSTED_ATTACK, 
 				parent.getWeaponIndex(), 
 				AtkVarCopy.Group.ATTACKER, 
 				AtkVarCopy.Group.WEAPON
 				);
+		
+		boolean tempDataContains = parent.getTempData().contains(AtkVarCopy.Id.BOOSTED_ATTACK);
+		
+		return permDataContains || tempDataContains;
 	}
 
 

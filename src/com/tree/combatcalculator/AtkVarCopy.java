@@ -25,7 +25,15 @@ public class AtkVarCopy {
 
 
 	public enum Id {
-		 STAR_ATTACK, BOOSTED_ATTACK, CRIT, CRIT_PATH, BOOSTED_DAMAGE, CHARGE, FREE_CHARGE; 
+		 CRIT_PATH,CHARGE, FREE_CHARGE, SET_DEFENSE, ASSAULT,
+		 COMBINED, CMA, CRA, BRUTAL_CHARGE, POWERFUL_CHARGE,
+		 CRIT_SUSTAINED_ATK, SUSTAINED_ATK, POWERFUL_ATK, WEAPONMASTER,
+		 CRIT_DOUBLE_DAMAGE, DOUBLE_DAMAGE, KNOCKED_DOWN,
+		 POINT_BLANK, GUNFIGHTER, STAR_ARM_PIERCE, ARM_PIERCE,
+		 REROLL_DAM, REROLL_ATK, DISCARD_DAM, DISCARD_ATK, CRIT_ATK,
+		 CRIT_DAM, CRIT_KNOCKDOWN, MOD_ARM, MOD_DEF, MOD_DAM, MOD_HIT, 
+		 ADD_DAM, ADD_HIT, BOOSTED_DAM, BOOSTED_HIT, CHARGE_DAMAGE, CHARGING,
+		 AUTO_CRIT, AUTO_HIT; 
 		}
 	
 	
@@ -50,11 +58,13 @@ public class AtkVarCopy {
 	}
 	
 	public enum Conditional {
-		 CRIT, 
-		 CHARGING, 
-		 MELEE,
-		 RANGED,
-		 ALL_INITIALS; 
+		CRIT,
+		CHARGING,
+		MELEE, 
+		RANGED, 
+		ALL_INITIALS, 
+		HIT, 
+		BOOSTED_HIT; 
 	}
 	
 	public enum Modifier {
@@ -62,9 +72,17 @@ public class AtkVarCopy {
 		CRIT;
 	}
 	
-	public enum Duration {
-		CONTINUOUS_STATE,
-		TEMPORARY_STATE;
+	public enum Continuous {
+		TRUE;
+	}
+	
+	public enum Triggered {
+		KNOCKED_DOWN, 
+		ADD_DAM, 
+		SHRED, 
+		AUTO_HIT, 
+		BOOSTED_DAM, 
+		DOUBLE_DAMAGE;
 	}
 	
 	private float value;
@@ -74,7 +92,8 @@ public class AtkVarCopy {
 	private ValueType valueType;
 	private List<Conditional> conditions;
 	private List<Modifier> modifiers;
-	private Duration duration;
+	private List<Triggered> triggered;
+	private Continuous continuous;
 	private int weaponIndex;
 	static private Map<AtkVarCopy.Id, AtkVarCopy> atkVarCopyCache = null;
 	
@@ -90,6 +109,14 @@ public class AtkVarCopy {
 		modifiers = new ArrayList<Modifier>(atkVarCopy.getModifiers());
 		
 	}
+	
+	public static AtkVarCopy createAtkVar(Id id, Group group){
+
+		AtkVarCopy atkVar = createAtkVar(id);
+		atkVar.setGroup(group);
+		return atkVar;
+	}
+	
 
 	public static AtkVarCopy createAtkVar(Id id){
 		
@@ -108,7 +135,16 @@ public class AtkVarCopy {
 		return atkVar;
 	}
 	
-public AtkVarCopy createAtkVar(Id id, float newValue){
+	
+	public AtkVarCopy createAtkVar(Id id, float newValue, Group group){
+		
+		AtkVarCopy atkVar = createAtkVar(id, newValue);
+		atkVar.setGroup(group);
+		
+		return atkVar;
+	}
+	
+	public AtkVarCopy createAtkVar(Id id, float newValue){
 		
 		if (atkVarCopyCache == null)
 			readCacheFromXml();
@@ -127,29 +163,11 @@ public AtkVarCopy createAtkVar(Id id, float newValue){
 	}
 
 
-
 	private static void readCacheFromXml() {
 		// TODO Auto-generated method stub
 		
 	}
 	
-
-
-	public static boolean checkGroup(Group attacker, Id boostedAttack) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public static boolean checkWeaponGroup(Group weapon, int weaponIndex,
-			Id boostedAttack) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public static void putCrits(Map<Id, AtkVarCopy> variables) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 
@@ -235,12 +253,12 @@ public AtkVarCopy createAtkVar(Id id, float newValue){
 		this.modifiers = modifiers;
 	}
 	
-	public Duration getDuration() {
-		return duration;
+	public Continuous getContinuous() {
+		return continuous;
 	}
 
-	public void setDuration(Duration duration) {
-		this.duration = duration;
+	public void setContinuous(Continuous continuous) {
+		this.continuous = continuous;
 	}
 
 	public int getWeaponIndex() {
@@ -277,6 +295,14 @@ public AtkVarCopy createAtkVar(Id id, float newValue){
 				return true;
 		
 		return false;
+	}
+
+	public List<Triggered> getTriggered() {
+		return triggered;
+	}
+
+	public void setTriggered(List<Triggered> triggered) {
+		this.triggered = triggered;
 	}
 
 

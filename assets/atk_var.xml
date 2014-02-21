@@ -1,0 +1,287 @@
+<?xml version="1.0"?>
+
+<AtkVars>
+
+<AtkVar>
+	<Id>SET_DEFENSE</Id>
+	<State>PERM</State>
+	<ValueType>FLAG</ValueType>
+	<Conditional>CHARGING</Conditional>
+	<Conditional>MELEE</Conditional>
+	<Triggered>MOD_DEF:2</Triggered>
+</AtkVar>
+
+
+<AtkVar>
+	<Id>ASSAULT</Id>
+	<State>PERM</State>
+	<ValueType>FLAG</ValueType>
+	<Conditional>CHARGING</Conditional>
+	<Conditional>RANGED</Conditional>
+</AtkVar>
+
+
+<AtkVar>
+	<Id>COMBINED</Id>
+	<State>TEMP</State>
+	<ValueType>FLAG</ValueType>
+</AtkVar>
+
+
+<AtkVar>
+	<Id>CMA</Id>
+	<State>PERM</State>
+	<ValueType>FLAG</ValueType>
+	<Conditional>MELEE<Conditional>
+	<Triggered>COMBINED<Triggered>
+</AtkVar>
+
+<AtkVar>
+	<Id>CRA</Id>
+	<State>PERM</State>
+	<ValueType>FLAG</ValueType>
+	<Conditional>RANGED<Conditional>
+	<Triggered>COMBINED<Triggered>
+</AtkVar>
+
+<AtkVar>
+	<Id>BRUTAL_CHARGE</Id>
+	<State>PERM</State>
+	<ValueType>FLAG</ValueType>
+	<Conditional>CHARGING<Conditional>
+	<Triggered>MOD_DAM:2</Triggered>
+</AtkVar>
+
+<AtkVar>
+	<Id>POWERFUL_CHARGE</Id>
+	<State>PERM</State>
+	<ValueType>FLAG</ValueType>
+	<Conditional>CHARGING<Conditional>
+	<Triggered>MOD_ATK:2</Triggered>
+</AtkVar>
+
+<AtkVar>
+	<Id>CRIT_SUSTAINED_ATK</Id>
+	<State>PERM</State>
+	<ValueType>FLAG</ValueType>
+	<Conditional>CRIT<Conditional>
+	<Triggered>AUTO_HIT</Triggered>
+</AtkVar>
+
+
+<AtkVar>
+	<Id>SUSTAINED_ATK</Id>
+	<State>PERM</State>
+	<ValueType>FLAG</ValueType>
+	<Conditional>HIT<Conditional>
+	<Triggered>AUTO_HIT</Triggered>
+</AtkVar>
+
+
+<AtkVar>
+	<Id>POWERFUL_ATK</Id>
+	<State>PERM</State>
+	<ValueType>FLAG</ValueType>
+	<Conditional>BOOSTED_HIT<Conditional>
+	<Triggered>BOOSTED_DAM</Triggered>
+</AtkVar>
+
+<AtkVar>
+	<Id>WEAPONMASTER</Id>
+	<State>PERM</State>
+	<ValueType>FLAG</ValueType>
+	<Triggered>ADD_DAM</Triggered>
+</AtkVar>
+
+
+<AtkVar>
+	<Id>WEAPONMASTER</Id>
+	<State>PERM</State>
+	<ValueType>FLAG</ValueType>
+	<Triggered>ADD_DAM</Triggered>
+</AtkVar>
+
+<AtkVar>
+	<Id>CRIT_DOUBLE_DAMAGE</Id>
+	<State>TEMP</State>
+	<ValueType>FLAG</ValueType>
+	<Conditional>CRIT</Conditional>
+	<Modifier>CRIT</Modifier>
+	<Triggered>DOUBLE_DAMAGE</Triggered>
+</AtkVar>
+
+<AtkVar>
+	<Id>DOUBLE_DAMAGE</Id>
+	<State>PERM</State>
+	<ValueType>FLAG</ValueType>
+</AtkVar>
+
+
+<AtkVar>
+	<Id>KNOCKED_DOWN</Id>
+	<State>BOTH</State>
+	<ValueType>FLAG</ValueType>
+</AtkVar>
+
+<AtkVar>
+	<Id>POINT_BLANK</Id>
+	<State>PERM</State>
+	<ValueType>FLAG</ValueType>
+	<Conditional>RANGED</Conditional>
+</AtkVar>
+
+<AtkVar>
+	<Id>GUNFIGHTER</Id>
+	<State>PERM</State>
+	<ValueType>FLAG</ValueType>
+	<Conditional>RANGED</Conditional>
+</AtkVar>
+
+<AtkVar>
+	<Id>STAR_ARM_PIERCE</Id>
+	<State>PERM</State>
+	<ValueType>FLAG</ValueType>
+	<Conditional>ALL_INITIALS</Conditional>
+	<Modifier>STAR_ATTACK</Modifier>
+</AtkVar>
+
+<AtkVar>
+	<Id>ARM_PIERCE</Id>
+	<State>PERM</State>
+	<ValueType>FLAG</ValueType>
+</AtkVar>
+
+<AtkVar>
+	<Id>REROLL_DAM</Id>
+	<State>PERM</State>
+	<ValueType>FLAG</ValueType>
+</AtkVar>
+
+<AtkVar>
+	<Id>REROLL_ATK</Id>
+	<State>PERM</State>
+	<ValueType>FLAG</ValueType>
+</AtkVar>
+
+<AtkVar>
+	<Id>DISCARD_DAM</Id>
+	<State>PERM</State>
+	<ValueType>COUNTER</ValueType>
+</AtkVar>
+
+<AtkVar>
+	<Id>DISCARD_ATK</Id>
+	<State>PERM</State>
+	<ValueType>COUNTER</ValueType>
+</AtkVar>
+
+
+<AtkVar>
+	<Id>CRIT_ATK</Id>
+	<State>BOTH</State>
+	<ValueType>FLAG</ValueType>
+	<Modifier>CRIT</Modifier>
+	<Triggered>SHRED</Triggered>
+</AtkVar>
+
+<AtkVar>
+	<Id>CRIT_DAM</Id>
+	<State>BOTH</State>
+	<ValueType>FLAG</ValueType>
+	<Modifier>CRIT</Modifier>
+	<Triggered>ADD_DAM</Triggered>
+</AtkVar>
+
+
+<AtkVar>
+	<Id>CRIT_KNOCKDOWN</Id>
+	<State>BOTH</State>
+	<ValueType>PROB</ValueType>
+	<Modifier>CRIT</Modifier>
+	<Triggered>KNOCKED_DOWN</Triggered>
+	<Continuous>TRUE</Continuous>
+</AtkVar>
+
+
+<AtkVar>
+	<Id>MOD_ARM</Id>
+	<State>BOTH</State>
+	<ValueType>COUNTER</ValueType>
+</AtkVar>
+
+
+<AtkVar>
+	<Id>MOD_DEF</Id>
+	<State>BOTH</State>
+	<ValueType>COUNTER</ValueType>
+</AtkVar>
+
+<AtkVar>
+	<Id>MOD_DAM</Id>
+	<State>BOTH</State>
+	<ValueType>COUNTER</ValueType>
+</AtkVar>
+
+<AtkVar>
+	<Id>MOD_HIT</Id>
+	<State>BOTH</State>
+	<ValueType>COUNTER</ValueType>
+</AtkVar>
+
+<AtkVar>
+	<Id>ADD_DAM</Id>
+	<State>BOTH</State>
+	<ValueType>COUNTER</ValueType>
+</AtkVar>
+
+<AtkVar>
+	<Id>ADD_HIT</Id>
+	<State>BOTH</State>
+	<ValueType>COUNTER</ValueType>
+</AtkVar>
+
+<AtkVar>
+	<Id>BOOSTED_DAM</Id>
+	<State>BOTH</State>
+	<ValueType>FLAG</ValueType>
+</AtkVar>
+
+<AtkVar>
+	<Id>BOOSTED_HIT</Id>
+	<State>BOTH</State>
+	<ValueType>FLAG</ValueType>
+</AtkVar>
+
+<AtkVar>
+	<Id>CHARGE_DAMAGE</Id>
+	<State>TEMP</State>
+	<ValueType>FLAG</ValueType>
+	<Conditional>MELEE</Conditional>
+</AtkVar>
+
+<AtkVar>
+	<Id>CHARGING</Id>
+	<State>PERM</State>
+	<ValueType>FLAG</ValueType>
+</AtkVar>
+
+<AtkVar>
+	<Id>FREE_CHARGE</Id>
+	<State>PERM</State>
+	<ValueType>FLAG</ValueType>
+</AtkVar>
+
+<AtkVar>
+	<Id>AUTO_CRIT</Id>
+	<State>PERM</State>
+	<ValueType>FLAG</ValueType>
+</AtkVar>
+
+<AtkVar>
+	<Id>AUTO_HIT</Id>
+	<State>BOTH</State>
+	<ValueType>PROB</ValueType>
+	
+</AtkVar>
+</AtkVars>
+
