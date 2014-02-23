@@ -9,7 +9,6 @@ package com.tree.combatcalculator;
  * @version 1.00 2012/9/12
  */
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,11 +16,12 @@ import org.apache.commons.lang3.Validate;
 
 import android.util.Log;
 
-import com.tree.combatcalculator.AtkVarCopy.Group;
-import com.tree.combatcalculator.AtkVarCopy.Id;
-import com.tree.combatcalculator.nodes.Node;
-
 public class AtkVarCopy {
+	
+	public enum VariableType {
+		 Id, Group, State, ValueType, Conditional, 
+		 Modifier, Continuous, Triggered;
+	}
 
 
 	public enum Id {
@@ -34,7 +34,7 @@ public class AtkVarCopy {
 		 CRIT_DAM, CRIT_KNOCKDOWN, MOD_ARM, MOD_DEF, MOD_DAM, MOD_HIT, 
 		 ADD_DAM, ADD_HIT, BOOSTED_DAM, BOOSTED_HIT, CHARGE_DAMAGE, CHARGING,
 		 AUTO_CRIT, AUTO_HIT; 
-		}
+	}
 	
 	
 	public enum Group {
@@ -96,6 +96,12 @@ public class AtkVarCopy {
 	private Continuous continuous;
 	private int weaponIndex;
 	static private Map<AtkVarCopy.Id, AtkVarCopy> atkVarCopyCache = null;
+	
+	public AtkVarCopy(){
+		conditions = new ArrayList<Conditional>();
+		modifiers = new ArrayList<Modifier>();
+		triggered = new ArrayList<Triggered>();
+	}
 	
 	
 	
@@ -303,6 +309,56 @@ public class AtkVarCopy {
 
 	public void setTriggered(List<Triggered> triggered) {
 		this.triggered = triggered;
+	}
+	
+	public void addVariable(VariableType type, String value){
+
+		switch(type) {
+			
+			case Id: 
+					this.id = getEnumFromString(Id.class, value); 
+					break;
+			case Group: 
+					this.group = getEnumFromString(Group.class, value); 
+					break;
+			case State: 
+					this.state = getEnumFromString(State.class, value); 
+					break;
+			case ValueType: 
+					this.valueType = getEnumFromString(ValueType.class, value); 
+					break;
+			case Conditional: 
+					this.conditions.add(getEnumFromString(Conditional.class, value)); 
+					break;
+			case Modifier: 
+					this.modifiers.add(getEnumFromString(Modifier.class, value)); 
+					break;
+			case Continuous: 
+					this.continuous = getEnumFromString(Continuous.class, value); 
+					break;
+			case Triggered: 
+					this.triggered.add(getEnumFromString(Triggered.class, value)); 
+					break;
+			
+			default: Log.e("invalid variable", "can't add variable type:" + type.toString());
+		}
+			
+	}
+	
+	public static <T extends Enum<T>> T getEnumFromString(Class<T> c, String string)
+	{
+	    if( c != null && string != null )
+	    {
+	        try
+	        {
+	            return Enum.valueOf(c, string.trim().toUpperCase());
+	        }
+	        catch(IllegalArgumentException ex)
+	        {
+	        	Log.e("invalid variable type", "can't add enum value:" + string);
+	        }
+	    }
+	    return null;
 	}
 
 
