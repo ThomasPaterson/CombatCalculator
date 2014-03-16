@@ -55,8 +55,15 @@ public abstract class Node implements Parcelable, Comparable<Node>{
 		 DAMAGE_RES("DAMAGE_RES", "FINAL_RES"),
 		 FINAL_RES("FINAL_RES", null);
 		 
+		 
 		 private String name;
 		 private String next;
+		 static final Map<String,Type> typeMap =
+			        new HashMap<String,Type>();
+			    static {
+			        for (Type t : Type.values())
+			        	typeMap.put(t.toString(), t);
+			    }
 		 
 		 private Type(String name, String next) {
 		   this.name = name;
@@ -69,6 +76,10 @@ public abstract class Node implements Parcelable, Comparable<Node>{
 		 
 		 public String getNext() {
 			   return next;
+		 }
+		 
+		 public static Type findType(String type){
+			 return typeMap.get(type);
 		 }
 	}
 
@@ -256,21 +267,10 @@ public abstract class Node implements Parcelable, Comparable<Node>{
 			 new Parcelable.Creator<Node>() {
 			           public Node createFromParcel(Parcel in) {
 			        	   
-			        	   int curType = in.readInt();
+			        	   String curType = in.readString();
 			        	   
-			        	   if (curType == DECISION_NODE){
-			        		   //DecisionNode newD = new DecisionNode(in);
-			        		   //return (Node) newD;
-			        		   //TODO
-			        		   return null;
-			        	   }else{
-			        		   
-			        		   //ResultNode newR = new ResultNode(in);
-			        		   //return (Node) newR;
-			        		   //TODO
-			        		   return null;
-			        		   
-			        	   }
+			        	   return NodeFactory.createNode(in, Type.findType(curType));
+
 			        	   		
 			           }
 			           

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import android.os.Parcel;
+
 import com.tree.combatcalculator.AtkVar;
 import com.tree.combatcalculator.AtkVarCopy;
 import com.tree.combatcalculator.PermanentTreeData;
@@ -24,6 +26,12 @@ public class DamageDecNode extends DecisionNode {
 	}
 
 	
+	public DamageDecNode(Parcel in) {
+		super(in);
+		nodeType = Node.Type.ATTACK_DEC;
+	}
+
+
 	public static List<Node> createDamageDecNodes(Node parent, PermanentTreeData permData) {
 		
 		List<Node> damageNodes = new ArrayList<Node>();
@@ -59,8 +67,8 @@ public class DamageDecNode extends DecisionNode {
 				attackDecNode.getTempData().focus--;
 			
 			attackDecNode.getTempData().variables.put(
-					AtkVarCopy.Id.BOOSTED_DAMAGE, 
-					AtkVarCopy.createAtkVar(AtkVarCopy.Id.BOOSTED_DAMAGE));
+					AtkVarCopy.Id.BOOSTED_DAM, 
+					AtkVarCopy.createAtkVar(AtkVarCopy.Id.BOOSTED_DAM));
 		}
 		
 		
@@ -85,14 +93,14 @@ public class DamageDecNode extends DecisionNode {
 
 	private static boolean notBoosted(Node parent, PermanentTreeData permData) {
 		
-		boolean permDataContains = permData.checkGroupsContains(AtkVarCopy.Id.BOOSTED_DAMAGE, 
+		boolean permDataContains = permData.checkGroupsContains(AtkVarCopy.Id.BOOSTED_DAM, 
 				parent.getWeaponIndex(), 
 				AtkVarCopy.Group.ATTACKER, 
 				AtkVarCopy.Group.WEAPON,
 				AtkVarCopy.Group.SITUATION
 				);
 		
-		boolean tempDataContains = parent.getTempData().contains(AtkVarCopy.Id.BOOSTED_DAMAGE);
+		boolean tempDataContains = parent.getTempData().contains(AtkVarCopy.Id.BOOSTED_DAM);
 
 		return permDataContains || tempDataContains;
 	}

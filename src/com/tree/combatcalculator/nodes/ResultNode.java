@@ -23,7 +23,7 @@ import com.tree.combatcalculator.AtkVarCopy.Id;
 import com.tree.combatcalculator.PermanentTreeData;
 import com.tree.combatcalculator.WeaponCountHolder;
 
-public abstract class ResultNode extends Node implements Parcelable{
+public abstract class ResultNode extends Node {
 
 
 	//for tracking types of result_attack nodes results
@@ -47,7 +47,6 @@ public abstract class ResultNode extends Node implements Parcelable{
     
     public ResultNode(Parcel in){
     	super(in);
-    	readFromParcel(in);
     	
     }
 
@@ -138,60 +137,10 @@ public abstract class ResultNode extends Node implements Parcelable{
 	}//end getScore
 
 	
-	/**
-	 *Creates all the values from the parcel
-	 */
-  	protected void readFromParcel(Parcel in){
-  		
-  		value = in.readFloat();
-		hitType = in.readInt();
-  		
-  	}
-  		
 
-	
-	@Override
-	public void writeToParcel(Parcel dest, int flags){
-		
-//		dest.writeInt(Node.RESULT_NODE);
-//		dest.writeParcelable(parent, 0);
-//		dest.writeTypedList(children);
-//		dest.writeInt(type);
-//		dest.writeInt(focus);
-//		dest.writeTypedList(sit);
-//		//TODO: dest.writeIntArray(weaponCount);
-//		dest.writeFloat(value);
-//		dest.writeInt(hitType);
-	}
 
-	//parcel stuff
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-	
+
   	
-  	//end parcel stuff
-
-/**
-*
-* This field is needed for Android to be able to
-* create new objects, individually or as arrays.
-*
-
-*/
-public static final Parcelable.Creator<ResultNode> CREATOR =
-	new Parcelable.Creator<ResultNode>() {
-       public ResultNode createFromParcel(Parcel in) {
-           //return new ResultNode(in);
-    	   //TODO
-    	   return null;
-       }
-       
-       public ResultNode[] newArray(int size) {
-           return new ResultNode[size];
-       }
-   };
 
 @Override
 public List<Node> createChildren(PermanentTreeData permData) {

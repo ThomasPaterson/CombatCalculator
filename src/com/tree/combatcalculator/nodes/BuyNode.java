@@ -3,6 +3,8 @@ package com.tree.combatcalculator.nodes;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.os.Parcel;
+
 import com.tree.combatcalculator.AtkVar;
 import com.tree.combatcalculator.AtkVarCopy;
 import com.tree.combatcalculator.PermanentTreeData;
@@ -20,6 +22,11 @@ public class BuyNode extends DecisionNode {
 
 	}
 	
+	public BuyNode(Parcel in) {
+		super(in);
+		nodeType = Node.Type.BUY;
+	}
+
 	public static List<Node> createBuyNodes(Node parent, PermanentTreeData permData) {
 		
 		List<Node> buyNodes = new ArrayList<Node>();

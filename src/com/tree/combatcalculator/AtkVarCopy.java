@@ -8,12 +8,20 @@ package com.tree.combatcalculator;
  * @author
  * @version 1.00 2012/9/12
  */
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.Validate;
+import org.xmlpull.v1.XmlPullParserException;
 
+import com.example.combatcalculator.AttackProperty;
+import com.example.combatcalculator.AttackPropertyXmlParser;
+import com.example.combatcalculator.ConfigManager;
+
+import android.content.Context;
 import android.util.Log;
 
 public class AtkVarCopy {
@@ -126,9 +134,7 @@ public class AtkVarCopy {
 
 	public static AtkVarCopy createAtkVar(Id id){
 		
-		if (atkVarCopyCache == null)
-			readCacheFromXml();
-		
+
 		AtkVarCopy atkVar = atkVarCopyCache.get(id);
 		
 		try {
@@ -152,8 +158,7 @@ public class AtkVarCopy {
 	
 	public AtkVarCopy createAtkVar(Id id, float newValue){
 		
-		if (atkVarCopyCache == null)
-			readCacheFromXml();
+
 		
 		AtkVarCopy atkVar = new AtkVarCopy(atkVarCopyCache.get(id));
 		atkVar.setValue(newValue);
@@ -168,11 +173,22 @@ public class AtkVarCopy {
 		return atkVar;
 	}
 
-
-	private static void readCacheFromXml() {
-		// TODO Auto-generated method stub
+	public static void initialize(Context context) {
+		
+		try {
+			String file = ConfigManager.SITUATION_XML;
+			InputStream istr = context.getAssets().open(file);
+			AttackPropertyXmlParser xmlReader = AttackPropertyXmlParser.getInstance();
+			atkVarCopyCache = (Map<AtkVarCopy.Id, AtkVarCopy>)xmlReader.parse(istr);
+		} catch (XmlPullParserException e) {
+			Log.e("parser", "Problem parsing xml", e);
+		} catch (Exception e) {
+			Log.e("other", "Problem parsing xml", e);
+		}
 		
 	}
+
+
 	
 
 
@@ -360,6 +376,10 @@ public class AtkVarCopy {
 	    }
 	    return null;
 	}
+
+
+
+	
 
 
 

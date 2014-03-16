@@ -3,6 +3,8 @@ package com.tree.combatcalculator.nodes;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.os.Parcel;
+
 import com.tree.combatcalculator.AtkVar;
 import com.tree.combatcalculator.AtkVarCopy;
 import com.tree.combatcalculator.AttackCalcHelper;
@@ -15,11 +17,17 @@ public class AttackResNode extends ResultNode {
 	public AttackResNode(Node parent) {
 		
 		super(parent);
-		nodeType = Node.Type.ATTACK_DEC;
+		nodeType = Node.Type.ATTACK_RES;
 
 	}
 
 	
+	public AttackResNode(Parcel in) {
+		super(in);
+		nodeType = Node.Type.ATTACK_RES;
+	}
+
+
 	public static List<Node> createAttackResNodes(Node parent, PermanentTreeData permData) {
 		
 		List<Node> attackResNodes = new ArrayList<Node>();

@@ -3,6 +3,8 @@ package com.tree.combatcalculator.nodes;
 import java.util.List;
 import java.util.Map;
 
+import android.os.Parcel;
+
 import com.example.combatcalculator.AttackHolder;
 import com.tree.combatcalculator.AtkVarCopy;
 import com.tree.combatcalculator.PermanentTreeData;
@@ -18,6 +20,11 @@ public class EndNode extends DecisionNode {
 		super();
 		nodeType = Node.Type.END;
 		this.tempData = tempData;
+	}
+
+	public EndNode(Parcel in) {
+		super(in);
+		nodeType = Node.Type.END;
 	}
 
 	@Override

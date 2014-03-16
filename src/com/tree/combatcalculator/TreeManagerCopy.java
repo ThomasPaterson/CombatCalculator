@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import android.content.Context;
+
 import com.tree.combatcalculator.nodes.EndNode;
 import com.tree.combatcalculator.nodes.Node;
 
@@ -28,7 +30,7 @@ private List<Node> optimalNodes;
 
 	//set up the initial values
     public TreeManagerCopy(AttackCalculator atkCalc, int optimization, AttackModel attacker,
-    	DefendModel defender, List< Map<AtkVarCopy.Id, AtkVarCopy> > permState) {
+    	DefendModel defender, List< Map<AtkVarCopy.Id, AtkVarCopy> > permState, Context context) {
     	
     	permData = new PermanentTreeData();
 
