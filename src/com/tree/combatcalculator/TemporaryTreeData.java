@@ -7,25 +7,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.tree.combatcalculator.AtkVarCopy.Id;
+import com.tree.combatcalculator.AtkVar.Id;
 import com.tree.combatcalculator.nodes.Node;
 
 public class TemporaryTreeData {
 	
 	public int focus;
 	public List<WeaponCountHolder> weaponHolders;
-	public Map<Id, AtkVarCopy> variables;
+	public Map<Id, AtkVar> variables;
 	
 	public TemporaryTreeData(TemporaryTreeData tempData) {
 		
 		this.focus = tempData.focus;
 		this.weaponHolders = new ArrayList<WeaponCountHolder>(tempData.weaponHolders);
-		this.variables = new HashMap<Id, AtkVarCopy>(tempData.variables);
+		this.variables = new HashMap<Id, AtkVar>(tempData.variables);
 	}
 
 	public TemporaryTreeData(int numFocus,
 			List<WeaponCountHolder> weaponHolders,
-			Map<Id, AtkVarCopy> variables) {
+			Map<Id, AtkVar> variables) {
 		
 		this.focus = numFocus;
 		this.weaponHolders = weaponHolders;
@@ -37,13 +37,13 @@ public class TemporaryTreeData {
 
 	public void clearTempValues() {
 		
-		Iterator<Entry<Id, AtkVarCopy>> entries = variables.entrySet().iterator();
+		Iterator<Entry<Id, AtkVar>> entries = variables.entrySet().iterator();
 		
 		while (entries.hasNext()) {
 		    Map.Entry entry = (Map.Entry) entries.next();
-		    AtkVarCopy value = (AtkVarCopy)entry.getValue();
+		    AtkVar value = (AtkVar)entry.getValue();
 		    
-		    if (value.getDuration().equals(AtkVarCopy.Duration.TEMPORARY_STATE))
+		    if (value.getDuration().equals(AtkVarCopy.AtkVar.TEMPORARY_STATE))
 		    	entries.remove();
 		}
 	}
@@ -56,7 +56,7 @@ public class TemporaryTreeData {
 		
 		Weapon weapon = permData.attacker.getWeapons().get(attackNode.getWeaponIndex());
 		
-		for (AtkVarCopy.Id id : weapon.getAtkVarIdsWithPermState()){
+		for (AtkVar.Id id : weapon.getAtkVarIdsWithPermState()){
 			
 			float critChance = AttackCalcHelper.calcCritWithoutCritProbability(attackNode, permData);
 			
@@ -73,7 +73,7 @@ public class TemporaryTreeData {
 
 	private void modifyCritChance(Id id, float critChance) {
 		
-		AtkVarCopy newCrit = AtkVarCopy.createAtkVar(id);
+		AtkVar newCrit = AtkVar.createAtkVar(id);
 		
 		newCrit.setValue(critChance);
 		
@@ -83,7 +83,7 @@ public class TemporaryTreeData {
 
 	private void addCritChance(Id id, float critChance) {
 		
-		AtkVarCopy oldCrit = variables.get(id);
+		AtkVar oldCrit = variables.get(id);
 		
 		float newCritChance = oldCrit.getValue() + (1-oldCrit.getValue())*critChance;
 		

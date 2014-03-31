@@ -202,30 +202,18 @@ public class Weapon extends AtkVarUser implements Parcelable{
        };
 
 
-	public static int[] prepareWeapons(AttackModel attacker,
-			List<Map<String, AtkVar>> permState) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
-	public static boolean hasInits(WeaponCountHolder weaponCount) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public static boolean checkWeaponVariables(AtkVarCopy.Modifier starAttack,
-			PermanentTreeData permData) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public List<AtkVarCopy.Id> getAtkVarIdsWithPermState() {
+	public static AtkVar findStarAttack(int weaponIndex, PermanentTreeData permData) {
 		
-		List<AtkVarCopy.Id> atkVarsWithState = new ArrayList<AtkVarCopy.Id>();
+	}
+
+	public List<AtkVar.Id> getAtkVarIdsWithPermState() {
 		
-		for (AtkVarCopy a: variables)
-			if (a.getValueType().equals(AtkVarCopy.ValueType.PROB))
+		List<AtkVar.Id> atkVarsWithState = new ArrayList<AtkVar.Id>();
+		
+		for (AtkVar a: variables)
+			if (a.getValueType().equals(AtkVar.ValueType.PROB))
 				atkVarsWithState.add(a.getId());
 		
 		return atkVarsWithState;

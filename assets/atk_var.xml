@@ -8,7 +8,8 @@
 	<ValueType>FLAG</ValueType>
 	<Conditional>CHARGING</Conditional>
 	<Conditional>MELEE</Conditional>
-	<Triggered>MOD_DEF:2</Triggered>
+	<Value>2</Value>
+	<Triggered>MOD_DEF</Triggered>
 </AtkVar>
 
 
@@ -49,7 +50,8 @@
 	<State>PERM</State>
 	<ValueType>FLAG</ValueType>
 	<Conditional>CHARGING<Conditional>
-	<Triggered>MOD_DAM:2</Triggered>
+	<Value>2</Value>
+	<Triggered>MOD_DAM</Triggered>
 </AtkVar>
 
 <AtkVar>

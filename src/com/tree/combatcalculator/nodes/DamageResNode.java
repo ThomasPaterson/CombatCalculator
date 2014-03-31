@@ -3,39 +3,27 @@ package com.tree.combatcalculator.nodes;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.os.Parcel;
-
-import com.tree.combatcalculator.AtkVar;
-import com.tree.combatcalculator.AtkVarCopy;
-import com.tree.combatcalculator.AttackCalcHelper;
 import com.tree.combatcalculator.PermanentTreeData;
-import com.tree.combatcalculator.Weapon;
-import com.tree.combatcalculator.WeaponCountHolder;
 
 public class DamageResNode extends ResultNode {
-	
+
 
 	public DamageResNode(Node parent) {
-		
+
 		super(parent);
 		nodeType = Node.Type.DAMAGE_RES;
 
 	}
 
-	
-	public DamageResNode(Parcel in) {
-		super(in);
-		nodeType = Node.Type.DAMAGE_RES;
-	}
 
 
 	public static List<Node> createDamageResNodes(Node parent, PermanentTreeData permData) {
-		
+
 		List<Node> damageResNodes = new ArrayList<Node>();
 
 		damageResNodes.add(makeDamageResult(parent, permData));
 
-		return damageResNodes;	
+		return damageResNodes;
 	}
 
 
@@ -53,20 +41,18 @@ public class DamageResNode extends ResultNode {
 
 	@Override
 	public List<Node> createChildren(PermanentTreeData permData) {
-		// TODO Auto-generated method stub
 		return FinalResNode.createFinalResNodes(this, permData);
 	}
 
 
 	@Override
 	public float calculateValue(PermanentTreeData permData) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 
 
-	
+
 
 
 

@@ -8,8 +8,8 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import com.tree.combatcalculator.AtkVarCopy;
-import com.tree.combatcalculator.AtkVarCopy.VariableType;
+import com.tree.combatcalculator.AtkVar;
+import com.tree.combatcalculator.AtkVar.VariableType;
 
 public class AtkVarXmlParser extends XmlParser{
 	
@@ -43,10 +43,10 @@ public class AtkVarXmlParser extends XmlParser{
 	}
 
 	@Override
-	protected  List<AtkVarCopy> readFeed(XmlPullParser parser)
+	protected  List<AtkVar> readFeed(XmlPullParser parser)
 			throws XmlPullParserException, IOException {
 		
-		List<AtkVarCopy> entries = new ArrayList<AtkVarCopy>();
+		List<AtkVar> entries = new ArrayList<AtkVar>();
 
 		parser.require(XmlPullParser.START_TAG, null, ATK_VARS_START);
 	    while (parser.next() != XmlPullParser.END_TAG) {
@@ -65,12 +65,12 @@ public class AtkVarXmlParser extends XmlParser{
 	}
 
 	@Override
-	protected  AtkVarCopy readVariable(XmlPullParser parser)
+	protected  AtkVar readVariable(XmlPullParser parser)
 			throws XmlPullParserException, IOException {
 		
 	    parser.require(XmlPullParser.START_TAG, null, ATK_VAR_START);
-	    AtkVarCopy atkVar = new AtkVarCopy();
-	    List<AtkVarCopy.VariableType> variableTypes = Arrays.asList(VariableType.values());
+	    AtkVar atkVar = new AtkVar();
+	    List<AtkVar.VariableType> variableTypes = Arrays.asList(VariableType.values());
 	    
 	    while (parser.next() != XmlPullParser.END_TAG) {
 	        if (parser.getEventType() != XmlPullParser.START_TAG) {
@@ -81,7 +81,7 @@ public class AtkVarXmlParser extends XmlParser{
 	        
 	        boolean noMatch = true;
 	        
-	        for (AtkVarCopy.VariableType type : variableTypes){
+	        for (AtkVar.VariableType type : variableTypes){
 	        	
 	        	if(type.toString().equals(tag)){
 	        		atkVar.addVariable(type, readEntry(parser, tag));

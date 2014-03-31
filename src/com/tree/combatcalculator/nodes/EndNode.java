@@ -1,16 +1,9 @@
 package com.tree.combatcalculator.nodes;
 
 import java.util.List;
-import java.util.Map;
 
-import android.os.Parcel;
-
-import com.example.combatcalculator.AttackHolder;
-import com.tree.combatcalculator.AtkVarCopy;
 import com.tree.combatcalculator.PermanentTreeData;
-import com.tree.combatcalculator.AtkVarCopy.Id;
 import com.tree.combatcalculator.TemporaryTreeData;
-import com.tree.combatcalculator.WeaponCountHolder;
 
 public class EndNode extends DecisionNode {
 
@@ -22,10 +15,6 @@ public class EndNode extends DecisionNode {
 		this.tempData = tempData;
 	}
 
-	public EndNode(Parcel in) {
-		super(in);
-		nodeType = Node.Type.END;
-	}
 
 	@Override
 	public List<Node> createChildren(PermanentTreeData permData) {	
@@ -35,7 +24,6 @@ public class EndNode extends DecisionNode {
 
 	@Override
 	public float calculateValue(PermanentTreeData permData) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
