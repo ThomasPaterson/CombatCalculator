@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.tree.combatcalculator.AttackResult;
+import com.tree.combatcalculator.DetailedAttackResult;
 
 /**
  * A fragment for displaying info in the tabs of calc display
@@ -25,7 +25,7 @@ public abstract class DisplayFragment extends Fragment {
 	protected String allAttacks = "blank";
 	protected String seperateAttacks = "blank";
 	protected View displayView;
-	protected List<AttackResult> results;
+	protected List<DetailedAttackResult> results;
 	protected int type = 0;
 	protected boolean critsOn = true;
 	
@@ -55,7 +55,7 @@ public abstract class DisplayFragment extends Fragment {
 	        	
 	        
 	        	if (finished){
-		        	results = (List<AttackResult>)args.get(CalcDisplayActivity.RESULTS);
+		        	results = (List<DetailedAttackResult>)args.get(CalcDisplayActivity.RESULTS);
 	        	}
 	        	displayResults(critsOn);
 	        } 
@@ -64,7 +64,7 @@ public abstract class DisplayFragment extends Fragment {
 	 /**
 	 * Sets the correct data for the fragment, when it is asynchronously displayed 
 	 */
-	 public void setAttackResults(List<AttackResult> results){
+	 public void setAttackResults(List<DetailedAttackResult> results){
 		 
 		 checkParent();
 		 this.results = results;
@@ -110,7 +110,7 @@ public abstract class DisplayFragment extends Fragment {
 
 
 
-	public void setData(int type, boolean finished, List<AttackResult> results) {
+	public void setData(int type, boolean finished, List<DetailedAttackResult> results) {
 		this.type = type;
 		this.finished = finished;
 		this.results = results;

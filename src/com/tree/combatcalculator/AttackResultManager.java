@@ -8,9 +8,9 @@ public class AttackResultManager {
 	
 	
 	  //returns a string with the data of the specific attacks and the overall picture
-    public ArrayList<AttackResult> setAttackResults(ArrayList<Node> optimalPath, int curFocus){
+    public ArrayList<DetailedAttackResult> setAttackResults(ArrayList<Node> optimalPath, int curFocus){
     	
-		ArrayList<AttackResult> results = new ArrayList<AttackResult>();
+		ArrayList<DetailedAttackResult> results = new ArrayList<DetailedAttackResult>();
 		
 		for (int i = 1; i < optimalPath.size(); i += 3)
 			results.add(setAttackResult(optimalPath, i));
@@ -23,12 +23,12 @@ public class AttackResultManager {
     }//end printResults
     
     
-    private AttackResult setAttackResult(ArrayList<Node> optimalPath, int index){
+    private DetailedAttackResult setAttackResult(ArrayList<Node> optimalPath, int index){
     	
     	
     	Node buyNode = optimalPath.get(index);
     	int weaponIndex = (int)buyNode.getValue();
-    	AttackResult result;
+    	DetailedAttackResult result;
     	
     	Weapon weapon = getWeapon(optimalPath, index);
     	
@@ -44,9 +44,9 @@ public class AttackResultManager {
 			
 			if (hasCrit){
 				float[] critValues = getCritValues(optimalPath, index);
-				result = new AttackResult(hitDamage, hitChance, hasCrit, critValues[0], critValues[1], weapon);
+				result = new DetailedAttackResult(hitDamage, hitChance, hasCrit, critValues[0], critValues[1], weapon);
 			}else{
-				result = new AttackResult(hitDamage, hitChance, hasCrit, 0.0f, 0.0f, weapon);
+				result = new DetailedAttackResult(hitDamage, hitChance, hasCrit, 0.0f, 0.0f, weapon);
 			}
 			
 			setAttackResultPlayerDecisions(optimalPath, index, result);
@@ -60,7 +60,7 @@ public class AttackResultManager {
     }
     
     private void setAttackResultPlayerDecisions(ArrayList<Node> optimalPath,
-			int index, AttackResult result) {
+			int index, DetailedAttackResult result) {
 		
 		Node hitNode = getHitNode(optimalPath, index);
 		DecisionNode attackDecNode = (DecisionNode) hitNode.getParent();
@@ -83,7 +83,7 @@ public class AttackResultManager {
 	}
 
 
-	private AttackResult setCAAttackResults(ArrayList<Node> optimalPath, int index) {
+	private DetailedAttackResult setCAAttackResults(ArrayList<Node> optimalPath, int index) {
 
 
 
@@ -131,7 +131,7 @@ public class AttackResultManager {
 		float hitDamage = (float)(damMain*hitChanceMain[0]+damLeft*hitChanceLeft[0]);
 
 		
-		return new AttackResult(
+		return new DetailedAttackResult(
 				hitDamage, (float)hitChanceMain[0], false, 
 				(float)hitChanceLeft[0], damLeft, 
 				getWeapon(optimalPath, index),

@@ -10,7 +10,7 @@ import android.widget.Spinner;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.tree.combatcalculator.AttackResult;
+import com.tree.combatcalculator.DetailedAttackResult;
 
 public class SpecificDisplayFragment extends DisplayFragment{
 	
@@ -24,7 +24,7 @@ public class SpecificDisplayFragment extends DisplayFragment{
 			
 		if (results != null){
 			deleteOldAttacks();
-			for (AttackResult result : results)
+			for (DetailedAttackResult result : results)
 				setupAttack(result);
 		}
 		 
@@ -51,7 +51,7 @@ public class SpecificDisplayFragment extends DisplayFragment{
 
 
 
-	private void setupAttack(AttackResult result) {
+	private void setupAttack(DetailedAttackResult result) {
 		final ViewGroup newView = (ViewGroup) LayoutInflater.from(this.getActivity()).inflate(
                 R.layout.specific_attack_result, mAttackGroup, false);
 		
@@ -65,11 +65,11 @@ public class SpecificDisplayFragment extends DisplayFragment{
 			hitChance.setText(result.hitAndCritChancePer);
 		
 		TextView damage = (TextView)newView.findViewById(R.id.specific_damage);
-		damage.setText(AttackResult.formatResult(result.hitDamage));
+		damage.setText(DetailedAttackResult.formatResult(result.hitDamage));
 
 		TextView expDamage = (TextView)newView.findViewById(R.id.specific_expected_damage);
 		if (!result.hasCrit || !critsOn)
-			expDamage.setText(AttackResult.formatResult(result.getTotalExpectedDamageWithHitChance(false)));
+			expDamage.setText(DetailedAttackResult.formatResult(result.getTotalExpectedDamageWithHitChance(false)));
 		else
 			expDamage.setText(result.getTruncExpectedHitDamage());
 		
@@ -91,7 +91,7 @@ public class SpecificDisplayFragment extends DisplayFragment{
 			critChance.setText(result.critChancePer);
 			
 			TextView critDamage = (TextView)newView.findViewById(R.id.specific_damage_crit);
-			critDamage.setText(AttackResult.formatResult(result.critDamage));
+			critDamage.setText(DetailedAttackResult.formatResult(result.critDamage));
 
 			TextView critExpDamage = (TextView)newView.findViewById(R.id.specific_expected_damage_crit);
 			critExpDamage.setText(result.getTruncExpectedCritDamage());
@@ -101,10 +101,10 @@ public class SpecificDisplayFragment extends DisplayFragment{
 			critAndNormalChance.setText(result.hitAndCritChancePer);
 			
 			TextView critAndNormalDamage = (TextView)newView.findViewById(R.id.specific_damage_crit_and_normal);
-			critAndNormalDamage.setText(AttackResult.formatResult(result.getTotalExpectedDamageAssumeHit()));
+			critAndNormalDamage.setText(DetailedAttackResult.formatResult(result.getTotalExpectedDamageAssumeHit()));
 
 			TextView critAndNormalExpDamage = (TextView)newView.findViewById(R.id.specific_expected_damage_crit_and_normal);
-			critAndNormalExpDamage.setText(AttackResult.formatResult(result.getTotalExpectedDamageWithHitChance(true)));
+			critAndNormalExpDamage.setText(DetailedAttackResult.formatResult(result.getTotalExpectedDamageWithHitChance(true)));
 			
 		}
 			

@@ -31,6 +31,7 @@ public class DamageResNode extends ResultNode {
 
 		Node damageResNode = new DamageResNode(parent);
 
+
 		return damageResNode;
 	}
 

@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.tree.combatcalculator.AttackResult;
+import com.tree.combatcalculator.DetailedAttackResult;
 
 public class OverviewDisplayFragment extends DisplayFragment{
 	
@@ -20,19 +20,19 @@ public class OverviewDisplayFragment extends DisplayFragment{
 		 //TODO: get crits set and working
 		 try {
 		 TextView numAttacks = (TextView)displayView.findViewById(R.id.num_attacks_hit_entry);
-		 numAttacks.setText(AttackResult.totalHits(results, critsOn));
+		 numAttacks.setText(DetailedAttackResult.totalHits(results, critsOn));
 		 
 		 TextView expDam = (TextView)displayView.findViewById(R.id.expected_damage_entry);
-		 expDam.setText(AttackResult.expDamage(results, critsOn));
+		 expDam.setText(DetailedAttackResult.expDamage(results, critsOn));
 		 
 		 TextView expDamAllHit = (TextView)displayView.findViewById(R.id.expected_damage_all_hit_entry);
-		 expDamAllHit.setText(AttackResult.expDamageAllHit(results, critsOn));
+		 expDamAllHit.setText(DetailedAttackResult.expDamageAllHit(results, critsOn));
 		 
 		 
 		 TableRow critRow = (TableRow)displayView.findViewById(R.id.crit_row);
 		 if (critsOn){
 			 TextView numCrits = (TextView)displayView.findViewById(R.id.num_crits_entry); 
-			 numCrits.setText(AttackResult.totalCrits(results, critsOn));
+			 numCrits.setText(DetailedAttackResult.totalCrits(results, critsOn));
 			 critRow.setVisibility(View.VISIBLE);
 		 }else{
 			 critRow.setVisibility(View.GONE);

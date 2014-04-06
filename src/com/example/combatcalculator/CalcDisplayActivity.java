@@ -20,7 +20,7 @@ import android.widget.TextView;
 import com.tree.combatcalculator.AtkVar;
 import com.tree.combatcalculator.AttackCalculator;
 import com.tree.combatcalculator.AttackModel;
-import com.tree.combatcalculator.AttackResult;
+import com.tree.combatcalculator.DetailedAttackResult;
 import com.tree.combatcalculator.DefendModel;
 import com.tree.combatcalculator.DiceReader;
 import com.tree.combatcalculator.Node;
@@ -41,7 +41,7 @@ public class CalcDisplayActivity extends FragmentActivity implements
 	int optimization;
 	ArrayList<Node> optimalPath;
 	boolean pathSet;
-	List<AttackResult> attackResults;
+	List<DetailedAttackResult> attackResults;
 	private boolean critsOn = true;
 	
 	float totalNumHit;
@@ -78,7 +78,7 @@ public class CalcDisplayActivity extends FragmentActivity implements
 	    	
 	    	if (pathSet){
 	    		//optimalPath = savedInstanceState.getParcelableArrayList(OPTIMAL_PATH);
-	    		attackResults = (List<AttackResult>) savedInstanceState.get(RESULTS);
+	    		attackResults = (List<DetailedAttackResult>) savedInstanceState.get(RESULTS);
 	    		
 	    	}
 
@@ -149,7 +149,7 @@ public class CalcDisplayActivity extends FragmentActivity implements
 	
 	
 	
-private void setResults(List<AttackResult> attackResults){
+private void setResults(List<DetailedAttackResult> attackResults){
 		
 		this.attackResults = attackResults;
 		
@@ -273,16 +273,16 @@ private void setResults(List<AttackResult> attackResults){
 	/**
 	 * Calculates and returns the best decisions a user should make, given the input of the previous screen
 	 */
-	private class SearchTreeTask extends AsyncTask<AttackHolder, Void, List<AttackResult>> {
+	private class SearchTreeTask extends AsyncTask<AttackHolder, Void, List<DetailedAttackResult>> {
 		
 
 		@Override
-		protected List<AttackResult> doInBackground(AttackHolder... holders) {
+		protected List<DetailedAttackResult> doInBackground(AttackHolder... holders) {
 			System.out.println("starting asynch");
 			AttackHolder holder = holders[0];
 			System.out.println(holder.situation.toString());
 			ArrayList<Node> bestPath = null;
-			ArrayList<AttackResult> attackResults = null;
+			ArrayList<DetailedAttackResult> attackResults = null;
 			
 			try {
 				
@@ -307,7 +307,7 @@ private void setResults(List<AttackResult> attackResults){
 	    }
 		
 		@Override
-		protected void onPostExecute(List<AttackResult> results) {
+		protected void onPostExecute(List<DetailedAttackResult> results) {
 			System.out.println("setting results");
 			
 	        setResults(results);
