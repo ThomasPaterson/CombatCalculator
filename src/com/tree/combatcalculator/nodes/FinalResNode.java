@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.tree.combatcalculator.AttackCalcHelper;
-import com.tree.combatcalculator.PermanentTreeData;
+import com.tree.combatcalculator.StaticAttackData;
 
 public class FinalResNode extends ResultNode {
 
@@ -18,7 +18,7 @@ public class FinalResNode extends ResultNode {
 
 
 
-	public static List<Node> createFinalResNodes(Node parent, PermanentTreeData permData) {
+	public static List<Node> createFinalResNodes(Node parent, StaticAttackData permData) {
 
 		List<Node> finalResNodes = new ArrayList<Node>();
 
@@ -32,7 +32,7 @@ public class FinalResNode extends ResultNode {
 
 
 	@Override
-	public float calculateValue(PermanentTreeData permData) {
+	public float calculateValue(StaticAttackData permData) {
 
 
 		value = AttackCalcHelper.calculateValue(permData, this);
@@ -46,7 +46,7 @@ public class FinalResNode extends ResultNode {
 
 
 	@Override
-	public List<Node> createChildren(PermanentTreeData permData) {
+	public List<Node> createChildren(StaticAttackData permData) {
 		return BuyNode.createBuyNodes(this, permData);
 	}
 

@@ -4,24 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.tree.combatcalculator.AtkVar;
-import com.tree.combatcalculator.PermanentTreeData;
-import com.tree.combatcalculator.TemporaryTreeData;
+import com.tree.combatcalculator.StaticAttackData;
+import com.tree.combatcalculator.DynamicAttackData;
 import com.tree.combatcalculator.WeaponCountHolder;
 
 public class BuyNode extends DecisionNode {
 
-	public BuyNode(Node parent, TemporaryTreeData tempData) {
+	public BuyNode(Node parent, DynamicAttackData tempData) {
 
 		super(parent);
-		tempData = new TemporaryTreeData(tempData);
+		tempData = new DynamicAttackData(tempData);
 		nodeType = Node.Type.BUY;
 
 	}
 
-	public static List<Node> createBuyNodes(Node parent, PermanentTreeData permData) {
+	public static List<Node> createBuyNodes(Node parent, StaticAttackData permData) {
 
 		List<Node> buyNodes = new ArrayList<Node>();
-		TemporaryTreeData tempData = new TemporaryTreeData(parent.getTempData());
+		DynamicAttackData tempData = new DynamicAttackData(parent.getTempData());
 		tempData.clearTempValues();
 		List<WeaponCountHolder> holders = tempData.weaponHolders;
 
@@ -54,7 +54,7 @@ public class BuyNode extends DecisionNode {
 		return false;
 	}
 
-	private static Node buyAttack(Node parent, int index, TemporaryTreeData tempData) {
+	private static Node buyAttack(Node parent, int index, DynamicAttackData tempData) {
 
 		Node buyNode = new BuyNode(parent, tempData);
 		buyNode.getTempData().focus--;
@@ -65,8 +65,8 @@ public class BuyNode extends DecisionNode {
 
 	}
 
-	private static List<Node> makeInitial(Node parent, int index, PermanentTreeData permData,
-			TemporaryTreeData tempData) {
+	private static List<Node> makeInitial(Node parent, int index, StaticAttackData permData,
+			DynamicAttackData tempData) {
 
 		List<Node> buyNodes = new ArrayList<Node>();
 		List<WeaponCountHolder> holders = parent.getTempData().weaponHolders;
@@ -92,7 +92,7 @@ public class BuyNode extends DecisionNode {
 
 
 
-	private static boolean isCharging(Node parent, PermanentTreeData permData) {
+	private static boolean isCharging(Node parent, StaticAttackData permData) {
 
 		Boolean hasCharge = AtkVar.contains(permData.variables,
 				AtkVar.Group.SITUATION, AtkVar.Id.CHARGE);
@@ -103,8 +103,8 @@ public class BuyNode extends DecisionNode {
 
 
 
-	private static Node addStarAttacks(Node parent, int index, PermanentTreeData permData,
-			List<WeaponCountHolder> holders, TemporaryTreeData tempData) {
+	private static Node addStarAttacks(Node parent, int index, StaticAttackData permData,
+			List<WeaponCountHolder> holders, DynamicAttackData tempData) {
 
 		AtkVar starAttack = permData.findStarAttack(index);
 
@@ -123,12 +123,12 @@ public class BuyNode extends DecisionNode {
 	}
 
 	@Override
-	public List<Node> createChildren(PermanentTreeData permData) {
+	public List<Node> createChildren(StaticAttackData permData) {
 		return AttackDecNode.createAttackDecNodes(this, permData);
 	}
 
 	@Override
-	public float calculateValue(PermanentTreeData permData) {
+	public float calculateValue(StaticAttackData permData) {
 		return 0;
 	}
 

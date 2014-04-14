@@ -12,20 +12,21 @@ import com.tree.combatcalculator.AttackCalculation.AttackCalculator;
 import com.tree.combatcalculator.AttackCalculation.AttackCalculatorFactory;
 import com.tree.combatcalculator.nodes.Node;
 
-public class TemporaryTreeData {
+public class DynamicAttackData {
 
-	public int focus;
-	public List<WeaponCountHolder> weaponHolders;
-	public Map<Id, AtkVar> variables;
+	private int focus;
+	private List<WeaponCountHolder> weaponHolders;
+	private Map<Id, AtkVar> variables;
 
-	public TemporaryTreeData(TemporaryTreeData tempData) {
+
+	public DynamicAttackData(DynamicAttackData tempData) {
 
 		this.focus = tempData.focus;
 		this.weaponHolders = new ArrayList<WeaponCountHolder>(tempData.weaponHolders);
 		this.variables = new HashMap<Id, AtkVar>(tempData.variables);
 	}
 
-	public TemporaryTreeData(int numFocus,
+	public DynamicAttackData(int numFocus,
 			List<WeaponCountHolder> weaponHolders,
 			Map<Id, AtkVar> variables) {
 
@@ -45,7 +46,7 @@ public class TemporaryTreeData {
 			Map.Entry entry = entries.next();
 			AtkVar value = (AtkVar)entry.getValue();
 
-			if (value.getDuration().equals(AtkVarCopy.AtkVar.TEMPORARY_STATE))
+			if (value.getState().equals(AtkVar.State.TEMP))
 				entries.remove();
 		}
 	}
@@ -54,9 +55,9 @@ public class TemporaryTreeData {
 		return variables.containsKey(id);
 	}
 
-	public void putCrits(Node attackNode, PermanentTreeData permData){
+	public void putCrits(Node attackNode, StaticAttackData permData){
 
-		Weapon weapon = permData.attacker.getWeapons().get(attackNode.getWeaponIndex());
+		Weapon weapon = permData.getAttacker().getWeapons().get(attackNode.getWeaponIndex());
 
 		AttackCalculator atkCalculator = AttackCalculatorFactory.getInstance();
 		float critChance = atkCalculator.calcCritWithoutCritProbability(attackNode, permData);
@@ -93,6 +94,32 @@ public class TemporaryTreeData {
 		oldCrit.setValue(newCritChance);
 
 	}
+
+	public int getFocus() {
+		return focus;
+	}
+
+	public void setFocus(int focus) {
+		this.focus = focus;
+	}
+
+	public List<WeaponCountHolder> getWeaponHolders() {
+		return weaponHolders;
+	}
+
+	public void setWeaponHolders(List<WeaponCountHolder> weaponHolders) {
+		this.weaponHolders = weaponHolders;
+	}
+
+	public Map<Id, AtkVar> getVariables() {
+		return variables;
+	}
+
+	public void setVariables(Map<Id, AtkVar> variables) {
+		this.variables = variables;
+	}
+
+
 
 
 }

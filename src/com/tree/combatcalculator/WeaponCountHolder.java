@@ -35,7 +35,7 @@ public class WeaponCountHolder {
 	
 	
 	public static List<WeaponCountHolder >createWeaponCountHolders(List<Weapon> weapons, 
-			PermanentTreeData permData){
+			StaticAttackData permData){
 		
 		List<WeaponCountHolder> holders = new ArrayList<WeaponCountHolder>();
 		

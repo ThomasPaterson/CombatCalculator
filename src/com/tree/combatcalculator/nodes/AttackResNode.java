@@ -3,7 +3,10 @@ package com.tree.combatcalculator.nodes;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tree.combatcalculator.PermanentTreeData;
+import com.tree.combatcalculator.StaticAttackData;
+import com.tree.combatcalculator.AttackCalculation.AttackCalculator;
+import com.tree.combatcalculator.AttackCalculation.AttackCalculatorFactory;
+import com.tree.combatcalculator.AttackCalculation.AttackResult;
 
 public class AttackResNode extends ResultNode {
 
@@ -15,7 +18,7 @@ public class AttackResNode extends ResultNode {
 	}
 
 
-	public static List<Node> createAttackResNodes(Node parent, PermanentTreeData permData) {
+	public static List<Node> createAttackResNodes(Node parent, StaticAttackData permData) {
 
 		List<Node> attackResNodes = new ArrayList<Node>();
 
@@ -26,11 +29,12 @@ public class AttackResNode extends ResultNode {
 	}
 
 
-	private static Node makeAttackResult(Node parent, PermanentTreeData permData) {
+	private static Node makeAttackResult(Node parent, StaticAttackData permData) {
 
 		Node attackResNode = new AttackResNode(parent);
 
-
+		AttackCalculator atkCalculator = AttackCalculatorFactory.getInstance();
+		AttackResult attackResult = atkCalculator.getHitResults(attackResNode.getTempData(), permData);
 		attackResNode.getTempData().putCrits(attackResNode, permData);
 
 
@@ -48,14 +52,14 @@ public class AttackResNode extends ResultNode {
 
 
 	@Override
-	public List<Node> createChildren(PermanentTreeData permData) {
+	public List<Node> createChildren(StaticAttackData permData) {
 		return DamageDecNode.createDamageDecNodes(this, permData);
 	}
 
 
 
 	@Override
-	public float calculateValue(PermanentTreeData permData) {
+	public float calculateValue(StaticAttackData permData) {
 		return 0;
 	}
 

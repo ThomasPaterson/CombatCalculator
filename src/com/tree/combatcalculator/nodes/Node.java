@@ -15,15 +15,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.tree.combatcalculator.PermanentTreeData;
-import com.tree.combatcalculator.TemporaryTreeData;
+import com.tree.combatcalculator.StaticAttackData;
+import com.tree.combatcalculator.DynamicAttackData;
 
 public abstract class Node implements Comparable<Node>{
 
 	protected Node parent;
 	protected ArrayList<Node> children;
 	protected int type;
-	TemporaryTreeData tempData;
+	DynamicAttackData tempData;
 	protected float value;
 	protected Type nodeType;
 	protected int weaponIndex;
@@ -88,7 +88,7 @@ public abstract class Node implements Comparable<Node>{
 	//child node constructor
 	public Node(Node parent) {
 		this.parent = parent;
-		this.tempData = new TemporaryTreeData(parent.getTempData());
+		this.tempData = new DynamicAttackData(parent.getTempData());
 		this.weaponIndex = parent.getWeaponIndex();
 		parent.addChild(this);
 	}
@@ -105,7 +105,7 @@ public abstract class Node implements Comparable<Node>{
 
 	}
 
-	public Node(Node parent, TemporaryTreeData tempData){
+	public Node(Node parent, DynamicAttackData tempData){
 
 		this.parent = parent;
 		this.tempData = tempData;
@@ -136,12 +136,12 @@ public abstract class Node implements Comparable<Node>{
 		return children;
 	}
 
-	public TemporaryTreeData getTempData(){
+	public DynamicAttackData getTempData(){
 		return tempData;
 	}
 
-	public void setTempData(TemporaryTreeData tempData){
-		this.tempData = new TemporaryTreeData(tempData);
+	public void setTempData(DynamicAttackData tempData){
+		this.tempData = new DynamicAttackData(tempData);
 	}
 
 	public Node getChild(int index){
@@ -197,10 +197,10 @@ public abstract class Node implements Comparable<Node>{
 		return nodeType;
 	}
 
-	public abstract List<Node> createChildren(PermanentTreeData permData);
+	public abstract List<Node> createChildren(StaticAttackData permData);
 
 
-	public abstract float calculateValue(PermanentTreeData permData);
+	public abstract float calculateValue(StaticAttackData permData);
 
 
 

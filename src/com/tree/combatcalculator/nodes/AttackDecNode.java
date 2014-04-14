@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.tree.combatcalculator.AtkVar;
-import com.tree.combatcalculator.PermanentTreeData;
+import com.tree.combatcalculator.StaticAttackData;
 
 public class AttackDecNode extends DecisionNode {
 	
@@ -20,7 +20,7 @@ public class AttackDecNode extends DecisionNode {
 
 
 
-	public static List<Node> createAttackDecNodes(Node parent, PermanentTreeData permData) {
+	public static List<Node> createAttackDecNodes(Node parent, StaticAttackData permData) {
 		
 		List<Node> attackNodes = new ArrayList<Node>();
 		
@@ -50,7 +50,7 @@ public class AttackDecNode extends DecisionNode {
 	}
 
 
-	private static boolean notBoosted(Node parent, PermanentTreeData permData) {
+	private static boolean notBoosted(Node parent, StaticAttackData permData) {
 
 		boolean permDataContains = permData.checkGroupsContains(AtkVar.Id.BOOSTED_HIT, 
 				parent.getWeaponIndex(), 
@@ -76,7 +76,7 @@ public class AttackDecNode extends DecisionNode {
 
 
 	@Override
-	public List<Node> createChildren(PermanentTreeData permData) {
+	public List<Node> createChildren(StaticAttackData permData) {
 		return AttackResNode.createAttackResNodes(this, permData);
 	}
 
@@ -84,7 +84,7 @@ public class AttackDecNode extends DecisionNode {
 
 
 	@Override
-	public float calculateValue(PermanentTreeData permData) {
+	public float calculateValue(StaticAttackData permData) {
 		return 0;
 	}
 

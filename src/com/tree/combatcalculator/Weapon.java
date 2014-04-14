@@ -204,7 +204,7 @@ public class Weapon extends AtkVarUser implements Parcelable{
 
 
 
-	public static AtkVar findStarAttack(int weaponIndex, PermanentTreeData permData) {
+	public static AtkVar findStarAttack(int weaponIndex, StaticAttackData permData) {
 		
 	}
 

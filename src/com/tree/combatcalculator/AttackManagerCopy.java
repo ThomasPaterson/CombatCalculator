@@ -7,12 +7,12 @@ import com.tree.combatcalculator.nodes.Node;
 
 public class AttackManagerCopy {
 	
-	private static PermanentTreeData permData;
+	private static StaticAttackData permData;
 	private static List<Node> bottomRow;
 
 	
 	
-	public static List<Node> addAttack(Node n, PermanentTreeData permanentData) {
+	public static List<Node> addAttack(Node n, StaticAttackData permanentData) {
 		
 		permData = permanentData;
 		bottomRow = new ArrayList<Node>();

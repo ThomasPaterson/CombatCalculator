@@ -23,7 +23,7 @@ import com.tree.combatcalculator.nodes.Node;
 
 public class TreeManagerCopy {
 
-	private PermanentTreeData permData;
+	private StaticAttackData permData;
 	private Node parent;
 	private List<Node> optimalNodes;
 
@@ -32,14 +32,13 @@ public class TreeManagerCopy {
 	public TreeManagerCopy(AttackCalculator atkCalc, int optimization, AttackModel attacker,
 			DefendModel defender, List< Map<AtkVar.Id, AtkVar> > permState, Context context) {
 
-		permData = new PermanentTreeData();
+		permData = new StaticAttackData();
 
 		permData.atkCalc = atkCalc;
-		permData.optimization = optimization;
-		permData.attacker = attacker;
+		permData.setAttacker(attacker);
 		permData.defender = defender;
 		//permData.permState = AtkVarCopy.setupPermState(permState);
-		permData.optimalWeapons = permData.getOptimalWeapons();
+		//permData.setOptimia = permData.getOptimalWeapons();
 		AtkVarCache.initialize(context);
 
 	}//end constructor
@@ -51,11 +50,11 @@ public class TreeManagerCopy {
 		//permData.useHeuristics = DecisionManager.checkNeedHeuristics(permData.permState,numFocus);
 
 		List<WeaponCountHolder> weaponHolders = WeaponCountHolder.createWeaponCountHolders(
-				permData.attacker.getWeapons(), permData);
+				permData.getAttacker().getWeapons(), permData);
 
 		Map<AtkVar.Id, AtkVar> tempState = new HashMap<AtkVar.Id, AtkVar>();
 
-		TemporaryTreeData tempData = new TemporaryTreeData(numFocus,weaponHolders, tempState);
+		DynamicAttackData tempData = new DynamicAttackData(numFocus,weaponHolders, tempState);
 
 		parent = new EndNode(tempData);
 
@@ -78,7 +77,7 @@ public class TreeManagerCopy {
 
 		for (Node n : optimalNodes){
 
-			TemporaryTreeData temp = n.getTempData();
+			DynamicAttackData temp = n.getTempData();
 
 			if (temp.focus > 0 || WeaponCountHolder.hasAttacks(temp.weaponHolders)){
 				currentLevel.addAll(AttackManagerCopy.addAttack(n, permData));

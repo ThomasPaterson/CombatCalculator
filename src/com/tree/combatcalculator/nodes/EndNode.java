@@ -2,14 +2,14 @@ package com.tree.combatcalculator.nodes;
 
 import java.util.List;
 
-import com.tree.combatcalculator.PermanentTreeData;
-import com.tree.combatcalculator.TemporaryTreeData;
+import com.tree.combatcalculator.StaticAttackData;
+import com.tree.combatcalculator.DynamicAttackData;
 
 public class EndNode extends DecisionNode {
 
 
 	
-	public EndNode(TemporaryTreeData tempData) {
+	public EndNode(DynamicAttackData tempData) {
 		super();
 		nodeType = Node.Type.END;
 		this.tempData = tempData;
@@ -17,13 +17,13 @@ public class EndNode extends DecisionNode {
 
 
 	@Override
-	public List<Node> createChildren(PermanentTreeData permData) {	
+	public List<Node> createChildren(StaticAttackData permData) {	
 		return BuyNode.createBuyNodes(this, permData);
 	}
 
 
 	@Override
-	public float calculateValue(PermanentTreeData permData) {
+	public float calculateValue(StaticAttackData permData) {
 		return 0;
 	}
 

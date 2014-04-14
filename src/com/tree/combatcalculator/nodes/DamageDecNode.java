@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.tree.combatcalculator.AtkVar;
-import com.tree.combatcalculator.PermanentTreeData;
+import com.tree.combatcalculator.StaticAttackData;
 
 public class DamageDecNode extends DecisionNode {
 
@@ -20,7 +20,7 @@ public class DamageDecNode extends DecisionNode {
 
 
 
-	public static List<Node> createDamageDecNodes(Node parent, PermanentTreeData permData) {
+	public static List<Node> createDamageDecNodes(Node parent, StaticAttackData permData) {
 
 		List<Node> damageNodes = new ArrayList<Node>();
 
@@ -45,7 +45,7 @@ public class DamageDecNode extends DecisionNode {
 		return makeDamage(parent, boughtBoost, null);
 	}
 
-	private static Node makeDamage(Node parent, boolean boughtBoost, PermanentTreeData permData) {
+	private static Node makeDamage(Node parent, boolean boughtBoost, StaticAttackData permData) {
 
 		DecisionNode attackDecNode = new DamageDecNode(parent);
 
@@ -68,7 +68,7 @@ public class DamageDecNode extends DecisionNode {
 
 
 	private static boolean freeCharge(Node parent,
-			PermanentTreeData permData) {
+			StaticAttackData permData) {
 
 		if (permData == null)
 			return false;
@@ -79,7 +79,7 @@ public class DamageDecNode extends DecisionNode {
 	}
 
 
-	private static boolean notBoosted(Node parent, PermanentTreeData permData) {
+	private static boolean notBoosted(Node parent, StaticAttackData permData) {
 
 		boolean permDataContains = permData.checkGroupsContains(AtkVar.Id.BOOSTED_DAM,
 				parent.getWeaponIndex(),
@@ -107,13 +107,13 @@ public class DamageDecNode extends DecisionNode {
 
 
 	@Override
-	public List<Node> createChildren(PermanentTreeData permData) {
+	public List<Node> createChildren(StaticAttackData permData) {
 		return DamageResNode.createDamageResNodes(this, permData);
 	}
 
 
 	@Override
-	public float calculateValue(PermanentTreeData permData) {
+	public float calculateValue(StaticAttackData permData) {
 		return 0;
 	}
 

@@ -34,13 +34,17 @@ public class AttackCalculator {
 
 
 
-	private DiceHolder dice;
+	HitCalculator hitCalc;
+	DamageCalculator damageCalc;
+	AtkVarParser atkVarParser;
 
 
 
 	//initializes the dice
 	public AttackCalculator(DiceHolder holder) {
-		dice = holder;
+		hitCalc = new HitCalculator(holder);
+		damageCalc = new DamageCalculator(holder);
+		atkVarParser = new AtkVarParser();
 	}
 
 
