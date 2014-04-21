@@ -1,8 +1,9 @@
 package com.tree.combatcalculator.AttackCalculation;
 
-import java.util.List;
+import java.util.Map;
 
 import com.tree.combatcalculator.AtkVar;
+import com.tree.combatcalculator.AtkVar.Id;
 import com.tree.combatcalculator.AttackModel;
 import com.tree.combatcalculator.DefendModel;
 import com.tree.combatcalculator.DynamicAttackData;
@@ -35,7 +36,7 @@ public class Attack {
 	private boolean autoCrit;
 	private boolean critAtk;
 	private boolean doubleDamage;
-	private List<AtkVar> currentAtkVars;
+	private Map<AtkVar.Id, AtkVar> currentAtkVars;
 
 	private boolean isMelee;
 
@@ -62,9 +63,46 @@ public class Attack {
 
 
 
-	private void checkValidAttack(List<AtkVar> currentAtkVars2, Weapon weapon) {
-		// TODO Auto-generated method stub
+	private boolean checkValidAttack(Map<Id, AtkVar> atkVars, Weapon weapon) {
 
+
+
+		if (weapon.getRanged())
+			return checkRanged(atkVars, weapon);
+		else
+			return checkMelee(atkVars, weapon);
+
+
+	}
+
+
+
+	private boolean checkRanged(Map<Id, AtkVar> atkVars, Weapon weapon){
+
+		//if at ranged
+		if (atkVars.containsKey(AtkVar.Id.RANGED)){
+			return true;
+			//if in melee and weapon has gunfighter
+		}else if (atkVars.containsKey(AtkVar.Id.GUNFIGHTER)){
+			return true;
+			//if charging and weapon has assault
+		}else if (atkVars.containsKey(AtkVar.Id.ASSAULT) && atkVars.containsKey(AtkVar.Id.CHARGE)){
+			return true;
+		}
+
+		return false;
+
+	}
+
+
+
+	private boolean checkMelee(Map<Id, AtkVar> atkVars, Weapon weapon){
+
+		if (!atkVars.containsKey(AtkVar.Id.RANGED))
+			return true;
+
+
+		return false;
 	}
 
 

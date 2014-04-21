@@ -1,38 +1,40 @@
 package com.tree.combatcalculator;
 
 import java.util.List;
+import java.util.Map;
 
 import com.tree.combatcalculator.AtkVar.Id;
 
 public class StaticAttackData {
 
-	private List<AtkVar> variables;
+	private Map<AtkVar.Id, AtkVar> variables;
 
 	private DefendModel defender;
 	private AttackModel attacker;
 	private AttackCalculator atkCalc;
-	private List<List<AtkVar>> weaponVariables;
+	private List<Map<AtkVar.Id, AtkVar>> weaponVariables;
+
 
 
 	public boolean checkContains(Id id, int weaponIndex) {
 
 
-		for (AtkVar atkVar : variables)
-			if (atkVar.getId().equals(id))
-				return true;
+		if (variables.get(id) != null)
+			return true;
 
-		for (AtkVar weaponVar : weaponVariables.get(weaponIndex))
-			if (weaponVar.getId().equals(id))
-				return true;
+		if (weaponVariables.get(weaponIndex).get(id) != null)
+			return true;
 
 		return false;
 	}
+
+
 
 	//return first star attack variable found for that weapon
 	public AtkVar findStarAttack(int weaponIndex) {
 
 
-		for (AtkVar w : weaponVariables.get(weaponIndex)){
+		for (AtkVar w : weaponVariables.get(weaponIndex).values()){
 			if (w.getWeaponIndex() == weaponIndex){
 				if (w.getModifiers().contains(AtkVar.Modifier.STAR_ATTACK))
 					return w;
@@ -43,11 +45,11 @@ public class StaticAttackData {
 
 	}
 
-	public List<AtkVar> getVariables() {
+	public Map<AtkVar.Id, AtkVar> getVariables() {
 		return variables;
 	}
 
-	public void setVariables(List<AtkVar> variables) {
+	public void setVariables(Map<AtkVar.Id, AtkVar> variables) {
 		this.variables = variables;
 	}
 
@@ -75,11 +77,11 @@ public class StaticAttackData {
 		this.atkCalc = atkCalc;
 	}
 
-	public List<List<AtkVar>> getWeaponVariables() {
+	public List<Map<AtkVar.Id, AtkVar>> getWeaponVariables() {
 		return weaponVariables;
 	}
 
-	public void setWeaponVariables(List<List<AtkVar>> weaponVariables) {
+	public void setWeaponVariables(List<Map<AtkVar.Id, AtkVar>> weaponVariables) {
 		this.weaponVariables = weaponVariables;
 	}
 

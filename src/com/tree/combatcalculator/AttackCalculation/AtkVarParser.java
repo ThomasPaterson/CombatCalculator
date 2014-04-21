@@ -1,6 +1,6 @@
 package com.tree.combatcalculator.AttackCalculation;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,20 +23,20 @@ public class AtkVarParser {
 	}
 
 
-	public List<AtkVar> parseAtkVars(List<List<AtkVar>> weaponVariables,
-			List<AtkVar> permVariables, Map<Id, AtkVar> dynamicVariables, int weaponIndex) {
+	public Map<AtkVar.Id, AtkVar> parseAtkVars(List<Map<AtkVar.Id, AtkVar>> weaponMaps,
+			Map<AtkVar.Id, AtkVar> staticMap, Map<Id, AtkVar> dynamicMap, int weaponIndex) {
 
 
-		List<AtkVar> atkVars = new ArrayList<AtkVar>();
+		Map<AtkVar.Id, AtkVar> atkVars = new HashMap<AtkVar.Id, AtkVar>();
 
-		atkVars.addAll(weaponVariables.get(weaponIndex));
-		atkVars.addAll(permVariables);
-		atkVars.addAll(dynamicVariables.values());
+		atkVars.putAll(weaponMaps.get(weaponIndex));
+		atkVars.putAll(staticMap);
+		atkVars.putAll(dynamicMap);
 
 		return atkVars;
 	}
 
-	public void checkConstraints(List<AtkVar> currentAtkVars) {
+	public void checkConstraints(Map<Id, AtkVar> currentAtkVars) {
 		// TODO Auto-generated method stub
 
 	}

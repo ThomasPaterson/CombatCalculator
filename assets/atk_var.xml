@@ -21,6 +21,19 @@
 	<Conditional>RANGED</Conditional>
 </AtkVar>
 
+<AtkVar>
+	<Id>RANGED</Id>
+	<State>PERM</State>
+	<ValueType>FLAG</ValueType>
+</AtkVar>
+
+
+<AtkVar>
+	<Id>RANGED_WEAPON</Id>
+	<State>PERM</State>
+	<ValueType>FLAG</ValueType>
+</AtkVar>
+
 
 <AtkVar>
 	<Id>COMBINED</Id>
