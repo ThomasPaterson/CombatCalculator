@@ -72,7 +72,8 @@
 	<State>PERM</State>
 	<ValueType>FLAG</ValueType>
 	<Conditional>CHARGING<Conditional>
-	<Triggered>MOD_ATK:2</Triggered>
+	<Value>2</Value>
+	<Triggered>MOD_ATK</Triggered>
 </AtkVar>
 
 <AtkVar>
@@ -114,6 +115,7 @@
 	<State>PERM</State>
 	<ValueType>FLAG</ValueType>
 	<Triggered>ADD_DAM</Triggered>
+	<Value>1</Value>
 </AtkVar>
 
 <AtkVar>
@@ -296,7 +298,19 @@
 	<Id>AUTO_HIT</Id>
 	<State>BOTH</State>
 	<ValueType>PROB</ValueType>
-	
 </AtkVar>
+
+<AtkVar>
+	<Id>CRIT</Id>
+	<State>BOTH</State>
+	<ValueType>FLAG</ValueType>
+</AtkVar>
+
+<AtkVar>
+	<Id>SHRED</Id>
+	<State>BOTH</State>
+	<ValueType>FLAG</ValueType>
+</AtkVar>
+
 </AtkVars>
 

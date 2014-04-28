@@ -34,8 +34,8 @@ public class AtkVar implements Parcelable{
 		POINT_BLANK, GUNFIGHTER, STAR_ARM_PIERCE, ARM_PIERCE,
 		REROLL_DAM, REROLL_ATK, DISCARD_DAM, DISCARD_ATK, CRIT_ATK,
 		CRIT_DAM, CRIT_KNOCKDOWN, MOD_ARM, MOD_DEF, MOD_DAM, MOD_HIT,
-		ADD_DAM, ADD_HIT, BOOSTED_DAM, BOOSTED_HIT, CHARGE_DAMAGE, CHARGING,
-		AUTO_CRIT, AUTO_HIT, RANGED;
+		ADD_DAM, ADD_HIT, BOOSTED_DAM, BOOSTED_HIT, CHARGING,
+		AUTO_CRIT, AUTO_HIT, RANGED, RANGED_WEAPON, CRIT, SHRED;
 	}
 
 
@@ -96,14 +96,13 @@ public class AtkVar implements Parcelable{
 	private ValueType valueType;
 	private List<Conditional> conditions;
 	private List<Modifier> modifiers;
-	private List<Triggered> triggered;
+	private Triggered triggered;
 	private Continuous continuous;
 	private int weaponIndex;
 
 	public AtkVar(){
 		conditions = new ArrayList<Conditional>();
 		modifiers = new ArrayList<Modifier>();
-		triggered = new ArrayList<Triggered>();
 	}
 
 	public AtkVar(Parcel in){
@@ -304,11 +303,11 @@ public class AtkVar implements Parcelable{
 		return false;
 	}
 
-	public List<Triggered> getTriggered() {
+	public Triggered getTriggered() {
 		return triggered;
 	}
 
-	public void setTriggered(List<Triggered> triggered) {
+	public void setTriggered(Triggered triggered) {
 		this.triggered = triggered;
 	}
 
@@ -338,7 +337,7 @@ public class AtkVar implements Parcelable{
 			this.continuous = getEnumFromString(Continuous.class, value);
 			break;
 		case Triggered:
-			this.triggered.add(getEnumFromString(Triggered.class, value));
+			this.triggered = (getEnumFromString(Triggered.class, value));
 		case Value:
 			this.value = Integer.parseInt(value);
 			break;
@@ -391,13 +390,12 @@ public class AtkVar implements Parcelable{
 		group = (Group)in.readSerializable();
 		state = (State)in.readSerializable();
 		valueType = (ValueType)in.readSerializable();
+		triggered = (Triggered) in.readSerializable();
 
 		conditions = new ArrayList<Conditional>();
 		in.readList(conditions, null);
 		modifiers = new ArrayList<Modifier>();
 		in.readList(modifiers, null);
-		triggered = new ArrayList<Triggered>();
-		in.readList(triggered, null);
 
 		continuous = (Continuous)in.readSerializable();
 		weaponIndex = in.readInt();
@@ -414,9 +412,9 @@ public class AtkVar implements Parcelable{
 		dest.writeSerializable(group);
 		dest.writeSerializable(state);
 		dest.writeSerializable(valueType);
+		dest.writeSerializable(triggered);
 		dest.writeList(conditions);
 		dest.writeList(modifiers);
-		dest.writeList(triggered);
 		dest.writeSerializable(continuous);
 		dest.writeInt(weaponIndex);
 

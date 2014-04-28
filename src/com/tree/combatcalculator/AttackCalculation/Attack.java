@@ -16,33 +16,33 @@ public class Attack {
 	private int basePow;
 	private int baseDef;
 	private int baseArm;
-	private int baseHealth;
+	//private int baseHealth;
 
-	private int modAtk;
-	private int modPow;
-	private int modDef;
-	private int modArm;
+	private int modAtk = 0;
+	private int modPow = 0;
+	private int modDef = 0;
+	private int modArm = 0;
 
-	private boolean boostedAtk;
-	private boolean boostedDam;
-	private int addAtk;
-	private int addDam;
+	private boolean boostedAtk = false;
+	private boolean boostedDam = false;
+	private int addAtk = 0;
+	private int addDam = 0;
 
-	private int disAtk;
-	private int disDam;
-	private boolean rerollAtk;
-	private boolean rerollDam;
-	private boolean autoHit;
-	private boolean autoCrit;
-	private boolean critAtk;
-	private boolean doubleDamage;
+	private int disAtk = 0;
+	private int disDam = 0;
+	private boolean rerollAtk = false;
+	private boolean rerollDam = false;
+	private boolean autoHit = false;
+	private boolean autoCrit = false;
+	private boolean shred = false;
+	private boolean doubleDamage = false;
 	private Map<AtkVar.Id, AtkVar> currentAtkVars;
 
 	private boolean isMelee;
 
 
 
-	public Attack(StaticAttackData permData, DynamicAttackData tempData, int weaponIndex){
+	public Attack(StaticAttackData permData, DynamicAttackData tempData, int weaponIndex) throws InvalidAttackException{
 
 		AttackModel attacker = permData.getAttacker();
 		DefendModel defender = permData.getDefender();
@@ -59,50 +59,41 @@ public class Attack {
 		checkValidAttack(currentAtkVars, weapon);
 
 		AtkVarParser.getInstance().checkConstraints(currentAtkVars);
+		AtkVarParser.getInstance().processVariables(this, currentAtkVars);
 	}
 
 
 
-	private boolean checkValidAttack(Map<Id, AtkVar> atkVars, Weapon weapon) {
+	private void checkValidAttack(Map<Id, AtkVar> atkVars, Weapon weapon) throws InvalidAttackException{
 
 
+		checkRanged(atkVars, weapon);
+		checkMelee(atkVars, weapon);
 
-		if (weapon.getRanged())
-			return checkRanged(atkVars, weapon);
-		else
-			return checkMelee(atkVars, weapon);
-
-
-	}
-
-
-
-	private boolean checkRanged(Map<Id, AtkVar> atkVars, Weapon weapon){
-
-		//if at ranged
-		if (atkVars.containsKey(AtkVar.Id.RANGED)){
-			return true;
-			//if in melee and weapon has gunfighter
-		}else if (atkVars.containsKey(AtkVar.Id.GUNFIGHTER)){
-			return true;
-			//if charging and weapon has assault
-		}else if (atkVars.containsKey(AtkVar.Id.ASSAULT) && atkVars.containsKey(AtkVar.Id.CHARGE)){
-			return true;
-		}
-
-		return false;
 
 	}
 
 
 
-	private boolean checkMelee(Map<Id, AtkVar> atkVars, Weapon weapon){
+	private void checkRanged(Map<Id, AtkVar> atkVars, Weapon weapon) throws InvalidAttackException {
 
-		if (!atkVars.containsKey(AtkVar.Id.RANGED))
-			return true;
+		boolean isRanged = atkVars.containsKey(AtkVar.Id.RANGED);
+		boolean isGunfighter = atkVars.containsKey(AtkVar.Id.GUNFIGHTER);
+		boolean isAssault = atkVars.containsKey(AtkVar.Id.ASSAULT) && atkVars.containsKey(AtkVar.Id.CHARGE);
+
+		if (!(isRanged || isGunfighter || isAssault))
+			throw new InvalidAttackException("cannot make an attack with this ranged weapon");
 
 
-		return false;
+	}
+
+
+
+	private void checkMelee(Map<Id, AtkVar> atkVars, Weapon weapon) throws InvalidAttackException{
+
+		if (atkVars.containsKey(AtkVar.Id.RANGED))
+			throw new InvalidAttackException("Melee weapons cannot be used to make ranged attacks");
+
 	}
 
 
@@ -119,6 +110,258 @@ public class Attack {
 		modDef = baseDef;
 		modArm = baseArm;
 
+	}
+
+
+
+	public int getBaseAtk() {
+		return baseAtk;
+	}
+
+
+
+	public void setBaseAtk(int baseAtk) {
+		this.baseAtk = baseAtk;
+	}
+
+
+
+	public int getBasePow() {
+		return basePow;
+	}
+
+
+
+	public void setBasePow(int basePow) {
+		this.basePow = basePow;
+	}
+
+
+
+	public int getBaseDef() {
+		return baseDef;
+	}
+
+
+
+	public void setBaseDef(int baseDef) {
+		this.baseDef = baseDef;
+	}
+
+
+
+	public int getBaseArm() {
+		return baseArm;
+	}
+
+
+
+	public void setBaseArm(int baseArm) {
+		this.baseArm = baseArm;
+	}
+
+
+
+	public int getModAtk() {
+		return modAtk;
+	}
+
+
+
+	public void setModAtk(int modAtk) {
+		this.modAtk = modAtk;
+	}
+
+
+
+	public int getModPow() {
+		return modPow;
+	}
+
+
+
+	public void setModPow(int modPow) {
+		this.modPow = modPow;
+	}
+
+
+
+	public int getModDef() {
+		return modDef;
+	}
+
+
+
+	public void setModDef(int modDef) {
+		this.modDef = modDef;
+	}
+
+
+
+	public int getModArm() {
+		return modArm;
+	}
+
+
+
+	public void setModArm(int modArm) {
+		this.modArm = modArm;
+	}
+
+
+
+	public boolean isBoostedAtk() {
+		return boostedAtk;
+	}
+
+
+
+	public void setBoostedAtk(boolean boostedAtk) {
+		this.boostedAtk = boostedAtk;
+	}
+
+
+
+	public boolean isBoostedDam() {
+		return boostedDam;
+	}
+
+
+
+	public void setBoostedDam(boolean boostedDam) {
+		this.boostedDam = boostedDam;
+	}
+
+
+
+	public int getAddAtk() {
+		return addAtk;
+	}
+
+
+
+	public void setAddAtk(int addAtk) {
+		this.addAtk = addAtk;
+	}
+
+
+
+	public int getAddDam() {
+		return addDam;
+	}
+
+
+
+	public void setAddDam(int addDam) {
+		this.addDam = addDam;
+	}
+
+
+
+	public int getDisAtk() {
+		return disAtk;
+	}
+
+
+
+	public void setDisAtk(int disAtk) {
+		this.disAtk = disAtk;
+	}
+
+
+
+	public int getDisDam() {
+		return disDam;
+	}
+
+
+
+	public void setDisDam(int disDam) {
+		this.disDam = disDam;
+	}
+
+
+
+	public boolean isRerollAtk() {
+		return rerollAtk;
+	}
+
+
+
+	public void setRerollAtk(boolean rerollAtk) {
+		this.rerollAtk = rerollAtk;
+	}
+
+
+
+	public boolean isRerollDam() {
+		return rerollDam;
+	}
+
+
+
+	public void setRerollDam(boolean rerollDam) {
+		this.rerollDam = rerollDam;
+	}
+
+
+
+	public boolean isAutoHit() {
+		return autoHit;
+	}
+
+
+
+	public void setAutoHit(boolean autoHit) {
+		this.autoHit = autoHit;
+	}
+
+
+
+	public boolean isAutoCrit() {
+		return autoCrit;
+	}
+
+
+
+	public void setAutoCrit(boolean autoCrit) {
+		this.autoCrit = autoCrit;
+	}
+
+
+
+	public boolean isShred() {
+		return shred;
+	}
+
+
+
+	public void setShred(boolean shred) {
+		this.shred = shred;
+	}
+
+
+
+	public boolean isDoubleDamage() {
+		return doubleDamage;
+	}
+
+
+
+	public void setDoubleDamage(boolean doubleDamage) {
+		this.doubleDamage = doubleDamage;
+	}
+
+
+
+	public boolean isMelee() {
+		return isMelee;
+	}
+
+
+
+	public void setMelee(boolean isMelee) {
+		this.isMelee = isMelee;
 	}
 
 
