@@ -75,10 +75,12 @@ public class AtkVarParser {
 	private void processVariable(Attack attack, AtkVar atkVar,
 			Map<Id, AtkVar> currentAtkVars) {
 
-		atkVar.getId();
+
 
 		if (atkVar.getTriggered() != null)
-			AtkVar.Id.valueOf(atkVar.getTriggered().toString());
+			atkVar = currentAtkVars.get(AtkVar.Id.valueOf(atkVar.getTriggered().toString()));
+
+		float atkVarValue = atkVar.getValue();
 
 
 		switch (atkVar.getId()) {
@@ -91,7 +93,7 @@ public class AtkVarParser {
 		break;
 		case AUTO_CRIT: attack.setAutoCrit(true);
 		break;
-		case AUTO_HIT: attack.setAutoHit(true);
+		case AUTO_HIT: attack.setAutoHit(atkVarValue);
 		break;
 		case BOOSTED_DAM: attack.setBoostedDam(true);
 		break;
@@ -109,7 +111,11 @@ public class AtkVarParser {
 		break;
 		case DOUBLE_DAMAGE: attack.setDoubleDamage(true);
 		break;
-		case KNOCKED_DOWN: attack.setAutoHit(true);
+		case KNOCKED_DOWN: attack.setKnockedDown(atkVarValue);
+		break;
+		case KNOCKDOWN: attack.setHitKnockdown(true);
+		break;
+		case CRIT_KNOCKDOWN: attack.setCritKnockdown(true);
 		break;
 		case MOD_ARM: attack.setModArm(attack.getModArm() + (int) atkVar.getValue());
 		break;
@@ -125,7 +131,11 @@ public class AtkVarParser {
 		break;
 		case REROLL_DAM: attack.setRerollDam(true);
 		break;
-		case SUSTAINED_ATK: attack.setAutoHit(true);
+		case SUSTAINED_ATK: attack.setAutoHit(atkVarValue);
+		break;
+		case CRIT_SUSTAINED_ATK: attack.setCritSustained(true);
+		break;
+		case CRIT: attack.setCrit(atkVar.getValue());
 		break;
 		default:
 			break;

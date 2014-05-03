@@ -32,13 +32,20 @@ public class Attack {
 	private int disDam = 0;
 	private boolean rerollAtk = false;
 	private boolean rerollDam = false;
-	private boolean autoHit = false;
+	private float autoHit = 0.0f;
+	private float sustained = 0.0f;
+	private float knockedDown = 0.0f;
+	private float crit = 0.0f;
 	private boolean autoCrit = false;
 	private boolean shred = false;
 	private boolean doubleDamage = false;
+	private boolean critKnockdown = false;
+	private boolean critSustained = false;
+	private boolean hitKnockdown = false;;
 	private Map<AtkVar.Id, AtkVar> currentAtkVars;
 
 	private boolean isMelee;
+
 
 
 
@@ -60,6 +67,23 @@ public class Attack {
 
 		AtkVarParser.getInstance().checkConstraints(currentAtkVars);
 		AtkVarParser.getInstance().processVariables(this, currentAtkVars);
+		calculateAttackResult();
+		processStates();
+		updateGlobalStates();
+	}
+
+
+
+	private void updateGlobalStates() {
+		// TODO Auto-generated method stub
+
+	}
+
+
+
+	private void calculateAttackResult() {
+		// TODO Auto-generated method stub
+
 	}
 
 
@@ -69,6 +93,12 @@ public class Attack {
 
 		checkRanged(atkVars, weapon);
 		checkMelee(atkVars, weapon);
+
+
+	}
+
+	private void processStates(){
+
 
 
 	}
@@ -111,6 +141,7 @@ public class Attack {
 		modArm = baseArm;
 
 	}
+
 
 
 
@@ -306,16 +337,6 @@ public class Attack {
 
 
 
-	public boolean isAutoHit() {
-		return autoHit;
-	}
-
-
-
-	public void setAutoHit(boolean autoHit) {
-		this.autoHit = autoHit;
-	}
-
 
 
 	public boolean isAutoCrit() {
@@ -362,6 +383,86 @@ public class Attack {
 
 	public void setMelee(boolean isMelee) {
 		this.isMelee = isMelee;
+	}
+
+
+
+	public float getAutoHit() {
+		return autoHit;
+	}
+
+
+
+	public void setAutoHit(float autoHit) {
+		this.autoHit = autoHit;
+	}
+
+
+
+	public float getSustained() {
+		return sustained;
+	}
+
+
+
+	public void setSustained(float sustained) {
+		this.sustained = sustained;
+	}
+
+
+
+	public float getKnockedDown() {
+		return knockedDown;
+	}
+
+
+
+	public void setKnockedDown(float knockedDown) {
+		this.knockedDown = knockedDown;
+	}
+
+
+
+	public float getCrit() {
+		return crit;
+	}
+
+
+
+	public void setCrit(float crit) {
+		this.crit = crit;
+	}
+
+
+
+	public boolean isCritKnockdown() {
+		return critKnockdown;
+	}
+
+
+
+	public void setCritKnockdown(boolean critKnockdown) {
+		this.critKnockdown = critKnockdown;
+	}
+
+
+
+	public boolean isCritSustained() {
+		return critSustained;
+	}
+
+
+
+	public void setCritSustained(boolean critSustained) {
+		this.critSustained = critSustained;
+	}
+
+
+
+
+	public void setHitKnockdown(boolean hitKnockdown) {
+		this.hitKnockdown = hitKnockdown;
+
 	}
 
 

@@ -78,19 +78,16 @@
 
 <AtkVar>
 	<Id>CRIT_SUSTAINED_ATK</Id>
-	<State>PERM</State>
 	<ValueType>FLAG</ValueType>
 	<Conditional>CRIT<Conditional>
-	<Triggered>AUTO_HIT</Triggered>
+	<Triggered>CRIT_SUSTAINED_ATK</Triggered>
 </AtkVar>
 
 
 <AtkVar>
 	<Id>SUSTAINED_ATK</Id>
 	<State>PERM</State>
-	<ValueType>FLAG</ValueType>
-	<Conditional>HIT<Conditional>
-	<Triggered>AUTO_HIT</Triggered>
+	<ValueType>PROB</ValueType>
 </AtkVar>
 
 
@@ -123,7 +120,6 @@
 	<State>TEMP</State>
 	<ValueType>FLAG</ValueType>
 	<Conditional>CRIT</Conditional>
-	<Modifier>CRIT</Modifier>
 	<Triggered>DOUBLE_DAMAGE</Triggered>
 </AtkVar>
 
@@ -137,7 +133,8 @@
 <AtkVar>
 	<Id>KNOCKED_DOWN</Id>
 	<State>BOTH</State>
-	<ValueType>FLAG</ValueType>
+	<ValueType>PROB</ValueType>
+	<Continuous>TRUE</Continuous>
 </AtkVar>
 
 <AtkVar>
@@ -198,6 +195,7 @@
 	<State>BOTH</State>
 	<ValueType>FLAG</ValueType>
 	<Modifier>CRIT</Modifier>
+	<Conditional>CRIT</Conditional>
 	<Triggered>SHRED</Triggered>
 </AtkVar>
 
@@ -206,6 +204,8 @@
 	<State>BOTH</State>
 	<ValueType>FLAG</ValueType>
 	<Modifier>CRIT</Modifier>
+	<Value>1</Value>
+	<Conditional>CRIT</Conditional>
 	<Triggered>ADD_DAM</Triggered>
 </AtkVar>
 
@@ -213,10 +213,9 @@
 <AtkVar>
 	<Id>CRIT_KNOCKDOWN</Id>
 	<State>BOTH</State>
-	<ValueType>PROB</ValueType>
+	<ValueType>FLAG</ValueType>
 	<Modifier>CRIT</Modifier>
-	<Triggered>KNOCKED_DOWN</Triggered>
-	<Continuous>TRUE</Continuous>
+	<Conditional>CRIT</Conditional>
 </AtkVar>
 
 
@@ -297,8 +296,15 @@
 <AtkVar>
 	<Id>AUTO_HIT</Id>
 	<State>BOTH</State>
-	<ValueType>PROB</ValueType>
+	<ValueType>FLAG</ValueType>
 </AtkVar>
+
+<AtkVar>
+	<Id>KNOCKDOWN</Id>
+	<State>BOTH</State>
+	<ValueType>FLAG</ValueType>
+</AtkVar>
+
 
 <AtkVar>
 	<Id>CRIT</Id>
