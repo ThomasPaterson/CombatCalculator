@@ -91,8 +91,6 @@ public class AtkVarParser {
 		break;
 		case ARM_PIERCE: attack.setModArm(attack.getModArm() - (int)Math.floor(attack.getBaseArm()/2));
 		break;
-		case AUTO_CRIT: attack.setAutoCrit(true);
-		break;
 		case AUTO_HIT: attack.setAutoHit(atkVarValue);
 		break;
 		case BOOSTED_DAM: attack.setBoostedDam(true);
@@ -113,10 +111,6 @@ public class AtkVarParser {
 		break;
 		case KNOCKED_DOWN: attack.setKnockedDown(atkVarValue);
 		break;
-		case KNOCKDOWN: attack.setHitKnockdown(true);
-		break;
-		case CRIT_KNOCKDOWN: attack.setCritKnockdown(true);
-		break;
 		case MOD_ARM: attack.setModArm(attack.getModArm() + (int) atkVar.getValue());
 		break;
 		case MOD_DAM: attack.setModPow(attack.getModPow() + (int) atkVar.getValue());
@@ -133,9 +127,7 @@ public class AtkVarParser {
 		break;
 		case SUSTAINED_ATK: attack.setAutoHit(atkVarValue);
 		break;
-		case CRIT_SUSTAINED_ATK: attack.setCritSustained(true);
-		break;
-		case CRIT: attack.setCrit(atkVar.getValue());
+		case CRIT: attack.setCrit(true);
 		break;
 		default:
 			break;

@@ -14,6 +14,8 @@ package com.tree.combatcalculator;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.tree.combatcalculator.Dice.DiceHolder;
+
 public class AttackCalculator {
 
 	//different methods for calculating damage based on optimization methods

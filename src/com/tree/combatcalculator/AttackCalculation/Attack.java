@@ -35,13 +35,9 @@ public class Attack {
 	private float autoHit = 0.0f;
 	private float sustained = 0.0f;
 	private float knockedDown = 0.0f;
-	private float crit = 0.0f;
-	private boolean autoCrit = false;
 	private boolean shred = false;
 	private boolean doubleDamage = false;
-	private boolean critKnockdown = false;
-	private boolean critSustained = false;
-	private boolean hitKnockdown = false;;
+	private boolean crit = false;
 	private Map<AtkVar.Id, AtkVar> currentAtkVars;
 
 	private boolean isMelee;
@@ -68,21 +64,15 @@ public class Attack {
 		AtkVarParser.getInstance().checkConstraints(currentAtkVars);
 		AtkVarParser.getInstance().processVariables(this, currentAtkVars);
 		calculateAttackResult();
-		processStates();
-		updateGlobalStates();
 	}
 
 
-
-	private void updateGlobalStates() {
-		// TODO Auto-generated method stub
-
-	}
 
 
 
 	private void calculateAttackResult() {
-		// TODO Auto-generated method stub
+
+
 
 	}
 
@@ -97,11 +87,6 @@ public class Attack {
 
 	}
 
-	private void processStates(){
-
-
-
-	}
 
 
 
@@ -337,20 +322,6 @@ public class Attack {
 
 
 
-
-
-	public boolean isAutoCrit() {
-		return autoCrit;
-	}
-
-
-
-	public void setAutoCrit(boolean autoCrit) {
-		this.autoCrit = autoCrit;
-	}
-
-
-
 	public boolean isShred() {
 		return shred;
 	}
@@ -423,47 +394,18 @@ public class Attack {
 
 
 
-	public float getCrit() {
+	public boolean getCrit() {
 		return crit;
 	}
 
 
 
-	public void setCrit(float crit) {
+	public void setCrit(boolean crit) {
 		this.crit = crit;
 	}
 
 
 
-	public boolean isCritKnockdown() {
-		return critKnockdown;
-	}
-
-
-
-	public void setCritKnockdown(boolean critKnockdown) {
-		this.critKnockdown = critKnockdown;
-	}
-
-
-
-	public boolean isCritSustained() {
-		return critSustained;
-	}
-
-
-
-	public void setCritSustained(boolean critSustained) {
-		this.critSustained = critSustained;
-	}
-
-
-
-
-	public void setHitKnockdown(boolean hitKnockdown) {
-		this.hitKnockdown = hitKnockdown;
-
-	}
 
 
 

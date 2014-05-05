@@ -1,4 +1,4 @@
-package com.tree.combatcalculator;
+package com.tree.combatcalculator.Dice;
 
 /**
  * @(#)DiceHolder.java
@@ -17,10 +17,10 @@ public class DiceHolder {
 
 	DiceCalculator[][] diceBag;
 
-    public DiceHolder() {
+	public DiceHolder() {
 
-    	diceBag = new DiceCalculator[7][3];
-    }
+		diceBag = new DiceCalculator[7][3];
+	}
 
 
 	//adds in new dice to the dicebag
@@ -31,11 +31,11 @@ public class DiceHolder {
 
 	//returns the toHit chance and toCrit chance
 	//numAdd is the number of dice to roll extra and discard
-	public double[] rollToHit(int attack, int defense, int numDice, int numAdd){
+	public HitRoll rollToHit(int attack, int defense, int numDice, int numAdd, boolean reroll){
 
-		double[] result = diceBag[numDice-1][numAdd].getHitChance(defense-attack);
+		HitRoll hitRoll = diceBag[numDice-1][numAdd].getHitChance(defense-attack, reroll);
 
-		return result;
+		return hitRoll;
 
 
 	}//end rollToHit
@@ -51,9 +51,9 @@ public class DiceHolder {
 	}//end rollToHit
 
 	//returns the toHit chance and toCrit chance
-	public float rollToDamage(int power, int armor, int numDice, int numAdd){
+	public float rollToDamage(int power, int armor, int numDice, int numAdd, boolean reroll){
 
-		float result = diceBag[numDice-1][numAdd].getDamage(armor-power);
+		float result = diceBag[numDice-1][numAdd].getDamage(armor-power, reroll);
 
 
 		return result;

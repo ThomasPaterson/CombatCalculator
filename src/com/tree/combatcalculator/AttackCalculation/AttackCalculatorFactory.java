@@ -1,6 +1,6 @@
 package com.tree.combatcalculator.AttackCalculation;
 
-import com.tree.combatcalculator.DiceHolder;
+import com.tree.combatcalculator.Dice.DiceHolder;
 
 public class AttackCalculatorFactory {
 

@@ -1,4 +1,4 @@
-package com.tree.combatcalculator;
+package com.tree.combatcalculator.Dice;
 
 /**
  * @(#)DiceReader.java
@@ -17,6 +17,8 @@ import java.util.ArrayList;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+
+import com.tree.combatcalculator.AttackCalculator;
 
 import android.content.Context;
 import android.content.res.AssetManager;

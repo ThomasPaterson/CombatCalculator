@@ -22,9 +22,9 @@ import com.tree.combatcalculator.AttackCalculator;
 import com.tree.combatcalculator.AttackModel;
 import com.tree.combatcalculator.DetailedAttackResult;
 import com.tree.combatcalculator.DefendModel;
-import com.tree.combatcalculator.DiceReader;
 import com.tree.combatcalculator.Node;
 import com.tree.combatcalculator.TreeManager;
+import com.tree.combatcalculator.Dice.DiceReader;
 
 public class CalcDisplayActivity extends FragmentActivity implements
 		ActionBar.TabListener {
