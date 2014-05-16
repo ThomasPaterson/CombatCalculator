@@ -16,6 +16,14 @@ public class StaticAttackData {
 
 
 
+	public boolean checkContains(Id id) {
+
+		if (variables.get(id) != null)
+			return true;
+
+		return false;
+	}
+
 	public boolean checkContains(Id id, int weaponIndex) {
 
 

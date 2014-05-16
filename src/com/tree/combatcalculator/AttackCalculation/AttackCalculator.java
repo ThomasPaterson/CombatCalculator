@@ -1,5 +1,7 @@
 package com.tree.combatcalculator.AttackCalculation;
 
+import com.tree.combatcalculator.DynamicAttackData;
+import com.tree.combatcalculator.StaticAttackData;
 import com.tree.combatcalculator.Dice.DiceHolder;
 import com.tree.combatcalculator.Dice.HitRoll;
 
@@ -28,7 +30,12 @@ public class AttackCalculator {
 	}
 
 
-	public AttackResult calculateAttackResult(Attack attack, boolean crit){
+
+
+	public AttackResult calculateAttackResult(StaticAttackData permData,
+			DynamicAttackData tempData, int weaponIndex, boolean crit) throws InvalidAttackException{
+
+		Attack attack = new Attack(permData, tempData, weaponIndex, crit);
 
 		HitRoll hitRoll = calculateAttackRoll(attack);
 		float damage = calculateDamageRoll(attack);
@@ -48,8 +55,8 @@ public class AttackCalculator {
 			damage *= 2;
 
 
-		//problem, we aren't tracking source of knockdown or sustained, so we dont' know if they
-		//should be indepenent of each other or not.  However they should also never occur together,
+		//problem, we aren't tracking source of knockdown or sustained, so we don't know if they
+		//should be independent of each other or not.  However they should also never occur together,
 		//so assuming one way or another is a good enough solution
 		float autoHit =  attack.getKnockedDown() + attack.getSustained() + attack.getAutoHit();
 

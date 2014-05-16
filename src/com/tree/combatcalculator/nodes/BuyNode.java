@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.tree.combatcalculator.AtkVar;
-import com.tree.combatcalculator.StaticAttackData;
 import com.tree.combatcalculator.DynamicAttackData;
+import com.tree.combatcalculator.StaticAttackData;
 import com.tree.combatcalculator.WeaponCountHolder;
 
 public class BuyNode extends DecisionNode {
@@ -23,7 +23,7 @@ public class BuyNode extends DecisionNode {
 		List<Node> buyNodes = new ArrayList<Node>();
 		DynamicAttackData tempData = new DynamicAttackData(parent.getTempData());
 		tempData.clearTempValues();
-		List<WeaponCountHolder> holders = tempData.weaponHolders;
+		List<WeaponCountHolder> holders = tempData.getWeaponHolders();
 
 
 		for (WeaponCountHolder holder :  holders){
@@ -47,7 +47,7 @@ public class BuyNode extends DecisionNode {
 			Node parent, List<WeaponCountHolder> holders) {
 
 		if (holder.hasAttackToBuy())
-			if (parent.getTempData().focus > 0)
+			if (parent.getTempData().getFocus() > 0)
 				if (WeaponCountHolder.outOfInits(holders))
 					return true;
 
@@ -57,8 +57,8 @@ public class BuyNode extends DecisionNode {
 	private static Node buyAttack(Node parent, int index, DynamicAttackData tempData) {
 
 		Node buyNode = new BuyNode(parent, tempData);
-		buyNode.getTempData().focus--;
-		WeaponCountHolder.buyAttack(index, buyNode.getTempData().weaponHolders);
+		buyNode.getTempData().decrementFocus();
+		WeaponCountHolder.buyAttack(index, buyNode.getTempData().getWeaponHolders());
 		buyNode.weaponIndex = index;
 
 		return buyNode;
@@ -69,7 +69,7 @@ public class BuyNode extends DecisionNode {
 			DynamicAttackData tempData) {
 
 		List<Node> buyNodes = new ArrayList<Node>();
-		List<WeaponCountHolder> holders = parent.getTempData().weaponHolders;
+		List<WeaponCountHolder> holders = parent.getTempData().getWeaponHolders();
 
 		Node starNode = addStarAttacks(parent, index, permData, holders, tempData);
 		if (starNode != null)
@@ -79,11 +79,11 @@ public class BuyNode extends DecisionNode {
 		Node buyNode = new BuyNode(parent, tempData);
 
 		if (isCharging(parent, permData)){
-			buyNode.getTempData().variables.put(AtkVar.Id.CHARGE,
+			buyNode.getTempData().getVariables().put(AtkVar.Id.CHARGE,
 					AtkVar.createAtkVar(AtkVar.Id.CHARGE));
 		}
 
-		WeaponCountHolder.makeAttack(index, buyNode.getTempData().weaponHolders);
+		WeaponCountHolder.makeAttack(index, buyNode.getTempData().getWeaponHolders());
 		buyNodes.add(buyNode);
 
 		return buyNodes;
@@ -94,9 +94,8 @@ public class BuyNode extends DecisionNode {
 
 	private static boolean isCharging(Node parent, StaticAttackData permData) {
 
-		Boolean hasCharge = AtkVar.contains(permData.variables,
-				AtkVar.Group.SITUATION, AtkVar.Id.CHARGE);
-		Boolean firstAttack = WeaponCountHolder.hasAllInitials(parent.getTempData().weaponHolders);
+		Boolean hasCharge = permData.checkContains(AtkVar.Id.CHARGE);
+		Boolean firstAttack = WeaponCountHolder.hasAllInitials(parent.getTempData().getWeaponHolders());
 
 		return (hasCharge && firstAttack);
 	}
@@ -113,8 +112,8 @@ public class BuyNode extends DecisionNode {
 				WeaponCountHolder.hasAllInitials(holders)){
 
 			Node starNode = new BuyNode(parent, tempData);
-			WeaponCountHolder.useAllInitials(starNode.getTempData().weaponHolders);
-			starNode.getTempData().variables.put(starAttack.getId(),
+			WeaponCountHolder.useAllInitials(starNode.getTempData().getWeaponHolders());
+			starNode.getTempData().getVariables().put(starAttack.getId(),
 					new AtkVar(starAttack));
 
 			return starNode;

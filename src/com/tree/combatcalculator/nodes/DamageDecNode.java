@@ -37,7 +37,7 @@ public class DamageDecNode extends DecisionNode {
 	}
 
 	private static boolean isCharging(Node parent) {
-		return parent.getTempData().variables.containsKey(AtkVar.Id.CHARGE);
+		return parent.getTempData().getVariables().containsKey(AtkVar.Id.CHARGE);
 	}
 
 
@@ -52,9 +52,9 @@ public class DamageDecNode extends DecisionNode {
 		if (boughtBoost){
 
 			if (!freeCharge(parent, permData))
-				attackDecNode.getTempData().focus--;
+				attackDecNode.getTempData().decrementFocus();
 
-			attackDecNode.getTempData().variables.put(
+			attackDecNode.getTempData().getVariables().put(
 					AtkVar.Id.BOOSTED_DAM,
 					AtkVar.createAtkVar(AtkVar.Id.BOOSTED_DAM));
 		}
@@ -73,20 +73,15 @@ public class DamageDecNode extends DecisionNode {
 		if (permData == null)
 			return false;
 		else
-			return (isCharging(parent) && AtkVar.contains(permData.variables,
-					AtkVar.Group.ATTACKER, AtkVar.Id.FREE_CHARGE));
+			return (isCharging(parent) && permData.checkContains(AtkVar.Id.FREE_CHARGE));
 
 	}
 
 
 	private static boolean notBoosted(Node parent, StaticAttackData permData) {
 
-		boolean permDataContains = permData.checkGroupsContains(AtkVar.Id.BOOSTED_DAM,
-				parent.getWeaponIndex(),
-				AtkVar.Group.ATTACKER,
-				AtkVar.Group.WEAPON,
-				AtkVar.Group.SITUATION
-				);
+		boolean permDataContains = permData.checkContains(AtkVar.Id.BOOSTED_DAM,
+				parent.getWeaponIndex());
 
 		boolean tempDataContains = parent.getTempData().contains(AtkVar.Id.BOOSTED_DAM);
 
@@ -96,7 +91,7 @@ public class DamageDecNode extends DecisionNode {
 
 	private static boolean canBoost(Node parent) {
 
-		if (parent.tempData.focus > 0)
+		if (parent.tempData.getFocus() > 0)
 			return true;
 
 		return false;

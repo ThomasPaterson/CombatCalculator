@@ -37,7 +37,10 @@ public class AtkVarParser {
 		return atkVars;
 	}
 
-	public void checkConstraints(Map<Id, AtkVar> currentAtkVars) {
+	public void checkConstraints(Map<Id, AtkVar> currentAtkVars, boolean useCrit) {
+
+		if (!useCrit)
+			currentAtkVars.remove(AtkVar.Id.CRIT);
 
 		for (AtkVar atkVar : currentAtkVars.values()){
 			if (atkVar.getConditions().size() > 0)
@@ -125,7 +128,7 @@ public class AtkVarParser {
 		break;
 		case REROLL_DAM: attack.setRerollDam(true);
 		break;
-		case SUSTAINED_ATK: attack.setAutoHit(atkVarValue);
+		case SUSTAINED: attack.setAutoHit(atkVarValue);
 		break;
 		case CRIT: attack.setCrit(true);
 		break;

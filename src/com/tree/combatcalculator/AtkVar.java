@@ -10,7 +10,6 @@ package com.tree.combatcalculator;
  */
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.Validate;
 
@@ -35,7 +34,7 @@ public class AtkVar implements Parcelable{
 		REROLL_DAM, REROLL_ATK, DISCARD_DAM, DISCARD_ATK, CRIT_ATK,
 		CRIT_DAM, CRIT_KNOCKDOWN, MOD_ARM, MOD_DEF, MOD_DAM, MOD_HIT,
 		ADD_DAM, ADD_HIT, BOOSTED_DAM, BOOSTED_HIT, CHARGING,
-		AUTO_CRIT, AUTO_HIT, RANGED, RANGED_WEAPON, CRIT, SHRED, KNOCKDOWN;
+		AUTO_CRIT, AUTO_HIT, RANGED, RANGED_WEAPON, CRIT, SHRED, KNOCKDOWN, SUSTAINED;
 	}
 
 
@@ -291,17 +290,6 @@ public class AtkVar implements Parcelable{
 		return identifier.hashCode();
 	}
 
-	public static Boolean contains(Map<Group, List<AtkVar>> variables,
-			Group group, Id id) {
-
-		List<AtkVar> targetGroup = variables.get(group);
-
-		for (AtkVar t : targetGroup)
-			if (t.getId().equals(id))
-				return true;
-
-		return false;
-	}
 
 	public Triggered getTriggered() {
 		return triggered;

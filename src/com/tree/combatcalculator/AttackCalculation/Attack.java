@@ -45,7 +45,7 @@ public class Attack {
 
 
 
-	public Attack(StaticAttackData permData, DynamicAttackData tempData, int weaponIndex) throws InvalidAttackException{
+	public Attack(StaticAttackData permData, DynamicAttackData tempData, int weaponIndex, boolean crit) throws InvalidAttackException{
 
 		AttackModel attacker = permData.getAttacker();
 		DefendModel defender = permData.getDefender();
@@ -61,19 +61,8 @@ public class Attack {
 
 		checkValidAttack(currentAtkVars, weapon);
 
-		AtkVarParser.getInstance().checkConstraints(currentAtkVars);
+		AtkVarParser.getInstance().checkConstraints(currentAtkVars, crit);
 		AtkVarParser.getInstance().processVariables(this, currentAtkVars);
-		calculateAttackResult();
-	}
-
-
-
-
-
-	private void calculateAttackResult() {
-
-
-
 	}
 
 

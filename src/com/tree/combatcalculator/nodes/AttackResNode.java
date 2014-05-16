@@ -7,8 +7,12 @@ import com.tree.combatcalculator.StaticAttackData;
 import com.tree.combatcalculator.AttackCalculation.AttackCalculator;
 import com.tree.combatcalculator.AttackCalculation.AttackCalculatorFactory;
 import com.tree.combatcalculator.AttackCalculation.AttackResult;
+import com.tree.combatcalculator.AttackCalculation.InvalidAttackException;
+import com.tree.combatcalculator.Dice.HitRoll;
 
 public class AttackResNode extends ResultNode {
+
+	HitRoll hitRoll;
 
 	public AttackResNode(Node parent) {
 
@@ -29,13 +33,24 @@ public class AttackResNode extends ResultNode {
 	}
 
 
-	private static Node makeAttackResult(Node parent, StaticAttackData permData) {
+	//save the hit chances of the attack
+	private static Node makeAttackResult(Node parent, StaticAttackData permData){
 
-		Node attackResNode = new AttackResNode(parent);
+		AttackResNode attackResNode = new AttackResNode(parent);
 
 		AttackCalculator atkCalculator = AttackCalculatorFactory.getInstance();
-		AttackResult attackResult = atkCalculator.getHitResults(attackResNode.getTempData(), permData);
-		attackResNode.getTempData().putCrits(attackResNode, permData);
+
+		try {
+			AttackResult attackResult = atkCalculator.calculateAttackResult(permData,
+					attackResNode.getTempData(), attackResNode.getWeaponIndex(), false);
+
+			HitRoll hitRoll = new HitRoll(attackResult.getHitChance(), attackResult.getCritChance());
+			attackResNode.setHitRoll(hitRoll);
+		} catch (InvalidAttackException e) {
+			attackResNode.setHitRoll(new HitRoll(0,0));
+		}
+
+		attackResNode.getTempData().updateContinuous(attackResNode, permData);
 
 
 		return attackResNode;
@@ -61,6 +76,16 @@ public class AttackResNode extends ResultNode {
 	@Override
 	public float calculateValue(StaticAttackData permData) {
 		return 0;
+	}
+
+
+	public HitRoll getHitRoll() {
+		return hitRoll;
+	}
+
+
+	public void setHitRoll(HitRoll hitRoll) {
+		this.hitRoll = hitRoll;
 	}
 
 

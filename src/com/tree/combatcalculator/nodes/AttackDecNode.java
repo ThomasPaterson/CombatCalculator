@@ -7,12 +7,12 @@ import com.tree.combatcalculator.AtkVar;
 import com.tree.combatcalculator.StaticAttackData;
 
 public class AttackDecNode extends DecisionNode {
-	
+
 	public final static boolean BOUGHT_BOOSTED_ATTACK = true;
 	public final static boolean BOUGHT_UNBOOSTED_ATTACK = false;
 
 	public AttackDecNode(Node parent) {
-		
+
 		super(parent);
 		nodeType = Node.Type.ATTACK_DEC;
 
@@ -21,57 +21,54 @@ public class AttackDecNode extends DecisionNode {
 
 
 	public static List<Node> createAttackDecNodes(Node parent, StaticAttackData permData) {
-		
+
 		List<Node> attackNodes = new ArrayList<Node>();
-		
+
 		if (canBoost(parent) && notBoosted(parent, permData)){
 			attackNodes.add(makeAttack(parent, BOUGHT_BOOSTED_ATTACK));
 		}
-		
+
 		attackNodes.add(makeAttack(parent, BOUGHT_BOOSTED_ATTACK));
-		
-		
-		return attackNodes;	
+
+
+		return attackNodes;
 	}
 
 	private static Node makeAttack(Node parent, boolean boughtBoost) {
-		
+
 		DecisionNode attackDecNode = new AttackDecNode(parent);
-		
+
 		if (boughtBoost){
-			attackDecNode.getTempData().focus--;
-			attackDecNode.getTempData().variables.put(
+			attackDecNode.getTempData().setFocus(attackDecNode.getTempData().getFocus());
+			attackDecNode.getTempData().getVariables().put(
 					AtkVar.Id.BOOSTED_HIT, AtkVar.createAtkVar(AtkVar.Id.BOOSTED_HIT));
 		}
-		
+
 		attackDecNode.setBoughtBoost(boughtBoost);
-		
+
 		return attackDecNode;
 	}
 
 
 	private static boolean notBoosted(Node parent, StaticAttackData permData) {
 
-		boolean permDataContains = permData.checkGroupsContains(AtkVar.Id.BOOSTED_HIT, 
-				parent.getWeaponIndex(), 
-				AtkVar.Group.ATTACKER, 
-				AtkVar.Group.WEAPON
-				);
-		
+		boolean permDataContains = permData.checkContains(AtkVar.Id.BOOSTED_HIT,
+				parent.getWeaponIndex());
+
 		boolean tempDataContains = parent.getTempData().contains(AtkVar.Id.BOOSTED_HIT);
-		
+
 		return permDataContains || tempDataContains;
 	}
 
 
 	private static boolean canBoost(Node parent) {
-		
-		if (parent.tempData.focus > 0)
+
+		if (parent.tempData.getFocus() > 0)
 			return true;
-		
+
 		return false;
 	}
-	
+
 
 
 
@@ -88,7 +85,7 @@ public class AttackDecNode extends DecisionNode {
 		return 0;
 	}
 
-	
+
 
 
 

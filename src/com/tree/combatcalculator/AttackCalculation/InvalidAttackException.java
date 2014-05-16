@@ -6,6 +6,4 @@ public class InvalidAttackException extends Exception {
 		super(message);
 	}
 
-
 }
-
